@@ -11,36 +11,67 @@ I hope you find them useful.
 
 ## Navigation
 - [Age Calculation](#age-calculation)
-- Agent Jobs
-- Auditing
-- Availability Groups
-- Backup and Restore
-- Collation
-- Compliance
-- Compression
-- Configuration
-- Constraints
-- Corruption
-- Database Design
-- Deadlocks
-- Disk Space
-- Edition
-- Extended Events
-- Foreign Keys
-- Fragmentation
-- Indexing
-- Low-Level
-- Operational
-- Patching
-- Performance
-- Periodic audits
-- Permissions
-- Query Store
-- Security
-- Standard scripts for new installations
-- Statistics
-- Table Design
-- TempDB
-- VLFs
+- [Agent Jobs](#agent-jobs)
+- [Auditing](#auditing)
+- [Availability Groups](#availability-groups)
+- [Backup and Restore](#backup-and-restore)
+- [Collation](#collation)
+- [Compliance](#compliance)
+- [Compression](#compression)
+- [Configuration](#configuration)
+- [Constraints](#constraints)
+- [Corruption](#corruption)
+- [Database Design](#database-design)
+- [Deadlocks](#deadlocks)
+- [Disk Space](#disk-space)
+- [Edition](#edition)
+- [Extended Events](#extended-events)
+- [Foreign Keys](#foreign-keys)
+- [Fragmentation](#fragmentation)
+- [Indexing](#indexing)
+- [Low-Level](#low-level)
+- [Operational](#operational)
+- [Patching](#patching)
+- [Performance](#performance)
+- [Periodic audits](#periodic-audits)
+- [Permissions](#permissions)
+- [Query Store](#query-store)
+- [Security](#security)
+- [Standard scripts for new installations](#standard-scripts-for-new-installations)
+- [Statistics](#statistics)
+- [Table Design](#table-design)
+- [TempDB](#tempdb)
+- [VLFs](#vlfs)
 
 ## Age Calculation
+## Agent Jobs
+## Auditing
+## Availability Groups
+## Backup and Restore
+## Collation
+## Compliance
+## Compression
+## Configuration
+## Constraints
+## Corruption
+## Database Design
+## Deadlocks
+## Disk Space
+## Edition
+## Extended Events
+## Foreign Keys
+## Fragmentation
+## Indexing
+## Low-Level
+## Operational
+## Patching
+## Performance
+## Periodic audits
+## Permissions
+## Query Store
+## Security
+## Standard scripts for new installations
+## Statistics
+## Table Design
+## TempDB
+## VLFs
