@@ -38,7 +38,6 @@ I hope you find them useful.
 - [Plan Cache](#plan-cache)
 - [Query Store](#query-store)
 - [Security](#security)
-- [Standard scripts for new installations](#standard-scripts-for-new-installations)
 - [Statistics](#statistics)
 - [TempDB](#tempdb)
 - [VLFs](#vlfs)
@@ -312,28 +311,6 @@ I hope you find them useful.
 - Last user access for each database
 - Orphaned users search and destroy
 - Who are the sysadmins in this Instance
-
-[*Back to top*](#header1)
-
-### Standard scripts for new installations
-- Step 1 - Create an Operator
-- Step 2 - Configure SQL Server Agent to use Database Mail profile
-- Step 3 - Alerts for SQL Server
-- Step 4 - Adding notifications
-- Step 5 - AuditDatabaseDDL
-- Step 6 - Optimize For Ad-Hoc Workloads and Cost Threshold For Parallelism
-- Step 7 - Set database size and growth for some system databases
-- Step 8 – Create login for DBA_Server_Info reports
-- Step 9 – Enable remote DAC
-- Step 10 – Configure failsafe operator
-- Step 11 – Set 'Backup Compression Default' and 'Backup Checksum Default' on
-- Step 12 – Add hourly SQL Agent job ClearSingleUsePlansFromCache
-- Step 13 – Add SQL Agent job Cycle Errorlog Weekly
-- Step 14 – Add SQL Agent job Patch SQL Server instance
-- Step 15 – Add notification of SQL Server restarts
-- Step 16 - Create SQL Agent job for sp_Blitz
-- Step 17 - Create SQL Agent job for Compress Indexes
-- Step 18 - Create SQL Agent job for Rebuild Active Heaps
 
 [*Back to top*](#header1)
 
