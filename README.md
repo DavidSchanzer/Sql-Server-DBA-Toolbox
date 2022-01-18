@@ -32,7 +32,6 @@ I hope you find them useful.
 - [Low-Level](#low-level)
 - [Operational](#operational)
 - [Parallelism](#parallelism)
-- [Patching](#patching)
 - [Performance](#performance)
 - [Permissions](#permissions)
 - [Plan Cache](#plan-cache)
@@ -240,11 +239,6 @@ I hope you find them useful.
 - Determining a setting for Cost Threshold for Parallelism
 - MAXDOP setting algorithm for SQL Server
 - Recommend MAXDOP settings for the server instance
-
-[*Back to top*](#header1)
-
-### Patching
-- Randomly assign a patch time on the agreed patch date for Prod and Non-Prod servers
 
 [*Back to top*](#header1)
 
