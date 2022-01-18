@@ -34,7 +34,6 @@ I hope you find them useful.
 - [Parallelism](#parallelism)
 - [Patching](#patching)
 - [Performance](#performance)
-- [Periodic audits](#periodic-audits)
 - [Permissions](#permissions)
 - [Plan Cache](#plan-cache)
 - [Query Store](#query-store)
@@ -66,7 +65,6 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Availability Groups
-- Configure Read-Only Routing for an Availability Group
 - Failover all Availability Groups
 - Manually add database to an AG - needed for databases with a database master key
 - Read-only routing url generation script
@@ -270,12 +268,6 @@ I hope you find them useful.
 - Waits and queues performance analysis - current spinlocks
 - Waits and queues performance analysis - waiting tasks - create SQL Agent job that runs every 10 mins
 - Waits and queues performance analysis - waiting tasks
-
-[*Back to top*](#header1)
-
-### Periodic audits
-- Find individual logins to be dropped
-- Run sp_Blitz for all instances
 
 [*Back to top*](#header1)
 
