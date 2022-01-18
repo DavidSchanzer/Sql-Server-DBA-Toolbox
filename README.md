@@ -31,10 +31,12 @@ I hope you find them useful.
 - [Indexing](#indexing)
 - [Low-Level](#low-level)
 - [Operational](#operational)
+- [Parallelism](#parallelism)
 - [Patching](#patching)
 - [Performance](#performance)
 - [Periodic audits](#periodic-audits)
 - [Permissions](#permissions)
+- [Plan Cache](#plan-cache)
 - [Query Store](#query-store)
 - [Security](#security)
 - [Standard scripts for new installations](#standard-scripts-for-new-installations)
@@ -162,18 +164,148 @@ I hope you find them useful.
 - Tracking problematic page splits in Extended Events
 
 ### Foreign Keys
+- Drop and re-create all foreign key constraints in SQL Server
+
 ### Fragmentation
+- Rebuild active heaps
+
 ### Indexing
+- Create indexes on all foreign keys
+- Find all non-indexed foreign keys
+- Find columnstore indexes than are more than 10 percent fragmented
+- Find duplicate indexes using sp_SQLskills_finddupes
+- Find large tables for potential Clustered Columnstore Indexes
+- Find missing indexes from the Missing Index DMVs
+- Find missing indexes from the Plan Cache
+- Find missing indexes from the Query Store
+- Find queries that use an index
+- Find queries using a specific index
+- Find tables without a primary key or clustered index
+- Find unused indexes from sys.dm_db_index_usage_stats
+- Find unused non-clustered indexes by checking Query Store
+- Identifying which databases have index fragmentation problems
+- Modify all fillfactors from 70 to 100
+- Rebuild all fragmented heaps
+- SQLSkills index script 1 - 00 sp_SQLskills_exposecolsinindexlevels
+- SQLSkills index script 2 - 01 sp_SQLskills_helpindex
+- SQLSkills index script 3 - 02 sp_SQLskills_finddupes (modified)
+
 ### Low-Level
+- Find table from page
+- How far has my update got
+
 ### Operational
+- Create a text file with specified contents
+- Last instance restart date
+- List of all server names from the DBA_REP ServerList_SSIS table
+- Locks summary
+- Open transactions with text and plans
+- Query the Default Trace
+
+### Parallelism
+- Calculate MAXDOP
+- Cost Threshold For Parallelism - Plan Cache spread of query costs
+- Determining a setting for Cost Threshold for Parallelism
+- MAXDOP setting algorithm for SQL Server
+- Recommend MAXDOP settings for the server instance
+
 ### Patching
+- Randomly assign a patch time on the agreed patch date for Prod and Non-Prod servers
+
 ### Performance
+- Analyzing 'death by a thousand cuts' workloads
+- Breakdown of buffer cache usage by database
+- Breakdown of buffer cache usage for a specific database
+- Calculate rows inserted per second for all tables
+- Find mismatching column types in database schema
+- Find non-zero fill factors for identity columns (set back to 100)
+- Find non-zero fill factors
+- Finding the worst-performing TSQL statement
+- Finding the worst running query in a stored procedure
+- Paul Randal - Wait statistics, or please tell me where it hurts
+- sp_WhoIsActive extended info
+- sp_WhoIsActive in a loop
+- sp_WhoIsActive v12.00
+- Waits and queues performance analysis - cumulative latches
+- Waits and queues performance analysis - cumulative waits
+- Waits and queues performance analysis - current spinlocks
+- Waits and queues performance analysis - waiting tasks - create SQL Agent job that runs every 10 mins
+- Waits and queues performance analysis - waiting tasks
+
 ### Periodic audits
+- Find individual logins to be dropped
+- Run sp_Blitz for all instances
+
 ### Permissions
+- Find all permissions & access for all users in all databases
+- Fix all orphaned users in all databases
+- Script DB level permissions
+- SQL Server permissions list for read and write access for all databases
+
+### Plan Cache
+- Find your most expensive queries in the Plan Cache
+- Plan Cache queries - find queries using a specific index
+- Plan Cache queries - find queries using any index hint
+- Plan Cache queries - implicit column conversions
+- Plan Cache queries - index scans
+- Plan Cache queries - key lookups
+- Plan Cache queries - missing index
+- Plan Cache queries - probe residuals
+- Plan Cache queries - query plans that may utilize parallelism
+- Plan Cache queries - warnings
+
 ### Query Store
+- Mining the Query Store - looking for index usage in queries
+- Mining the Query Store - looking for Key Lookups in queries
+- Mining the Query Store - looking for text strings in queries
+- Most expensive queries using Query Store
+- sp_QuickieStore - Erik Darling
+
 ### Security
+- Create logins on AlwaysOn Secondary with same SID as Primary
+- Delete all database user accounts for a given server login
+- Drop all orphan users
+- Enumerate Windows Group members
+- Find all orphaned SQL Server users
+- Find Windows logins that are no longer in AD
+- Last user access for each database
+- Orphaned users search and destroy
+- Who are the sysadmins in this Instance
+
 ### Standard scripts for new installations
+- Step 1 - Create an Operator
+- Step 2 - Configure SQL Server Agent to use Database Mail profile
+- Step 3 - Alerts for SQL Server
+- Step 4 - Adding notifications
+- Step 5 - AuditDatabaseDDL
+- Step 6 - Optimize For Ad-Hoc Workloads and Cost Threshold For Parallelism
+- Step 7 - Set database size and growth for some system databases
+- Step 8 – Create login for DBA_Server_Info reports
+- Step 9 – Enable remote DAC
+- Step 10 – Configure failsafe operator
+- Step 11 – Set 'Backup Compression Default' and 'Backup Checksum Default' on
+- Step 12 – Add hourly SQL Agent job ClearSingleUsePlansFromCache
+- Step 13 – Add SQL Agent job Cycle Errorlog Weekly
+- Step 14 – Add SQL Agent job Patch SQL Server instance
+- Step 15 – Add notification of SQL Server restarts
+- Step 16 - Create SQL Agent job for sp_Blitz
+- Step 17 - Create SQL Agent job for Compress Indexes
+- Step 18 - Create SQL Agent job for Rebuild Active Heaps
+
 ### Statistics
+- Drop all statistics
+- Find auto-created statistics objects that overlap with index statistics
+- Generate DROP STATISTICS statements for all user-created statistics
+
 ### Table Design
+- spa_ShrinkColumnSizes
+
 ### TempDB
+- Find tempdb data files with differing sizes
+- Find tempdbs with uneven initial size or growth
+- Who owns that #temp table
+
 ### VLFs
+- Detect too many VLFs
+- Reduce VLF count
+- Visualizing VLFs
