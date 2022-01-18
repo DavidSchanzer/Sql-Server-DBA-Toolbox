@@ -26,9 +26,7 @@ I hope you find them useful.
 - [Database Design](#database-design)
 - [Deadlocks](#deadlocks)
 - [Disk Space](#disk-space)
-- [Edition](#edition)
 - [Extended Events](#extended-events)
-- [Foreign Keys](#foreign-keys)
 - [Fragmentation](#fragmentation)
 - [Indexing](#indexing)
 - [Low-Level](#low-level)
@@ -43,7 +41,6 @@ I hope you find them useful.
 - [Security](#security)
 - [Standard scripts for new installations](#standard-scripts-for-new-installations)
 - [Statistics](#statistics)
-- [Table Design](#table-design)
 - [TempDB](#tempdb)
 - [VLFs](#vlfs)
 
@@ -110,6 +107,7 @@ I hope you find them useful.
 - Check for Locked Pages In Memory
 - Correct database file logical names
 - Correct database file physical names
+- Determine SQL Server version and edition
 - Find all instances that have all databases offline (to be run against all instances)
 - Find database for a nominated data file
 - Find databases at the wrong compatibility level
@@ -143,7 +141,10 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Constraints
+- Create indexes on all foreign keys
 - DBCC CHECKCONSTRAINTS
+- Drop and re-create all foreign key constraints in SQL Server
+- Find all non-indexed foreign keys
 - Find check constraints that are not trusted
 - Find foreign keys that are not trusted
 - List foreign keys and check constraints that are not trusted
@@ -158,6 +159,7 @@ I hope you find them useful.
 
 ### Database Design
 - Identity values check
+- spa_ShrinkColumnSizes
 
 [*Back to top*](#header1)
 
@@ -179,11 +181,6 @@ I hope you find them useful.
 
 [*Back to top*](#header1)
 
-### Edition
-- Determine SQL Server version and edition
-
-[*Back to top*](#header1)
-
 ### Extended Events
 - Capture execution plan warnings using Extended Events
 - Extended Events session DurationOver500ms
@@ -198,19 +195,12 @@ I hope you find them useful.
 - Tracking problematic page splits in Extended Events
 [*Back to top*](#header1)
 
-### Foreign Keys
-- Drop and re-create all foreign key constraints in SQL Server
-
-[*Back to top*](#header1)
-
 ### Fragmentation
 - Rebuild active heaps
 
 [*Back to top*](#header1)
 
 ### Indexing
-- Create indexes on all foreign keys
-- Find all non-indexed foreign keys
 - Find columnstore indexes than are more than 10 percent fragmented
 - Find duplicate indexes using sp_SQLskills_finddupes
 - Find large tables for potential Clustered Columnstore Indexes
@@ -359,11 +349,6 @@ I hope you find them useful.
 - Drop all statistics
 - Find auto-created statistics objects that overlap with index statistics
 - Generate DROP STATISTICS statements for all user-created statistics
-
-[*Back to top*](#header1)
-
-### Table Design
-- spa_ShrinkColumnSizes
 
 [*Back to top*](#header1)
 
