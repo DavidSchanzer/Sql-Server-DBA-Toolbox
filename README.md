@@ -43,35 +43,35 @@ I hope you find them useful.
 - [TempDB](#tempdb)
 - [VLFs](#vlfs)
 
-## Age Calculation
-## Agent Jobs
-## Auditing
-## Availability Groups
-## Backup and Restore
-## Collation
-## Compliance
-## Compression
-## Configuration
-## Constraints
-## Corruption
-## Database Design
-## Deadlocks
-## Disk Space
-## Edition
-## Extended Events
-## Foreign Keys
-## Fragmentation
-## Indexing
-## Low-Level
-## Operational
-## Patching
-## Performance
-## Periodic audits
-## Permissions
-## Query Store
-## Security
-## Standard scripts for new installations
-## Statistics
-## Table Design
-## TempDB
-## VLFs
+### Age Calculation
+### Agent Jobs
+### Auditing
+### Availability Groups
+### Backup and Restore
+### Collation
+### Compliance
+### Compression
+### Configuration
+### Constraints
+### Corruption
+### Database Design
+### Deadlocks
+### Disk Space
+### Edition
+### Extended Events
+### Foreign Keys
+### Fragmentation
+### Indexing
+### Low-Level
+### Operational
+### Patching
+### Performance
+### Periodic audits
+### Permissions
+### Query Store
+### Security
+### Standard scripts for new installations
+### Statistics
+### Table Design
+### TempDB
+### VLFs
