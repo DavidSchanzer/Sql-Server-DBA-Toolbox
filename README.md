@@ -46,22 +46,26 @@ I hope you find them useful.
 - [Table Design](#table-design)
 - [TempDB](#tempdb)
 - [VLFs](#vlfs)
+
 [*Back to top*](#header1)
 
 ### Age Calculation
 - Calculating Age in Years (*a simple way to calculate someone’s current age, or age as at a particular date*)
+
 [*Back to top*](#header1)
 
 ### Agent Jobs
 - Change the SQL Agent job history purge period from 30 days to 90 days in the Ola Hallengren sp_purge_jobhistory job
 - Remove the @StatisticsSample parameter for all Ola Hallengren IndexOptimize - USER_DATABASES jobs
 - Script to see running jobs in SQL Server with Job Start Time
+
 [*Back to top*](#header1)
 
 ### Auditing
 - Create audit for database
 - Drop server audits for which there is no corresponding database
 - Query an audit file
+
 [*Back to top*](#header1)
 
 ### Availability Groups
@@ -70,6 +74,7 @@ I hope you find them useful.
 - Manually add database to an AG - needed for databases with a database master key
 - Read-only routing url generation script
 - View read-only routing configurations
+
 [*Back to top*](#header1)
 
 ### Backup and Restore
@@ -77,21 +82,25 @@ I hope you find them useful.
 - Progress of BACKUP and RESTORE
 - sp_RestoreGene - generate RESTORE DATABASE commands
 - Update database backup schedules
+
 [*Back to top*](#header1)
 
 ### Collation
 - Changing Database Collation
+
 [*Back to top*](#header1)
 
 ### Compliance
 - Find deprecated data types on all databases
 - SQL Server naming and design standards compliance review
+
 [*Back to top*](#header1)
 
 ### Compression
 - Find indexes that aren't compressed in all databases
 - Suggest compression strategies for tables and indexes
 - Tracking page compression success rates
+
 [*Back to top*](#header1)
 
 ### Configuration
@@ -130,6 +139,7 @@ I hope you find them useful.
 - Set notification for all jobs to email SQL Administrator
 - sp_foreachdb
 - sp_ineachdb
+
 [*Back to top*](#header1)
 
 ### Constraints
@@ -138,18 +148,22 @@ I hope you find them useful.
 - Find foreign keys that are not trusted
 - List foreign keys and check constraints that are not trusted
 - Re-trust untrusted foreign keys and constraints
+
 [*Back to top*](#header1)
 
 ### Corruption
 - Emergency repair for when Windows Update leaves the database in Recovery Pending
+
 [*Back to top*](#header1)
 
 ### Database Design
 - Identity values check
+
 [*Back to top*](#header1)
 
 ### Deadlocks
 - List deadlocks using Extended Events
+
 [*Back to top*](#header1)
 
 ### Disk Space
@@ -162,10 +176,12 @@ I hope you find them useful.
 - Move Primary data file
 - Shrink all log files over 1000 MB to 1000 MB
 - Turn all Heaps into Clustered Columnstore with Archive Compression
+
 [*Back to top*](#header1)
 
 ### Edition
 - Determine SQL Server version and edition
+
 [*Back to top*](#header1)
 
 ### Extended Events
@@ -184,10 +200,12 @@ I hope you find them useful.
 
 ### Foreign Keys
 - Drop and re-create all foreign key constraints in SQL Server
+
 [*Back to top*](#header1)
 
 ### Fragmentation
 - Rebuild active heaps
+
 [*Back to top*](#header1)
 
 ### Indexing
@@ -210,11 +228,13 @@ I hope you find them useful.
 - SQLSkills index script 1 - 00 sp_SQLskills_exposecolsinindexlevels
 - SQLSkills index script 2 - 01 sp_SQLskills_helpindex
 - SQLSkills index script 3 - 02 sp_SQLskills_finddupes (modified)
+
 [*Back to top*](#header1)
 
 ### Low-Level
 - Find table from page
 - How far has my update got
+
 [*Back to top*](#header1)
 
 ### Operational
@@ -224,6 +244,7 @@ I hope you find them useful.
 - Locks summary
 - Open transactions with text and plans
 - Query the Default Trace
+
 [*Back to top*](#header1)
 
 ### Parallelism
@@ -232,10 +253,12 @@ I hope you find them useful.
 - Determining a setting for Cost Threshold for Parallelism
 - MAXDOP setting algorithm for SQL Server
 - Recommend MAXDOP settings for the server instance
+
 [*Back to top*](#header1)
 
 ### Patching
 - Randomly assign a patch time on the agreed patch date for Prod and Non-Prod servers
+
 [*Back to top*](#header1)
 
 ### Performance
@@ -257,11 +280,13 @@ I hope you find them useful.
 - Waits and queues performance analysis - current spinlocks
 - Waits and queues performance analysis - waiting tasks - create SQL Agent job that runs every 10 mins
 - Waits and queues performance analysis - waiting tasks
+
 [*Back to top*](#header1)
 
 ### Periodic audits
 - Find individual logins to be dropped
 - Run sp_Blitz for all instances
+
 [*Back to top*](#header1)
 
 ### Permissions
@@ -269,6 +294,7 @@ I hope you find them useful.
 - Fix all orphaned users in all databases
 - Script DB level permissions
 - SQL Server permissions list for read and write access for all databases
+
 [*Back to top*](#header1)
 
 ### Plan Cache
@@ -282,6 +308,7 @@ I hope you find them useful.
 - Plan Cache queries - probe residuals
 - Plan Cache queries - query plans that may utilize parallelism
 - Plan Cache queries - warnings
+
 [*Back to top*](#header1)
 
 ### Query Store
@@ -290,6 +317,7 @@ I hope you find them useful.
 - Mining the Query Store - looking for text strings in queries
 - Most expensive queries using Query Store
 - sp_QuickieStore - Erik Darling
+
 [*Back to top*](#header1)
 
 ### Security
@@ -302,6 +330,7 @@ I hope you find them useful.
 - Last user access for each database
 - Orphaned users search and destroy
 - Who are the sysadmins in this Instance
+
 [*Back to top*](#header1)
 
 ### Standard scripts for new installations
@@ -323,26 +352,31 @@ I hope you find them useful.
 - Step 16 - Create SQL Agent job for sp_Blitz
 - Step 17 - Create SQL Agent job for Compress Indexes
 - Step 18 - Create SQL Agent job for Rebuild Active Heaps
+
 [*Back to top*](#header1)
 
 ### Statistics
 - Drop all statistics
 - Find auto-created statistics objects that overlap with index statistics
 - Generate DROP STATISTICS statements for all user-created statistics
+
 [*Back to top*](#header1)
 
 ### Table Design
 - spa_ShrinkColumnSizes
+
 [*Back to top*](#header1)
 
 ### TempDB
 - Find tempdb data files with differing sizes
 - Find tempdbs with uneven initial size or growth
 - Who owns that #temp table
+
 [*Back to top*](#header1)
 
 ### VLFs
 - Detect too many VLFs
 - Reduce VLF count
 - Visualizing VLFs
+
 [*Back to top*](#header1)
