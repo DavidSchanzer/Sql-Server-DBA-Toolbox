@@ -8,3 +8,39 @@ My experience is that **having the right tool for the job** is half the battle (
 When faced with a SQL Server DBA challenge, don't re-invent the wheel or give it up as too hard: check my toolbox and the blogs of the many generous SQL giants out there on whose shoulders we stand!
 
 I hope you find them useful.
+
+## Navigation
+- [Age Calculation](#age-calculation)
+- Agent Jobs
+- Auditing
+- Availability Groups
+- Backup and Restore
+- Collation
+- Compliance
+- Compression
+- Configuration
+- Constraints
+- Corruption
+- Database Design
+- Deadlocks
+- Disk Space
+- Edition
+- Extended Events
+- Foreign Keys
+- Fragmentation
+- Indexing
+- Low-Level
+- Operational
+- Patching
+- Performance
+- Periodic audits
+- Permissions
+- Query Store
+- Security
+- Standard scripts for new installations
+- Statistics
+- Table Design
+- TempDB
+- VLFs
+
+## Age Calculation
