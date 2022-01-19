@@ -137,108 +137,108 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Constraints
-- Create indexes on all foreign keys
-- DBCC CHECKCONSTRAINTS
-- Drop and re-create all foreign key constraints in SQL Server
-- Find all non-indexed foreign keys
-- Find check constraints that are not trusted
-- Find foreign keys that are not trusted
-- List foreign keys and check constraints that are not trusted
-- Re-trust untrusted foreign keys and constraints
+- [Create indexes on all foreign keys](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Create%20indexes%20on%20all%20foreign%20keys.sql)
+- [DBCC CHECKCONSTRAINTS](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/DBCC%20CHECKCONSTRAINTS.sql)
+- [Drop and re-create all foreign key constraints in SQL Server](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Drop%20and%20re-create%20all%20foreign%20key%20constraints%20in%20SQL%20Server.sql)
+- [Find all non-indexed foreign keys](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Find%20all%20non-indexed%20foreign%20keys.sql)
+- [Find check constraints that are not trusted](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Find%20check%20constraints%20that%20are%20not%20trusted.sql)
+- [Find foreign keys that are not trusted](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Find%20foreign%20keys%20that%20are%20not%20trusted.sql)
+- [List foreign keys and check constraints that are not trusted](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/List%20foreign%20keys%20and%20check%20constraints%20that%20are%20not%20trusted.sql)
+- [Re-trust untrusted foreign keys and constraints](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Re-trust%20untrusted%20foreign%20keys%20and%20constraints.sql)
 
 [*Back to top*](#header1)
 
 ### Corruption
-- Emergency repair for when Windows Update leaves the database in Recovery Pending
+- [Emergency repair for when Windows Update leaves a FileStream database in Recovery Pending](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Corruption/Emergency%20repair%20for%20when%20Windows%20Update%20leaves%20a%20FileStream%20database%20in%20Recovery%20Pending.sql)
 
 [*Back to top*](#header1)
 
 ### Database Design
-- Identity values check
-- spa_ShrinkColumnSizes
+- [Identity values check](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Database%20Design/Identity%20values%20check.sql)
+- [spa_ShrinkColumnSizes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Database%20Design/spa_ShrinkColumnSizes.sql)
 
 [*Back to top*](#header1)
 
 ### Deadlocks
-- List deadlocks using Extended Events
+- [List deadlocks using Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Deadlocks/List%20deadlocks%20using%20Extended%20Events.sql)
 
 [*Back to top*](#header1)
 
 ### Disk Space
-- All files ordered by descending free space
-- DBCC SHRINKFILE iteratively
-- Find all Heaps ordered by increasing size and generate CCI SQL
-- Find largest table in all databases
-- Get all databases sizes
-- List all Clustered Columnstore indexes
-- Move Primary data file
-- Shrink all log files over 1000 MB to 1000 MB
-- Turn all Heaps into Clustered Columnstore with Archive Compression
+- [All files ordered by descending free space](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/All%20files%20ordered%20by%20descending%20free%20space.sql)
+- [DBCC SHRINKFILE iteratively](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/DBCC%20SHRINKFILE%20iteratively.sql)
+- [Find all Heaps ordered by increasing size and generate CCI SQL](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Find%20all%20Heaps%20ordered%20by%20increasing%20size%20and%20generate%20CCI%20SQL.sql)
+- [Find largest table in all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Find%20largest%20table%20in%20all%20databases.sql)
+- [Get all databases sizes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Get%20all%20databases%20sizes.sql)
+- [List all Clustered Columnstore indexes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/List%20all%20Clustered%20Columnstore%20indexes.sql)
+- [Move Primary data file](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Move%20Primary%20data%20file.sql)
+- [Shrink all log files over 1000 MB to 1000 MB](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Shrink%20all%20log%20files%20over%201000%20MB%20to%201000%20MB.sql)
+- [Turn all Heaps into Clustered Columnstore with Archive Compression](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Turn%20all%20Heaps%20into%20Clustered%20Columnstore%20with%20Archive%20Compression.sql)
 
 [*Back to top*](#header1)
 
 ### Extended Events
-- Capture execution plan warnings using Extended Events
-- Extended Events session DurationOver500ms
-- Identifying large queries using Extended Events
-- Looking for undesirable events
-- Monitoring blocked processes with Extended Events
-- Monitoring errors with Extended Events
-- Track activity on a table using the Lock_Acquired event3
-- Track activity on a table
-- Track calls to a stored procedure
-- Track calls to a stored procedure using a wildcard
-- Tracking problematic page splits in Extended Events
+- [Capture execution plan warnings using Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Capture%20execution%20plan%20warnings%20using%20Extended%20Events.sql)
+- [Extended Events session DurationOver500ms](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Extended%20Events%20session%20DurationOver500ms.sql)
+- [Identifying large queries using Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Identifying%20large%20queries%20using%20Extended%20Events.sql)
+- [Looking for undesirable events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Looking%20for%20undesirable%20events.sql)
+- [Monitoring blocked processes with Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Monitoring%20blocked%20processes%20with%20Extended%20Events.sql)
+- [Monitoring errors with Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Monitoring%20errors%20with%20Extended%20Events.sql)
+- [Track activity on a table using the Lock_Acquired event3](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20activity%20on%20a%20table%20using%20the%20Lock_Acquired%20event.sql)
+- [Track activity on a table](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20activity%20on%20a%20table.sql)
+- [Track calls to a stored procedure](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20calls%20to%20a%20stored%20procedure.sql)
+- [Track calls to a stored procedure using a wildcard](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20calls%20to%20a%20stored%20procedure%20using%20a%20wildcard.sql)
+- [Tracking problematic page splits in Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Tracking%20problematic%20page%20splits%20in%20Extended%20Events.sql)
 [*Back to top*](#header1)
 
 ### Fragmentation
-- Rebuild active heaps
+- [Rebuild active heaps](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Fragmentation/Rebuild%20active%20heaps.sql)
 
 [*Back to top*](#header1)
 
 ### Indexing
-- Find columnstore indexes than are more than 10 percent fragmented
-- Find duplicate indexes using sp_SQLskills_finddupes
-- Find large tables for potential Clustered Columnstore Indexes
-- Find missing indexes from the Missing Index DMVs
-- Find missing indexes from the Plan Cache
-- Find missing indexes from the Query Store
-- Find queries that use an index
-- Find queries using a specific index
-- Find tables without a primary key or clustered index
-- Find unused indexes from sys.dm_db_index_usage_stats
-- Find unused non-clustered indexes by checking Query Store
-- Identifying which databases have index fragmentation problems
-- Modify all fillfactors from 70 to 100
-- Rebuild all fragmented heaps
-- SQLSkills index script 1 - 00 sp_SQLskills_exposecolsinindexlevels
-- SQLSkills index script 2 - 01 sp_SQLskills_helpindex
-- SQLSkills index script 3 - 02 sp_SQLskills_finddupes (modified)
+- [Find columnstore indexes than are more than 10 percent fragmented](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20columnstore%20indexes%20than%20are%20more%20than%2010%20percent%20fragmented.sql)
+- [Find duplicate indexes using sp_SQLskills_finddupes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20duplicate%20indexes%20using%20sp_SQLskills_finddupes.sql)
+- [Find large tables for potential Clustered Columnstore Indexes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20large%20tables%20for%20potential%20Clustered%20Columnstore%20Indexes.sql)
+- [Find missing indexes from the Missing Index DMVs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Missing%20Index%20DMVs.sql)
+- [Find missing indexes from the Plan Cache](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Plan%20Cache.sql)
+- [Find missing indexes from the Query Store](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Query%20Store.sql)
+- [Find queries that use an index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20queries%20that%20use%20an%20index.sql)
+- [Find queries using a specific index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20queries%20using%20a%20specific%20index.sql)
+- [Find tables without a primary key or clustered index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20tables%20without%20a%20primary%20key%20or%20clustered%20index.sql)
+- [Find unused indexes from sys.dm_db_index_usage_stats](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20unused%20indexes%20from%20sys.dm_db_index_usage_stats.sql)
+- [Find unused non-clustered indexes by checking Query Store](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20unused%20non-clustered%20indexes%20by%20checking%20Query%20Store.sql)
+- [Identifying which databases have index fragmentation problems](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Identifying%20which%20databases%20have%20index%20fragmentation%20problems.sql)
+- [Modify all fillfactors from 70 to 100](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Modify%20all%20fillfactors%20from%2070%20to%20100.sql)
+- [Rebuild all fragmented heaps](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Rebuild%20all%20fragmented%20heaps.sql)
+- [SQLSkills index script 1 - 00 sp_SQLskills_exposecolsinindexlevels](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%201%20-%2000%20sp_SQLskills_exposecolsinindexlevels.sql)
+- [SQLSkills index script 2 - 01 sp_SQLskills_helpindex](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%202%20-%2001%20sp_SQLskills_helpindex.sql)
+- [SQLSkills index script 3 - 02 sp_SQLskills_finddupes (modified)](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%203%20-%2002%20sp_SQLskills_finddupes%20(modified).sql)
 
 [*Back to top*](#header1)
 
 ### Low-Level
-- Find table from page
-- How far has my update got
+- [Find table from page](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Low-Level/Find%20table%20from%20page.sql)
+- [How far has my update got](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Low-Level/How%20far%20has%20my%20update%20got.sql)
 
 [*Back to top*](#header1)
 
 ### Operational
-- Create a text file with specified contents
-- Last instance restart date
-- List of all server names from the DBA_REP ServerList_SSIS table
-- Locks summary
-- Open transactions with text and plans
-- Query the Default Trace
+- [Create a text file with specified contents](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Create%20a%20text%20file%20with%20specified%20contents.sql)
+- [Last instance restart date](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Last%20instance%20restart%20date.sql)
+- [List of all server names from the DBA_REP ServerList_SSIS table](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/List%20of%20all%20server%20names%20from%20the%20DBA_REP%20ServerList_SSIS%20table.sql)
+- [Locks summary](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Locks%20summary.sql)
+- [Open transactions with text and plans](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Open%20transactions%20with%20text%20and%20plans.sql)
+- [Query the Default Trace](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Query%20the%20Default%20Trace.sql)
 
 [*Back to top*](#header1)
 
 ### Parallelism
-- Calculate MAXDOP
-- Cost Threshold For Parallelism - Plan Cache spread of query costs
-- Determining a setting for Cost Threshold for Parallelism
-- MAXDOP setting algorithm for SQL Server
-- Recommend MAXDOP settings for the server instance
+- [Calculate MAXDOP](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Parallelism/Calculate%20MAXDOP.sql)
+- [Cost Threshold For Parallelism - Plan Cache spread of query costs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Parallelism/Cost%20Threshold%20For%20Parallelism%20-%20Plan%20Cache%20spread%20of%20query%20costs.sql)
+- [Determining a setting for Cost Threshold for Parallelism](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Parallelism/Determining%20a%20setting%20for%20Cost%20Threshold%20for%20Parallelism.sql)
+- [MAXDOP setting algorithm for SQL Server](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Parallelism/MAXDOP%20setting%20algorithm%20for%20SQL%20Server.sql)
+- [Recommend MAXDOP settings for the server instance](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Parallelism/Recommend%20MAXDOP%20settings%20for%20the%20server%20instance.sql)
 
 [*Back to top*](#header1)
 
