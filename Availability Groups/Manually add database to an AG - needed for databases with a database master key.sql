@@ -1,0 +1,22 @@
+:CONNECT <PrimaryNode>
+ALTER AVAILABILITY GROUP <AGName>
+ADD DATABASE <DBName>;
+GO
+BACKUP DATABASE <DBName>
+TO  DISK = '<FullBackupPath>';
+GO
+:CONNECT <SecondaryNode>
+RESTORE DATABASE <DBName>
+FROM DISK = '<FullBackupPath>'
+WITH NORECOVERY;
+GO
+:CONNECT <PrimaryNode>
+BACKUP LOG <DBName> TO DISK = '<LogBackupPath>';
+GO
+:CONNECT <SecondaryNode>
+RESTORE LOG <DBName>
+FROM DISK = '<LogBackupPath>'
+WITH NORECOVERY;
+GO
+:CONNECT <PrimaryNode>
+ALTER DATABASE <DBName> SET HADR AVAILABILITY GROUP = <AGName>;

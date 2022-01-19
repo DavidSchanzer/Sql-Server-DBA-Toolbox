@@ -1,0 +1,53 @@
+IF OBJECT_ID('TempDB..#Temp', 'U') > 0
+    DROP TABLE #Temp;
+    
+CREATE TABLE #Temp
+(
+    DatabaseName sysname NULL,
+    SchemaName sysname NULL,
+    TableName sysname NULL,
+    DataSpaceMB INT NULL
+);
+    
+INSERT INTO #Temp
+EXEC master.dbo.sp_MSforeachdb @command1 = '
+USE [?]; SELECT ''?'' AS DatabaseName,
+    	SCH.name AS SchemaName,
+       TBL.name AS TableName,
+       (SUM(AU.data_pages) * 8) / 1024 AS DataSpaceMB
+FROM sys.tables AS TBL
+    INNER JOIN sys.schemas AS SCH
+        ON TBL.schema_id = SCH.schema_id
+    INNER JOIN sys.indexes AS IDX
+        ON TBL.object_id = IDX.object_id
+           AND IDX.type = 0 -- = Heap 
+    INNER JOIN sys.partitions AS PAR
+        ON IDX.object_id = PAR.object_id
+           AND IDX.index_id = PAR.index_id
+    INNER JOIN sys.allocation_units AS AU
+        ON PAR.partition_id = AU.container_id
+	WHERE NOT EXISTS
+		( SELECT * FROM sys.columns AS COL
+			WHERE COL.object_id = TBL.object_id AND
+			( COL.user_type_id IN (34, 35, 98, 99, 128, 129, 130, 189, 241)	-- image, text, sql_variant, ntext, hierarchyid, geometry, geography, timestamp, xml
+			OR COL.system_type_id IN (167, 231) AND COL.max_length = -1		-- varchar(max) and nvarchar(max)
+			OR COL.is_computed = 1 ))
+GROUP BY SCH.name,
+         TBL.name
+ORDER BY SchemaName,
+         TableName;
+';
+
+SELECT DatabaseName,
+    	SchemaName,
+    	TableName,
+    	DataSpaceMB,
+		'USE [' + DatabaseName + ']; CREATE CLUSTERED COLUMNSTORE INDEX [CCI_' + TableName + '] ON [' + SchemaName + '].[' + TableName + '];' AS CreateClusteredColumnstoreSQL
+FROM #Temp
+WHERE DatabaseName NOT IN ( 'master', 'model', 'msdb', 'tempdb', 'SSISDB' )
+AND DatabaseName NOT LIKE 'ReportServer%' 
+AND DatabaseName NOT LIKE 'Project%' 
+AND DatabaseName NOT LIKE 'MLK%' 
+AND DatabaseName NOT LIKE 'Choicemaker%' 
+ORDER BY DataSpaceMB, DatabaseName, SchemaName, TableName;
+DROP TABLE #Temp;
