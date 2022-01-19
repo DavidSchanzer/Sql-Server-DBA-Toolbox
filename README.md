@@ -79,60 +79,60 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Collation
-- Changing Database Collation
+- [Changing Database Collation](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Collation/Changing%20Database%20Collation.sql)
 
 [*Back to top*](#header1)
 
 ### Compliance
-- Find deprecated data types on all databases
-- SQL Server naming and design standards compliance review
+- [Find deprecated data types on all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Compliance/Find%20deprecated%20data%20types%20on%20all%20databases.sql)
+- [SQL Server naming and design standards compliance review](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Compliance/SQL%20Server%20naming%20and%20design%20standards%20compliance%20review.sql)
 
 [*Back to top*](#header1)
 
 ### Compression
-- Find indexes that aren't compressed in all databases
-- Suggest compression strategies for tables and indexes
-- Tracking page compression success rates
+- [Find indexes that aren't compressed in all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Compression/Find%20indexes%20that%20aren't%20compressed%20in%20all%20databases.sql)
+- [Suggest compression strategies for tables and indexes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Compression/Suggest%20compression%20strategies%20for%20tables%20and%20indexes.sql)
+- [Tracking page compression success rates](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Compression/Tracking%20page%20compression%20success%20rates.sql)
 
 [*Back to top*](#header1)
 
 ### Configuration
-- 0 to 60 - Switching to indirect checkpoints
-- Adding trace flags to a SQL instance through Registry
-- Check for Instant File Initialization
-- Check for Locked Pages In Memory
-- Correct database file logical names
-- Correct database file physical names
-- Determine SQL Server version and edition
-- Find all instances that have all databases offline (to be run against all instances)
-- Find database for a nominated data file
-- Find databases at the wrong compatibility level
-- Find databases that don't have Accelerated Database Recovery enabled
-- Find databases with LEGACY_CARDINALITY_ESTIMATION turned on
-- Find databases with non-standard Automatic Tuning settings
-- Find databases with non-standard Query Store settings
-- Find non-default configuration options
-- Find SQL Server service info
-- Generate script to change all users to have default schema of dbo
-- List databases with default auto-growth values
-- Set all databases offline
-- Set all databases to 130 compatibility level
-- Set all databases to 140 compatibility level
-- Set all databases to 150 compatibility level
-- Set all databases to auto-grow data files by 100MB
-- Set all databases to auto-grow log files by 100MB
-- Set all databases to be owned by sa
-- Set all databases to CHECKSUM page verification
-- Set all databases to have Automatic Tuning with Force Last Good Plan turned on
-- Set all databases to have Query Store enabled with query_capture_mode set to Auto
-- Set all databases to maximum compatibility level
-- Set all databases to simple recovery
-- Set all jobs to be owned by sa
-- Set AUTO_CREATE_STATISTICS and AUTO_UPDATE_STATISTICS ON for all databases
-- Set fillfactor to 100
-- Set notification for all jobs to email SQL Administrator
-- sp_foreachdb
-- sp_ineachdb
+- [0 to 60 - Switching to indirect checkpoints](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/0%20to%2060%20-%20Switching%20to%20indirect%20checkpoints.sql)
+- [Adding trace flags to a SQL instance through Registry](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Adding%20trace%20flags%20to%20a%20SQL%20instance%20through%20Registry.sql)
+- [Check for Instant File Initialization](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Check%20for%20Instant%20File%20Initialization.sql)
+- [Check for Locked Pages In Memory](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Check%20for%20Locked%20Pages%20In%20Memory.sql)
+- [Correct database file logical names](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Correct%20database%20file%20logical%20names.sql)
+- [Correct database file physical names](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Correct%20database%20file%20physical%20names.sql)
+- [Determine SQL Server version and edition](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Determine%20SQL%20Server%20version%20and%20edition.sql)
+- [Find all instances that have all databases offline (to be run against all instances)](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20all%20instances%20that%20have%20all%20databases%20offline%20(to%20be%20run%20against%20all%20instances).sql)
+- [Find database for a nominated data file](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20database%20for%20a%20nominated%20data%20file.sql)
+- [Find databases at the wrong compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20databases%20at%20the%20wrong%20compatibility%20level.sql)
+- [Find databases that don't have Accelerated Database Recovery enabled](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20databases%20that%20don't%20have%20Accelerated%20Database%20Recovery%20enabled.sql)
+- [Find databases with LEGACY_CARDINALITY_ESTIMATION turned on](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20databases%20with%20LEGACY_CARDINALITY_ESTIMATION%20turned%20on.sql)
+- [Find databases with non-standard Automatic Tuning settings](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20databases%20with%20non-standard%20Automatic%20Tuning%20settings.sql)
+- [Find databases with non-standard Query Store settings](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20databases%20with%20non-standard%20Query%20Store%20settings.sql)
+- [Find non-default configuration options](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20non-default%20configuration%20options.sql)
+- [Find SQL Server service info](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20SQL%20Server%20service%20info.sql)
+- [Generate script to change all users to have default schema of dbo](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Generate%20script%20to%20change%20all%20users%20to%20have%20default%20schema%20of%20dbo.sql)
+- [List databases with default auto-growth values](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/List%20databases%20with%20default%20auto-growth%20values.sql)
+- [Set all databases offline](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20offline.sql)
+- [Set all databases to 130 compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20130%20compatibility%20level.sql)
+- [Set all databases to 140 compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20140%20compatibility%20level.sql)
+- [Set all databases to 150 compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20150%20compatibility%20level.sql)
+- [Set all databases to auto-grow data files by 100MB](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20auto-grow%20data%20files%20by%20100MB.sql)
+- [Set all databases to auto-grow log files by 100MB](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20auto-grow%20log%20files%20by%20100MB.sql)
+- [Set all databases to be owned by sa](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20be%20owned%20by%20sa.sql)
+- [Set all databases to CHECKSUM page verification](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20CHECKSUM%20page%20verification.sql)
+- [Set all databases to have Automatic Tuning with Force Last Good Plan turned on](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20have%20Automatic%20Tuning%20with%20Force%20Last%20Good%20Plan%20turned%20on.sql)
+- [Set all databases to have Query Store enabled with query_capture_mode set to Auto](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20have%20Query%20Store%20enabled%20with%20query_capture_mode%20set%20to%20Auto.sql)
+- [Set all databases to maximum compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20maximum%20compatibility%20level.sql)
+- [Set all databases to simple recovery](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20simple%20recovery.sql)
+- [Set all jobs to be owned by sa](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20jobs%20to%20be%20owned%20by%20sa.sql)
+- [Set AUTO_CREATE_STATISTICS and AUTO_UPDATE_STATISTICS ON for all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20AUTO_CREATE_STATISTICS%20and%20AUTO_UPDATE_STATISTICS%20ON%20for%20all%20databases.sql)
+- [Set fillfactor to 100](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20fillfactor%20to%20100.sql)
+- [Set notification for all jobs to email SQL Administrator](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20notification%20for%20all%20jobs%20to%20email%20SQL%20Administrator.sql)
+- [sp_foreachdb](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/sp_foreachdb.sql)
+- [sp_ineachdb](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/sp_ineachdb.sql)
 
 [*Back to top*](#header1)
 
