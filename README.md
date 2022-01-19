@@ -328,3 +328,4 @@ I hope you find them useful.
 - [Visualizing VLFs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/VLFs/Visualizing%20VLFs.sql)
 
 [*Back to top*](#header1)
+
