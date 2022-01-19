@@ -44,37 +44,37 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Age Calculation
-- Calculating Age in Years (*a simple way to calculate someone’s current age, or age as at a particular date*)
+- [Calculating Age in Years](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Age%20Calculation/Calculating%20Age%20in%20Years.sql) (*a simple way to calculate someone’s current age, or age as at a particular date*)
 
 [*Back to top*](#header1)
 
 ### Agent Jobs
-- Change the SQL Agent job history purge period from 30 days to 90 days in the Ola Hallengren sp_purge_jobhistory job
-- Remove the @StatisticsSample parameter for all Ola Hallengren IndexOptimize - USER_DATABASES jobs
-- Script to see running jobs in SQL Server with Job Start Time
+- [Change the SQL Agent job history purge period from 30 days to 90 days in the Ola Hallengren sp_purge_jobhistory job](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/Change%20the%20SQL%20Agent%20job%20history%20purge%20period%20from%2030%20days%20to%2090%20days%20in%20the%20Ola%20Hallengren%20sp_purge_jobhistory%20job.sql)
+- [Remove the @StatisticsSample parameter for all Ola Hallengren IndexOptimize - USER_DATABASES jobs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/Remove%20the%20%40StatisticsSample%20parameter%20for%20all%20Ola%20Hallengren%20IndexOptimize%20-%20USER_DATABASES%20jobs.sql)
+- [Script to see running jobs in SQL Server with Job Start Time](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/Script%20to%20see%20running%20jobs%20in%20SQL%20Server%20with%20Job%20Start%20Time.sql)
 
 [*Back to top*](#header1)
 
 ### Auditing
-- Create audit for database
-- Drop server audits for which there is no corresponding database
-- Query an audit file
+- [Create audit for database](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Auditing/Create%20audit%20for%20database.sql)
+- [Drop server audits for which there is no corresponding database](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Auditing/Drop%20server%20audits%20for%20which%20there%20is%20no%20corresponding%20database.sql)
+- [Query an audit file](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Auditing/Query%20an%20audit%20file.sql)
 
 [*Back to top*](#header1)
 
 ### Availability Groups
-- Failover all Availability Groups
-- Manually add database to an AG - needed for databases with a database master key
-- Read-only routing url generation script
-- View read-only routing configurations
+- [Failover all Availability Groups](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Availability%20Groups/Failover%20all%20Availability%20Groups.sql)
+- [Manually add database to an AG - needed for databases with a database master key](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Availability%20Groups/Manually%20add%20database%20to%20an%20AG%20-%20needed%20for%20databases%20with%20a%20database%20master%20key.sql)
+- [Read-only routing url generation script](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Availability%20Groups/Read-only%20routing%20url%20generation%20script.sql)
+- [View read-only routing configurations](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Availability%20Groups/View%20read-only%20routing%20configurations.sql)
 
 [*Back to top*](#header1)
 
 ### Backup and Restore
-- Generate RESTORE script for all user databases
-- Progress of BACKUP and RESTORE
-- sp_RestoreGene - generate RESTORE DATABASE commands
-- Update database backup schedules
+- [Generate RESTORE script for all user databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Backup%20and%20Restore/Generate%20RESTORE%20script%20for%20all%20user%20databases.sql)
+- [Progress of BACKUP and RESTORE](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Backup%20and%20Restore/Progress%20of%20BACKUP%20and%20RESTORE.sql)
+- [sp_RestoreGene - generate RESTORE DATABASE commands](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Backup%20and%20Restore/sp_RestoreGene%20-%20generate%20RESTORE%20DATABASE%20commands.sql)
+- [Update database backup schedules](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Backup%20and%20Restore/Update%20database%20backup%20schedules.sql)
 
 [*Back to top*](#header1)
 
