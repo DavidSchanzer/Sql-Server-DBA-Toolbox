@@ -243,88 +243,88 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Performance
-- Analyzing 'death by a thousand cuts' workloads
-- Breakdown of buffer cache usage by database
-- Breakdown of buffer cache usage for a specific database
-- Calculate rows inserted per second for all tables
-- Find mismatching column types in database schema
-- Find non-zero fill factors for identity columns (set back to 100)
-- Find non-zero fill factors
-- Finding the worst-performing TSQL statement
-- Finding the worst running query in a stored procedure
-- Paul Randal - Wait statistics, or please tell me where it hurts
-- sp_WhoIsActive extended info
-- sp_WhoIsActive in a loop
-- sp_WhoIsActive v12.00
-- Waits and queues performance analysis - cumulative latches
-- Waits and queues performance analysis - cumulative waits
-- Waits and queues performance analysis - current spinlocks
-- Waits and queues performance analysis - waiting tasks - create SQL Agent job that runs every 10 mins
-- Waits and queues performance analysis - waiting tasks
+- [Analyzing 'death by a thousand cuts' workloads](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Analyzing%20'death%20by%20a%20thousand%20cuts'%20workloads.sql)
+- [Breakdown of buffer cache usage by database](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Breakdown%20of%20buffer%20cache%20usage%20by%20database.sql)
+- [Breakdown of buffer cache usage for a specific database](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Breakdown%20of%20buffer%20cache%20usage%20for%20a%20specific%20database.sql)
+- [Calculate rows inserted per second for all tables](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Calculate%20rows%20inserted%20per%20second%20for%20all%20tables.sql)
+- [Find mismatching column types in database schema](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Find%20mismatching%20column%20types%20in%20database%20schema.sql)
+- [Find non-zero fill factors for identity columns (set back to 100)](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Find%20non-zero%20fill%20factors%20for%20identity%20columns%20(set%20back%20to%20100).sql)
+- [Find non-zero fill factors](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Find%20non-zero%20fill%20factors.sql)
+- [Finding the worst-performing TSQL statement](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Finding%20the%20worst-performing%20TSQL%20statement.sql)
+- [Finding the worst running query in a stored procedure](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Finding%20the%20worst%20running%20query%20in%20a%20stored%20procedure.sql)
+- [Paul Randal - Wait statistics, or please tell me where it hurts](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Paul%20Randal%20-%20Wait%20statistics%2C%20or%20please%20tell%20me%20where%20it%20hurts.sql)
+- [sp_WhoIsActive extended info](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/sp_WhoIsActive%20extended%20info.sql)
+- [sp_WhoIsActive in a loop](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/sp_WhoIsActive%20in%20a%20loop.sql)
+- [sp_WhoIsActive v12.00](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/sp_WhoIsActive%20v12.00.sql)
+- [Waits and queues performance analysis - cumulative latches](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Waits%20and%20queues%20performance%20analysis%20-%20cumulative%20latches.sql)
+- [Waits and queues performance analysis - cumulative waits](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Waits%20and%20queues%20performance%20analysis%20-%20cumulative%20waits.sql)
+- [Waits and queues performance analysis - current spinlocks](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Waits%20and%20queues%20performance%20analysis%20-%20current%20spinlocks.sql)
+- [Waits and queues performance analysis - waiting tasks - create SQL Agent job that runs every 10 mins](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Waits%20and%20queues%20performance%20analysis%20-%20waiting%20tasks%20-%20create%20SQL%20Agent%20job%20that%20runs%20every%2010%20mins.sql)
+- [Waits and queues performance analysis - waiting tasks](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Performance/Waits%20and%20queues%20performance%20analysis%20-%20waiting%20tasks.sql)
 
 [*Back to top*](#header1)
 
 ### Permissions
-- Find all permissions & access for all users in all databases
-- Fix all orphaned users in all databases
-- Script DB level permissions
-- SQL Server permissions list for read and write access for all databases
+- [Find all permissions & access for all users in all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Find%20all%20permissions%20%26%20access%20for%20all%20users%20in%20all%20databases.sql)
+- [Fix all orphaned users in all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Fix%20all%20orphaned%20users%20in%20all%20databases.sql)
+- [Script DB level permissions](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Script%20DB%20level%20permissions.sql)
+- [SQL Server permissions list for read and write access for all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/SQL%20Server%20permissions%20list%20for%20read%20and%20write%20access%20for%20all%20databases.sql)
 
 [*Back to top*](#header1)
 
 ### Plan Cache
-- Find your most expensive queries in the Plan Cache
-- Plan Cache queries - find queries using a specific index
-- Plan Cache queries - find queries using any index hint
-- Plan Cache queries - implicit column conversions
-- Plan Cache queries - index scans
-- Plan Cache queries - key lookups
-- Plan Cache queries - missing index
-- Plan Cache queries - probe residuals
-- Plan Cache queries - query plans that may utilize parallelism
-- Plan Cache queries - warnings
+- [Find your most expensive queries in the Plan Cache](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Find%20your%20most%20expensive%20queries%20in%20the%20Plan%20Cache.sql)
+- [Plan Cache queries - find queries using a specific index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20find%20queries%20using%20a%20specific%20index.sql)
+- [Plan Cache queries - find queries using any index hint](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20find%20queries%20using%20any%20index%20hint.sql)
+- [Plan Cache queries - implicit column conversions](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20implicit%20column%20conversions.sql)
+- [Plan Cache queries - index scans](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20index%20scans.sql)
+- [Plan Cache queries - key lookups](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20key%20lookups.sql)
+- [Plan Cache queries - missing index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20missing%20index.sql)
+- [Plan Cache queries - probe residuals](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20probe%20residuals.sql)
+- [Plan Cache queries - query plans that may utilize parallelism](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20query%20plans%20that%20may%20utilize%20parallelism.sql)
+- [Plan Cache queries - warnings](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20warnings.sql)
 
 [*Back to top*](#header1)
 
 ### Query Store
-- Mining the Query Store - looking for index usage in queries
-- Mining the Query Store - looking for Key Lookups in queries
-- Mining the Query Store - looking for text strings in queries
-- Most expensive queries using Query Store
-- sp_QuickieStore - Erik Darling
+- [Mining the Query Store - looking for index usage in queries](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20looking%20for%20index%20usage%20in%20queries.sql)
+- [Mining the Query Store - looking for Key Lookups in queries](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20looking%20for%20Key%20Lookups%20in%20queries.sql)
+- [Mining the Query Store - looking for text strings in queries](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20looking%20for%20text%20strings%20in%20queries.sql)
+- [Most expensive queries using Query Store](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Most%20expensive%20queries%20using%20Query%20Store.sql)
+- [sp_QuickieStore - Erik Darling](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/sp_QuickieStore%20-%20Erik%20Darling.sql)
 
 [*Back to top*](#header1)
 
 ### Security
-- Create logins on AlwaysOn Secondary with same SID as Primary
-- Delete all database user accounts for a given server login
-- Drop all orphan users
-- Enumerate Windows Group members
-- Find all orphaned SQL Server users
-- Find Windows logins that are no longer in AD
-- Last user access for each database
-- Orphaned users search and destroy
-- Who are the sysadmins in this Instance
+- [Create logins on AlwaysOn Secondary with same SID as Primary](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Create%20logins%20on%20AlwaysOn%20Secondary%20with%20same%20SID%20as%20Primary.sql)
+- [Delete all database user accounts for a given server login](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Delete%20all%20database%20user%20accounts%20for%20a%20given%20server%20login.sql)
+- [Drop all orphan users](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Drop%20all%20orphan%20users.sql)
+- [Enumerate Windows Group members](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Enumerate%20Windows%20Group%20members.sql)
+- [Find all orphaned SQL Server users](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Find%20all%20orphaned%20SQL%20Server%20users.sql)
+- [Find Windows logins that are no longer in AD](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Find%20Windows%20logins%20that%20are%20no%20longer%20in%20AD.sql)
+- [Last user access for each database](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Last%20user%20access%20for%20each%20database.sql)
+- [Orphaned users search and destroy](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Orphaned%20users%20search%20and%20destroy.sql)
+- [Who are the sysadmins in this Instance](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Security/Who%20are%20the%20sysadmins%20in%20this%20Instance.sql)
 
 [*Back to top*](#header1)
 
 ### Statistics
-- Drop all statistics
-- Find auto-created statistics objects that overlap with index statistics
-- Generate DROP STATISTICS statements for all user-created statistics
+- [Drop all statistics](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Statistics/Drop%20all%20statistics.sql)
+- [Find auto-created statistics objects that overlap with index statistics](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Statistics/Find%20auto-created%20statistics%20objects%20that%20overlap%20with%20index%20statistics.sql)
+- [Generate DROP STATISTICS statements for all user-created statistics](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Statistics/Generate%20DROP%20STATISTICS%20statements%20for%20all%20user-created%20statistics.sql)
 
 [*Back to top*](#header1)
 
 ### TempDB
-- Find tempdb data files with differing sizes
-- Find tempdbs with uneven initial size or growth
-- Who owns that #temp table
+- [Find tempdb data files with differing sizes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/TempDB/Find%20tempdb%20data%20files%20with%20differing%20sizes.sql)
+- [Find tempdbs with uneven initial size or growth](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/TempDB/Find%20tempdbs%20with%20uneven%20initial%20size%20or%20growth.sql)
+- [Who owns that #temp table](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/TempDB/Who%20owns%20that%20%23temp%20table.sql)
 
 [*Back to top*](#header1)
 
 ### VLFs
-- Detect too many VLFs
-- Reduce VLF count
-- Visualizing VLFs
+- [Detect too many VLFs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/VLFs/Detect%20too%20many%20VLFs.sql)
+- [Reduce VLF count](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/VLFs/Reduce%20VLF%20count.sql)
+- [Visualizing VLFs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/VLFs/Visualizing%20VLFs.sql)
 
 [*Back to top*](#header1)
