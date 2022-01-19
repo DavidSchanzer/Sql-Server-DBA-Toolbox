@@ -1,3 +1,7 @@
+-- Change the SQL Agent job history purge period from 30 days to 90 days in the Ola Hallengren sp_purge_jobhistory job
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script locates the 'sp_purge_jobhistory' job and edits it to change the default job history purge period from 30 days to 90 days instead.
+
 SET NOCOUNT ON;
 
 DECLARE @print_only BIT = 1,
@@ -6,7 +10,6 @@ DECLARE @print_only BIT = 1,
         @command NVARCHAR(MAX),
         @message VARCHAR(1000);
 
--- Change the SQL Agent job history purge period from 30 days to 90 days in the Ola Hallengren sp_purge_jobhistory job
 DECLARE @test TABLE
 (
     [step_id] INT NULL,
