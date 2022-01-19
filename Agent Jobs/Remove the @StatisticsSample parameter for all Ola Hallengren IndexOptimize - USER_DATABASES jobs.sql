@@ -1,3 +1,7 @@
+-- Remove the @StatisticsSample parameter for all Ola Hallengren IndexOptimize - USER_DATABASES jobs
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script locates the 'IndexOptimize - USER_DATABASES' job and edits it to remove the '@StatisticsSample = 100' parameter.
+
 SET NOCOUNT ON;
 
 DECLARE @print_only BIT = 1,
@@ -6,7 +10,6 @@ DECLARE @print_only BIT = 1,
         @command NVARCHAR(MAX),
         @message VARCHAR(1000);
 
--- Remove the @StatisticsSample parameter for all Ola Hallengren "IndexOptimize - USER_DATABASES" jobs
 DECLARE @test TABLE
 (
     [step_id] INT NULL,
