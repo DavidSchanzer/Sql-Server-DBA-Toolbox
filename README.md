@@ -51,7 +51,7 @@ I hope you find them useful.
 ### Agent Jobs
 - [Change the SQL Agent job history purge period from 30 days to 90 days in the Ola Hallengren sp_purge_jobhistory job](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/Change%20the%20SQL%20Agent%20job%20history%20purge%20period%20from%2030%20days%20to%2090%20days%20in%20the%20Ola%20Hallengren%20sp_purge_jobhistory%20job.sql)
 - [Remove the @StatisticsSample parameter for all Ola Hallengren IndexOptimize - USER_DATABASES jobs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/Remove%20the%20%40StatisticsSample%20parameter%20for%20all%20Ola%20Hallengren%20IndexOptimize%20-%20USER_DATABASES%20jobs.sql)
-- [Script to see running jobs in SQL Server with Job Start Time](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/Script%20to%20see%20running%20jobs%20in%20SQL%20Server%20with%20Job%20Start%20Time.sql)
+- [List running jobs in SQL Server with Job Start Time](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Agent%20Jobs/List%20running%20jobs%20in%20SQL%20Server%20with%20Job%20Start%20Time.sql)
 
 [*Back to top*](#header1)
 
