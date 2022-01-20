@@ -1,3 +1,7 @@
+-- Set all databases to maximum compatibility level
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script sets the Compatibility Level for all databases to the maximum value (ie. to match the instance version)
+
 DECLARE @MaximumDBCompatLevel TINYINT;
 
 DECLARE @TrimmedVersion VARCHAR(20) = LTRIM(RTRIM(CAST(SERVERPROPERTY('ProductVersion') AS NVARCHAR(20))));
@@ -27,7 +31,7 @@ BEGIN
     DECLARE @DatabasesToUpdate TABLE
     (
         DatabasesToUpdateID INT IDENTITY(1, 1) PRIMARY KEY,
-        DatabaseName sysname
+        DatabaseName sysname NULL
     );
 
     INSERT @DatabasesToUpdate
