@@ -1,3 +1,8 @@
+-- Generate RESTORE script for all user databases
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script queries the msdb database on the current instance to return the RESTORE DATABASE and RESTORE LOG statements
+-- to recover databases to the latest backup. Note that Differential backups are not included.
+
 EXEC dbo.sp_ineachdb @command = '
 DECLARE @databaseName sysname;
 DECLARE @backup_set_id_start INT;

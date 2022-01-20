@@ -1,4 +1,8 @@
+-- 0 to 60 - Switching to indirect checkpoints
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script changes the TARGET_RECOVERY_TIME for every user database on the instance from 0 to 60, in order to trigger indirect checkpoints
 -- Modified from https://sqlperformance.com/2020/05/system-configuration/0-to-60-switching-to-indirect-checkpoints
+
 DECLARE @sql NVARCHAR(MAX) = N'';
 
 SELECT @sql += N'ALTER DATABASE ' + QUOTENAME(name) + N' SET TARGET_RECOVERY_TIME = 60 SECONDS;'

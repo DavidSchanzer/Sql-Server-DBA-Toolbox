@@ -1,3 +1,7 @@
+-- Progress of BACKUP and RESTORE
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script displays information on the progress of currently running BACKUP and RESTORE commands
+
 SELECT der.percent_complete,
        der.start_time,
        DATEADD(n, (der.estimated_completion_time / 60 / 1000), GETDATE()) AS estimated_completion_time,

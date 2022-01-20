@@ -1,4 +1,4 @@
-EXEC dbo.sp_foreachdb '
+EXEC dbo.sp_foreachdb @command = '
 CREATE TABLE #OrphanedUsers
 (
     row_num INT IDENTITY(1, 1),
@@ -27,4 +27,4 @@ BEGIN
 END;
 DROP TABLE #OrphanedUsers;
 ',
-@user_only = 1;
+                      @user_only = 1;

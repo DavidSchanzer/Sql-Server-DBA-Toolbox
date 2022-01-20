@@ -9,9 +9,9 @@ BEGIN
  
     CREATE TABLE #baseline
     (
-         database_name  SYSNAME
-       , table_name     SYSNAME
-       , table_rows     BIGINT
+         database_name  SYSNAME NULL
+       , table_name     SYSNAME NULL
+       , table_rows     BIGINT NULL
        , captureTime    DATETIME NULL
     );
 END
@@ -21,15 +21,15 @@ IF OBJECT_ID('tempdb..#current') IS NOT NULL
  
 CREATE TABLE #current
 (
-     database_name  SYSNAME
-   , table_name     SYSNAME
-   , table_rows     BIGINT
+     database_name  SYSNAME NULL
+   , table_name     SYSNAME NULL
+   , table_rows     BIGINT NULL
    , captureTime    DATETIME NULL
 );
  
 IF @newBaseline = 1 
 BEGIN
-    EXECUTE sp_MSforeachdb 'USE ?; 
+    EXECUTE dbo.sp_ineachdb @command = '
         INSERT INTO #baseline
         SELECT DB_NAME()
             , o.name As [tableName]
@@ -47,7 +47,7 @@ BEGIN
     WAITFOR DELAY @delay;
 END
  
-EXECUTE sp_MSforeachdb 'USE ?; 
+EXECUTE dbo.sp_ineachdb @command = '
 INSERT INTO #current
 SELECT DB_NAME()
     , o.name As [tableName]
@@ -62,10 +62,13 @@ JOIN sys.objects As o
 WHERE i.[type] = 1
 GROUP BY o.name;'
  
-SELECT  c.*
-      , c.table_rows - b.table_rows AS 'new_rows'
-      , DATEDIFF(second, b.captureTime, c.captureTime) AS 'time_diff'
-      , (c.table_rows - b.table_rows) / DATEDIFF(second, b.captureTime, c.captureTime) AS 'rows_per_sec'
+SELECT  c.database_name,
+        c.table_name,
+        c.table_rows,
+        c.captureTime
+      , c.table_rows - b.table_rows AS new_rows
+      , DATEDIFF(second, b.captureTime, c.captureTime) AS time_diff
+      , (c.table_rows - b.table_rows) / DATEDIFF(second, b.captureTime, c.captureTime) AS rows_per_sec
 FROM #baseline AS b
 JOIN #current AS c
     ON b.table_name = c.table_name

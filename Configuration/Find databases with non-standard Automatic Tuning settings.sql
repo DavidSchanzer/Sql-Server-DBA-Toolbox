@@ -1,3 +1,7 @@
+-- Find databases with non-standard Automatic Tuning settings
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists, for all Enterprise Edition instances of SQL Server 2017 or later, the databases that don't have Automatic Tuning enabled
+
 DECLARE @ver TINYINT
     = CAST(LEFT(CONVERT(VARCHAR(128), SERVERPROPERTY('productversion')), CHARINDEX(
                                                                                       '.',
@@ -27,7 +31,7 @@ WHERE (
           is_primary_replica = 1
           OR is_primary_replica IS NULL
       )
-      AND actual_state != 1 -- Not ON
+      AND actual_state <> 1 -- Not ON
       AND db_name NOT IN ( 'model', 'msdb' );
 
 DROP TABLE #DBAT;

@@ -3,20 +3,32 @@ IF OBJECT_ID('TempDB..#Temp', 'U') > 0
 
 CREATE TABLE #Temp
 (
-	DatabaseName sysname NULL,
+    DatabaseName sysname NULL,
     Drive CHAR(1) NULL,
-	FileType NVARCHAR(60),
-    FILE_SIZE_MB DECIMAL(12,2) NULL,
-    SPACE_USED_MB DECIMAL(12,2) NULL,
-    FREE_SPACE_MB DECIMAL(12,2) NULL,
-    [FREE_SPACE_%] DECIMAL(12,2) NULL,
-	FileID INT NULL,
-    LogicalName nvarchar(200) NULL,
-    PhysicalName nvarchar(200) NULL
+    FileType NVARCHAR(60) NULL,
+    FILE_SIZE_MB DECIMAL(12, 2) NULL,
+    SPACE_USED_MB DECIMAL(12, 2) NULL,
+    FREE_SPACE_MB DECIMAL(12, 2) NULL,
+    [FREE_SPACE_%] DECIMAL(12, 2) NULL,
+    FileID INT NULL,
+    LogicalName NVARCHAR(200) NULL,
+    PhysicalName NVARCHAR(200) NULL
 );
 
 INSERT INTO #Temp
-EXEC master.dbo.sp_MSforeachdb @command1 = 'USE [?];
+(
+    DatabaseName,
+    Drive,
+    FileType,
+    FILE_SIZE_MB,
+    SPACE_USED_MB,
+    FREE_SPACE_MB,
+    [FREE_SPACE_%],
+    FileID,
+    LogicalName,
+    PhysicalName
+)
+EXEC master.dbo.sp_ineachdb @command = '
 SELECT ''?'' AS DatabaseName, SUBSTRING(a.physical_name, 1, 1) Drive,
 	   type_desc AS FileType,
        [FILE_SIZE_MB] = CONVERT(DECIMAL(12, 2), ROUND(a.size / 128.000, 2)),
@@ -37,17 +49,17 @@ FROM sys.database_files a;
 ';
 
 SELECT DatabaseName,
-	   Drive,
-	   FileType,
+       Drive,
+       FileType,
        FILE_SIZE_MB,
        SPACE_USED_MB,
        FREE_SPACE_MB,
        [FREE_SPACE_%],
-	   FileID,
+       FileID,
        LogicalName,
        PhysicalName
 FROM #Temp
-WHERE DatabaseName NOT IN ('master', 'model', 'msdb', 'tempdb')
+WHERE DatabaseName NOT IN ( 'master', 'model', 'msdb', 'tempdb' )
 ORDER BY FREE_SPACE_MB DESC;
 
 DROP TABLE #Temp;

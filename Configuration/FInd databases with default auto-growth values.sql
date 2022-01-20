@@ -1,3 +1,7 @@
+-- Find databases with default auto-growth values
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists databases that have default auto-growth values, which is not desirable if they grow by a percentage
+
 -- Drop temporary table if it exists
 IF OBJECT_ID('tempdb..#info') IS NOT NULL
     DROP TABLE #info;
@@ -5,21 +9,32 @@ IF OBJECT_ID('tempdb..#info') IS NOT NULL
 -- Create table to house database file information
 CREATE TABLE #info
 (
-    databasename VARCHAR(128),
-    name VARCHAR(128),
-    fileid INT,
-    filename VARCHAR(1000),
-    filegroup VARCHAR(128),
-    size VARCHAR(25),
-    maxsize VARCHAR(25),
-    growth VARCHAR(25),
-    usage VARCHAR(25)
+    databasename VARCHAR(128) NULL,
+    name VARCHAR(128) NULL,
+    fileid INT NULL,
+    filename VARCHAR(1000) NULL,
+    filegroup VARCHAR(128) NULL,
+    size VARCHAR(25) NULL,
+    maxsize VARCHAR(25) NULL,
+    growth VARCHAR(25) NULL,
+    usage VARCHAR(25) NULL
 );
 
 -- Get database file information for each database   
 SET NOCOUNT ON;
 INSERT INTO #info
-EXEC sp_MSforeachdb 'use [?] 
+(
+    databasename,
+    filegroup,
+    fileid,
+    filename,
+    growth,
+    maxsize,
+    name,
+    size,
+    usage
+)
+EXEC dbo.sp_ineachdb @command = '
 select ''?'',name,  fileid, filename,
 filegroup = filegroup_name(groupid),
 ''size'' = convert(nvarchar(15), convert (bigint, size) * 8) + N'' KB'',
@@ -44,7 +59,7 @@ WHERE (
           usage = 'data only'
           AND growth = '1024 KB'
       )
-      --OR (usage = 'log only' AND growth = '10%')
+      OR (usage = 'log only' AND growth = '10%')
       AND databasename NOT IN ( 'master', 'model', 'distribution', 'tempdb' )
 ORDER BY databasename;
 

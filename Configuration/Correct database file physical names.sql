@@ -1,4 +1,7 @@
--- Find PhysicalNames that differ from DatabaseNames
+-- Correct database file physical names
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists database physical names that differ from their database name
+
 USE master;
 GO
 
@@ -8,7 +11,8 @@ AS (SELECT DB_NAME(database_id) AS DatabaseName,
            name AS LogicalName,
            physical_name AS PhysicalName
     FROM sys.master_files
-    WHERE database_id > 4)
+    WHERE database_id > 4
+	AND file_id IN (1,2))
 -- Turn on xp_cmdshell
 SELECT Files.DatabaseName,
        Files.FileType,
