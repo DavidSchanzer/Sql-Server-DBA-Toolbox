@@ -1,4 +1,8 @@
+-- List running jobs in SQL Server with Job Start Time
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all SQL Agent jobs that are currently running.
 -- From http://dba.stackexchange.com/questions/58859/script-to-see-running-jobs-in-sql-server-with-job-start-time
+
 SELECT ja.job_id,
        j.name AS job_name,
        ja.start_execution_date,
@@ -14,7 +18,7 @@ FROM msdb.dbo.sysjobactivity ja
            AND ISNULL(ja.last_executed_step_id, 0) + 1 = js.step_id
 WHERE ja.session_id =
 (
-    SELECT TOP 1
+    SELECT TOP (1)
            session_id
     FROM msdb.dbo.syssessions
     ORDER BY agent_start_date DESC

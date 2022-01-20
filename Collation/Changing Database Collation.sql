@@ -1,3 +1,7 @@
+-- Changing Database Collation
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script generates the SQL needed to change the collation of existing objects in a database
+
 --#################################################################################################
 --Collation Changer Version 1 by Lowell  
 --from http://www.sqlservercentral.com/articles/Collation/99305/

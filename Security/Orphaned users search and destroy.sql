@@ -8,7 +8,7 @@
 ------------ ---- ---------------------------------------------------------------------------
 --03/06/2020 PLS Major revision using sids as join fields rather than names.
 ---------------------------------------------------------------------------------------------------
-DECLARE @SQL AS NVARCHAR(2000) =N'USE [?]
+DECLARE @SQL AS NVARCHAR(2000) = N'
 INSERT INTO #Orphan
 (
 DBName
@@ -44,16 +44,18 @@ AND sp.sid IS NULL;
 ---------------------------------------------------------------------------------------------------
 --Drop the temp table if it exists and create the temp table
 ---------------------------------------------------------------------------------------------------
-IF OBJECT_ID('tempdb.dbo.#Orphan') IS NOT NULL DROP TABLE #Orphan;
-CREATE TABLE #Orphan (DBName NVARCHAR(128),
-IsReadOnly BIT,
-UserName NVARCHAR(128),
-UserType NVARCHAR(60),
-DropScript NVARCHAR(4000));
+IF OBJECT_ID('tempdb.dbo.#Orphan') IS NOT NULL
+	DROP TABLE #Orphan;
+
+CREATE TABLE #Orphan (DBName NVARCHAR(128) NULL,
+IsReadOnly BIT NULL,
+UserName NVARCHAR(128) NULL,
+UserType NVARCHAR(60) NULL,
+DropScript NVARCHAR(4000) NULL);
 ---------------------------------------------------------------------------------------------------
 --Execute the dynamic sql statement
 ---------------------------------------------------------------------------------------------------
-EXEC sys.sp_MSforeachdb @command1=@SQL;
+EXEC sys.sp_ineachdb @command = @SQL;
 ---------------------------------------------------------------------------------------------------
 --Get results
 ---------------------------------------------------------------------------------------------------

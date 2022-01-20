@@ -1,4 +1,4 @@
-EXEC dbo.sp_foreachdb @command = 'USE ?;
+EXEC dbo.sp_ineachdb @command = '
 WITH    autostats ( object_id, stats_id, name, column_id )
 			AS ( SELECT   sys.stats.object_id ,
 						sys.stats.stats_id ,
@@ -32,4 +32,5 @@ WITH    autostats ( object_id, stats_id, name, column_id )
 --SELECT * FROM #Tmp;
 SELECT DISTINCT ''USE ['' + DB_NAME() + '']; '' + Drop_Statement + '';'' AS Distinct_Drop_Statements FROM #Tmp;
 DROP TABLE #Tmp;
-', @user_only = 1
+',
+                     @user_only = 1;

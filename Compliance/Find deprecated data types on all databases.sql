@@ -1,3 +1,7 @@
+-- Find deprecated data types on all databases
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all image, text and ntext column types in all databases on this instance
+
 DECLARE @sql VARCHAR(MAX)
     = 'SELECT ''?'' AS [Database], s.[name] AS SchemaName, 
            t.[name] AS TableName, 

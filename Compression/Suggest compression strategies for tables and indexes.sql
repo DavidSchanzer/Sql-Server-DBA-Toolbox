@@ -1,3 +1,8 @@
+-- Suggest compression strategies for tables and indexes
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script builds on Greg Low's script that suggests an appropriate Row, Page or Clustered Columnstore compression
+-- From http://blog.greglow.com/2015/03/06/suggest-compression-strategies-for-tables-and-indexes/
+
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
 GO
@@ -51,7 +56,7 @@ DECLARE @ClusteredColumnstoreTotalRowsCutoff BIGINT = 800000;
  
 DECLARE @PageCompressionScansCutoff INT = 75;
 DECLARE @PageCompressionUpdatesCutoff INT = 20;
-DECLARE @IsClusteredColumnstoreSupported BIT = 0;
+DECLARE @IsClusteredColumnstoreSupported BIT = 1;
 -----------------------------------------------------------------------------
 
 WITH    IndexUsageStats
@@ -193,7 +198,7 @@ INSERT INTO #Suggestions
     RequiresOfflineRebuild,
     ColumnstoreIndexOnTable
 )
-EXEC sp_ineachdb @command = @sql, @user_only = 1, @suppress_quotename = 1;
+EXEC dbo.sp_ineachdb @command = @sql, @user_only = 1, @suppress_quotename = 1;
 
 SELECT DatabaseName,
        SchemaName,

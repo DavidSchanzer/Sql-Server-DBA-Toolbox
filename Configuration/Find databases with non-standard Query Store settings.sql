@@ -1,3 +1,8 @@
+-- Find databases with non-standard Query Store settings
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists, for all applicable versions, the databases that don't have Query Store enabled in READ_WRITE mode, with the AUTO capture mode,
+-- Wait Stats Capture Mode enabled, the Stale Query Threshold set to 60 days, and the Max Storage Size set to 1000 MB.
+
 DECLARE @ver TINYINT
     = CAST(LEFT(CONVERT(VARCHAR(128), SERVERPROPERTY('productversion')), CHARINDEX(
                                                                                       '.',

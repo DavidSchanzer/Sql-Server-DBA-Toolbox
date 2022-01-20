@@ -1,12 +1,14 @@
+-- Update database backup schedules
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script updates the schedule for the Ola Hallengren SQL Agent jobs "DatabaseBackup - USER_DATABASES - FULL" and "DatabaseBackup - USER_DATABASES - DIFF".
+-- The full backup will be on a random day of the week at a random time between 7pm and 11pm, and the differential backup will be likewise but daily.
+
 SET NOCOUNT ON;
 
 -- 1. Update the schedule for the Full backup job to a random day of the week and a random time between 7pm and 11pm
 DECLARE @schedule_id INT,
         @freq_interval INT,
         @random_time INT,
-        @job_id UNIQUEIDENTIFIER,
-        @name sysname,
-        @command NVARCHAR(MAX),
         @message VARCHAR(1000);
 
 -- To generate a random integer between @Upper and @Lower: ROUND(((@Upper - @Lower) * RAND() + @Lower), 0)
@@ -92,74 +94,3 @@ EXEC [msdb].[dbo].[sp_update_schedule] @schedule_id = @schedule_id,
 
 SET @message = 'Differential database backup job: updated schedule to every day at ' + CAST(@random_time AS CHAR(6));
 PRINT @message;
-
--- 3. Update the @Directory parameter for all Ola Hallengren database backup jobs from <FromValue> to <ToValue>
-DECLARE @test TABLE
-(
-    [step_id] INT NULL,
-    [step_name] sysname NULL,
-    [subsystem] NVARCHAR(40) NULL,
-    [command] NVARCHAR(MAX) NULL,
-    [flags] INT NULL,
-    [cmdexec_success_code] INT NULL,
-    [on_success_action] TINYINT NULL,
-    [on_success_step_id] INT NULL,
-    [on_fail_action] TINYINT NULL,
-    [on_fail_step_id] INT NULL,
-    [server] sysname NULL,
-    [database_name] sysname NULL,
-    [database_user_name] sysname NULL,
-    [retry_attempts] INT NULL,
-    [retry_interval] INT NULL,
-    [os_run_priority] INT NULL,
-    [output_file_name] NVARCHAR(200) NULL,
-    [last_run_outcome] INT NULL,
-    [last_run_duration] INT NULL,
-    [last_run_retries] INT NULL,
-    [last_run_date] INT NULL,
-    [last_run_time] INT NULL,
-    [proxy_id] INT NULL
-);
-
-DECLARE [job_cur] CURSOR LOCAL FAST_FORWARD FOR
-SELECT [job_id],
-       [name]
-FROM [msdb].[dbo].[sysjobs]
-WHERE [name] LIKE 'DatabaseBackup%'
-FOR READ ONLY;
-
-OPEN [job_cur];
-
-FETCH [job_cur]
-INTO @job_id,
-     @name;
-
-WHILE @@FETCH_STATUS = 0
-BEGIN
-    DELETE FROM @test;
-
-    INSERT INTO @test
-    EXEC [msdb].[dbo].[sp_help_jobstep] @job_id = @job_id, @step_id = 1;
-
-    SELECT @command = [command]
-    FROM @test;
-
-    IF CHARINDEX(N'<FromValue>', @command) > 0
-    BEGIN
-        SET @command = REPLACE(@command, N'<FromValue>', N'<ToValue>');
-
-        EXEC [msdb].[dbo].[sp_update_jobstep] @job_id = @job_id,
-                                              @step_id = 1,
-                                              @command = @command;
-
-        SET @message = @name + ':  updated command to ' + @command;
-        PRINT @message;
-    END;
-
-    FETCH [job_cur]
-    INTO @job_id,
-         @name;
-END;
-
-CLOSE [job_cur];
-DEALLOCATE [job_cur];

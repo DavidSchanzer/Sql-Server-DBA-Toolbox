@@ -1,6 +1,6 @@
 IF OBJECT_ID('TempDB..#Temp', 'U') > 0
     DROP TABLE #Temp;
-    
+
 CREATE TABLE #Temp
 (
     DatabaseName sysname NULL,
@@ -8,10 +8,16 @@ CREATE TABLE #Temp
     TableName sysname NULL,
     DataSpaceMB INT NULL
 );
-    
+
 INSERT INTO #Temp
-EXEC master.dbo.sp_MSforeachdb @command1 = '
-USE [?]; SELECT ''?'' AS DatabaseName,
+(
+    DatabaseName,
+    SchemaName,
+    TableName,
+    DataSpaceMB
+)
+EXEC master.dbo.sp_ineachdb @command = '
+SELECT ''?'' AS DatabaseName,
     	SCH.name AS SchemaName,
        TBL.name AS TableName,
        (SUM(AU.data_pages) * 8) / 1024 AS DataSpaceMB
@@ -39,15 +45,19 @@ ORDER BY SchemaName,
 ';
 
 SELECT DatabaseName,
-    	SchemaName,
-    	TableName,
-    	DataSpaceMB,
-		'USE [' + DatabaseName + ']; CREATE CLUSTERED COLUMNSTORE INDEX [CCI_' + TableName + '] ON [' + SchemaName + '].[' + TableName + '];' AS CreateClusteredColumnstoreSQL
+       SchemaName,
+       TableName,
+       DataSpaceMB,
+       'USE [' + DatabaseName + ']; CREATE CLUSTERED COLUMNSTORE INDEX [CCI_' + TableName + '] ON [' + SchemaName
+       + '].[' + TableName + '];' AS CreateClusteredColumnstoreSQL
 FROM #Temp
 WHERE DatabaseName NOT IN ( 'master', 'model', 'msdb', 'tempdb', 'SSISDB' )
-AND DatabaseName NOT LIKE 'ReportServer%' 
-AND DatabaseName NOT LIKE 'Project%' 
-AND DatabaseName NOT LIKE 'MLK%' 
-AND DatabaseName NOT LIKE 'Choicemaker%' 
-ORDER BY DataSpaceMB, DatabaseName, SchemaName, TableName;
+      AND DatabaseName NOT LIKE 'ReportServer%'
+      AND DatabaseName NOT LIKE 'Project%'
+      AND DatabaseName NOT LIKE 'MLK%'
+      AND DatabaseName NOT LIKE 'Choicemaker%'
+ORDER BY DataSpaceMB,
+         DatabaseName,
+         SchemaName,
+         TableName;
 DROP TABLE #Temp;

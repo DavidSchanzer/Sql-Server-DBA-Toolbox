@@ -1,4 +1,8 @@
+-- Tracking page compression success rates
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script shows the success rate of page compression for indexes, down to the partition level
 -- From https://www.sqlskills.com/blogs/paul/the-curious-case-of-tracking-page-compression-success-rates/
+
 SELECT DISTINCT
        OBJECT_NAME(i.object_id) AS [Table],
        i.name AS [Index],

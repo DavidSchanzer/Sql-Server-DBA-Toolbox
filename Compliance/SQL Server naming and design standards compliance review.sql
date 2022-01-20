@@ -1,36 +1,39 @@
--- SQL Server Naming and Design Standards
--- Tables with a name that begins with 'tbl'
+-- SQL Server naming and design standards compliance review
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists violations of certain SQL Server naming and design standards
+
+-- Tables with a name that begins with 'tbl' - table names should not begin with this prefix
 SELECT name
 FROM sys.tables
 WHERE name LIKE 'tbl%'
 ORDER BY name;
 
--- Tables with a name that contains something other than letters and numbers
+-- Tables with a name that contains something other than letters and numbers - table names should comply with this
 SELECT name
 FROM sys.tables
 WHERE name LIKE '%[^A-Z^a-z^0-9]%'
 ORDER BY name;
 
--- Tables with a pluralised name
+-- Tables with a pluralised name - table names should not be a pluralised word
 SELECT name
 FROM sys.tables
 WHERE name LIKE '%s'
       AND name <> 'sysdiagrams'
 ORDER BY name;
 
--- Tables without a Primary Key
+-- Tables without a Primary Key - most or all tables should have a primary key
 SELECT name AS TableName
 FROM sys.tables
 WHERE OBJECTPROPERTY(object_id, 'TableHasPrimaryKey') = 0
 ORDER BY name;
 
--- Tables without a Clustered Index
+-- Tables without a Clustered Index - most or all tables should have a clustered index
 SELECT name AS TableName
 FROM sys.tables
 WHERE OBJECTPROPERTY(object_id, 'TableHasClustIndex') = 0
 ORDER BY name;
 
--- Tables with an improperly-named Primary Key
+-- Tables with an improperly-named Primary Key - these should be named PK_<schema>.<table> or PK_<table>
 SELECT OBJECT_NAME(parent_object_id) AS TableName,
        OBJECT_NAME(object_id) AS NameofConstraint
 FROM sys.objects
@@ -38,7 +41,7 @@ WHERE type_desc = 'PRIMARY_KEY_CONSTRAINT'
       AND OBJECT_NAME(object_id) != 'PK_' + OBJECT_NAME(parent_object_id)
       AND OBJECT_NAME(object_id) != 'PK_' + SCHEMA_NAME(schema_id) + '.' + OBJECT_NAME(parent_object_id);
 
--- Tables without a Foreign Key or a Foreign Key Reference
+-- Tables without a Foreign Key or a Foreign Key Reference - most or all tables should have a foreign key or foreign key reference
 SELECT name AS TableName
 FROM sys.tables
 WHERE OBJECTPROPERTY(object_id, 'TableHasForeignKey') = 0
@@ -46,7 +49,7 @@ WHERE OBJECTPROPERTY(object_id, 'TableHasForeignKey') = 0
       AND name <> 'sysdiagrams'
 ORDER BY name;
 
--- Tables with an improperly-named Foreign Key
+-- Tables with an improperly-named Foreign Key - these should be named FK_<Schema>.<ParentTable>_<Schema>.<ReferencedTable>_% or FK_<ParentTable>_<ReferencedTable>_%
 SELECT name AS foreign_key_name,
        'FK_' + OBJECT_NAME(parent_object_id) + '_' + OBJECT_NAME(referenced_object_id) + '_%' AS correct_foreign_key_name,
        OBJECT_NAME(parent_object_id) AS table_name,
@@ -58,7 +61,7 @@ WHERE name NOT LIKE 'FK_' + OBJECT_NAME(parent_object_id) + '_' + OBJECT_NAME(re
 --        AND OBJECT_NAME(parent_object_id) = OBJECT_NAME(referenced_object_id)
 ORDER BY name;
 
--- Foreign keys that are not trusted
+-- Foreign keys that are not trusted - most or all foreign keys should be trusted
 SELECT OBJECT_NAME(i.parent_object_id) AS TableName,
        i.name AS ForeignKeyName
 FROM sys.foreign_keys i
@@ -72,7 +75,7 @@ WHERE i.is_not_trusted = 1
 ORDER BY OBJECT_NAME(i.parent_object_id),
          i.name;
 
--- Columns that don't use Pascal case (list all and check for inconsistencies manually)
+-- Columns that don't use Pascal case (list all and check for inconsistencies manually) - columns should be named using Pascal case
 SELECT c.name AS ColumnName,
        OBJECT_NAME(c.object_id) AS TableName,
        SCHEMA_NAME(t.schema_id) AS SchemaName
@@ -85,7 +88,7 @@ WHERE OBJECT_NAME(c.object_id)NOT LIKE 'sys%'
 ORDER BY c.name,
          OBJECT_NAME(c.object_id);
 
--- Columns with inconsistent data types
+-- Columns with inconsistent data types - list occurrences of the same column name having more than 1 data type
 SELECT c.name AS ColumnName,
        CASE
            WHEN t.name IN ( 'char', 'nchar', 'varchar', 'nvarchar' ) THEN
@@ -105,7 +108,7 @@ FROM sys.columns AS c
            AND c.user_type_id = t.user_type_id
 WHERE c.name IN
       (
-          SELECT name
+          SELECT DT.name
           FROM
           (
               SELECT DISTINCT
@@ -117,12 +120,12 @@ WHERE c.name IN
                     AND OBJECT_NAME(object_id)NOT LIKE 'filestream_%'
                     AND OBJECT_NAME(object_id)NOT LIKE 'queue_messages_%'
           ) AS DT
-          GROUP BY name
+          GROUP BY DT.name
           HAVING COUNT(*) > 1
       )
       AND OBJECT_NAME(c.object_id)NOT LIKE 'sys%'
-      AND OBJECT_NAME(object_id)NOT LIKE 'filestream_%'
-      AND OBJECT_NAME(object_id)NOT LIKE 'queue_messages_%'
+      AND OBJECT_NAME(c.object_id)NOT LIKE 'filestream_%'
+      AND OBJECT_NAME(c.object_id)NOT LIKE 'queue_messages_%'
 ORDER BY c.name,
          CASE
              WHEN t.name IN ( 'char', 'nchar', 'varchar', 'nvarchar' ) THEN
@@ -144,7 +147,7 @@ FROM sys.triggers
 WHERE name NOT LIKE 'tr_' + OBJECT_NAME(object_id) + '_%'
 ORDER BY name;
 
--- Indices with an incorrect name
+-- Indices with an incorrect name - these should be named IX_<TableName>_%
 SELECT name AS index_name,
        'IX_' + OBJECT_NAME(object_id) + '_%' AS correct_index_name,
        OBJECT_NAME(object_id) AS table_name
@@ -157,7 +160,7 @@ WHERE object_id > 100
       AND name NOT LIKE 'PK[_]%'
 ORDER BY OBJECT_NAME(object_id);
 
--- Stored Procedures with an incorrect name
+-- Stored Procedures with an incorrect name - these should be named usp_%
 SELECT name
 FROM sys.procedures
 WHERE name NOT IN ( 'sp_upgraddiagrams', 'sp_helpdiagrams', 'sp_helpdiagramdefinition', 'sp_creatediagram',
@@ -166,7 +169,7 @@ WHERE name NOT IN ( 'sp_upgraddiagrams', 'sp_helpdiagrams', 'sp_helpdiagramdefin
       AND name NOT LIKE 'usp_%'
 ORDER BY name;
 
--- User-Defined Functions with an incorrect name
+-- User-Defined Functions with an incorrect name - these should be named udf_%
 SELECT name
 FROM sys.objects
 WHERE type_desc LIKE '%FUNCTION%'
@@ -174,23 +177,13 @@ WHERE type_desc LIKE '%FUNCTION%'
       AND name NOT LIKE 'udf_%'
 ORDER BY name;
 
--- Views with an incorrect name
+-- Views with an incorrect name - these should be named v%
 SELECT name
 FROM sys.views
 WHERE name NOT LIKE 'v%'
 ORDER BY name;
 
--- All indices
-SELECT OBJECT_NAME(object_id) AS TableName,
-       name AS IndexName
-FROM sys.indexes
-WHERE type_desc = 'NONCLUSTERED'
-      AND OBJECT_NAME(object_id)NOT LIKE 'sys%'
-      AND OBJECT_NAME(object_id)NOT LIKE 'queue_messages_%'
-      AND OBJECT_NAME(object_id)NOT LIKE 'filestream_%'
-ORDER BY OBJECT_NAME(object_id);
-
--- Tables with deprecated data types
+-- Tables with deprecated data types 'image', 'text' or 'ntext'
 SELECT s.[name] AS SchemaName,
        t.[name] AS TableName,
        c.[name] AS ColumnName,
@@ -225,7 +218,7 @@ FROM sys.schemas AS s
     INNER JOIN sys.[types] AS typ
         ON c.system_type_id = typ.system_type_id
            AND c.user_type_id = typ.user_type_id
-WHERE t.[type] = N'U'
+WHERE t.type = N'U'
       AND typ.[name] IN ( 'image', 'text', 'ntext' )
 ORDER BY SchemaName,
          TableName,

@@ -1,3 +1,7 @@
+-- Drop server audits for which there is no corresponding database
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script generates the SQL to drop the server audits for those databases that no longer exist
+
 SELECT 'ALTER SERVER AUDIT [' + name + '] WITH (STATE=OFF); DROP SERVER AUDIT [' + name + ']' AS DropCommand,
        sa.audit_id,
        sa.name,

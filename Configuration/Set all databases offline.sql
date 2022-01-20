@@ -1,1 +1,2 @@
-EXEC sp_foreachdb 'ALTER DATABASE [?] SET OFFLINE', @user_only = 1;
+EXEC dbo.sp_foreachdb @command = 'ALTER DATABASE ? SET OFFLINE',
+                      @user_only = 1;

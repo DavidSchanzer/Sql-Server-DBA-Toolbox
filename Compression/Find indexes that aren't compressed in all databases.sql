@@ -1,3 +1,7 @@
+-- Find indexes that aren't compressed in all databases
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all indexes that have the DATA_COMPRESSION property set to NULL
+
 IF OBJECT_ID('TempDB..#Temp', 'U') > 0
     DROP TABLE #Temp;
 
@@ -14,6 +18,16 @@ CREATE TABLE #Temp
 );
 
 INSERT INTO #Temp
+(
+    DatabaseName,
+    SchemaName,
+    TableName,
+    IndexName,
+    IndexType,
+    PartitionNumber,
+    CurrentCompression,
+    TotalRows
+)
 EXEC master.dbo.sp_ineachdb @command = '
 SELECT ''?'' AS DatabaseName,
     	SCHEMA_NAME(t.schema_id) AS SchemaName,

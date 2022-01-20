@@ -1,10 +1,10 @@
---
--- From http://blogs.msdn.com/b/mattn/archive/2012/04/25/calculating-read-only-routing-url-for-alwayson.aspx
---
--- Read-only routing url generation script. 
--- Connect to each replica in your AlwaysOn cluster and run this script to get the read_only_routing_url for the replica. 
+-- Read-only routing url generation script
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script connects to each replica in your AlwaysOn cluster and run this script to get the read_only_routing_url for the replica. 
 -- Then set this to the read_only_routing_url for the availability group replica => 
 --    alter availability group MyAvailabilityGroup modify replica on N'ThisReplica' with (secondary_role(read_only_routing_url=N'<url>')) 
+-- From http://blogs.msdn.com/b/mattn/archive/2012/04/25/calculating-read-only-routing-url-for-alwayson.aspx
+
 PRINT 'Read-only-routing url script v.2012.1.24.1';
 
 PRINT 'This SQL Server instance version is [' + CAST(SERVERPROPERTY('ProductVersion') AS VARCHAR(256)) + ']';
@@ -143,7 +143,7 @@ BEGIN -- if server supports read-only routing
     SET @ror_url = '';
 
     -- Get first available port for instance. 
-    SELECT TOP 1 -- Select first matching port 
+    SELECT TOP (1) -- Select first matching port 
            @instance_port = port
     FROM sys.dm_tcp_listener_states
     WHERE type = 0 -- Type 0 = TSQL (to avoid mirroring endpoint) 

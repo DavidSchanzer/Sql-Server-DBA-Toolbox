@@ -1,7 +1,10 @@
--- From https://blog.waynesheffield.com/wayne/archive/2017/09/registry-sql-server-startup-parameters/
+-- Adding trace flags to a SQL instance through Registry
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script globally enables or disables the specified trace flags.
 -- Requires the SQL Server account to have Local Admin rights (which it normally doesn't) so this script may be of limited value.
+-- From https://blog.waynesheffield.com/wayne/archive/2017/09/registry-sql-server-startup-parameters/
+
 /******************************************************************************
-Globally enable / disable the specified trace flags.
 Use DBCC TRACEON/TRACEOFF to enable disable globally trace flags, then adjust
 the SQL Server instance startup parameters for these trace flags.
 
