@@ -114,7 +114,7 @@ I hope you find them useful.
 - [Find non-default configuration options](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20non-default%20configuration%20options.sql)
 - [Find SQL Server service info](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20SQL%20Server%20service%20info.sql)
 - [Generate script to change all users to have default schema of dbo](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Generate%20script%20to%20change%20all%20users%20to%20have%20default%20schema%20of%20dbo.sql)
-- [List databases with default auto-growth values](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/List%20databases%20with%20default%20auto-growth%20values.sql)
+- [Find databases with default auto-growth values](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Find%20databases%20with%20default%20auto-growth%20values.sql)
 - [Set all databases offline](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20offline.sql)
 - [Set all databases to 130 compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20130%20compatibility%20level.sql)
 - [Set all databases to 140 compatibility level](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Set%20all%20databases%20to%20140%20compatibility%20level.sql)
