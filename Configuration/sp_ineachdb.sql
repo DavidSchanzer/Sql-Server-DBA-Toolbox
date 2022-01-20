@@ -1,3 +1,7 @@
+-- sp_ineachdb
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is the unmodified code from Aaron Bertrand's blog at https://www.mssqltips.com/sqlservertip/5686/execute-a-command-in-the-context-of-each-database-in-sql-server-using-spineachdb/
+
 IF OBJECT_ID('dbo.sp_ineachdb') IS NULL
     EXEC ('CREATE PROCEDURE dbo.sp_ineachdb AS RETURN 0');
 GO

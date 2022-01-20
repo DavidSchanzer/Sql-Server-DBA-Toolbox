@@ -1,3 +1,7 @@
+-- sp_foreachdb
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is the unmodified code from Aaron Bertrand's blog at https://www.mssqltips.com/sqlservertip/2201/making-a-more-reliable-and-flexible-spmsforeachdb/
+
 USE [master];
 GO
 CREATE PROCEDURE dbo.sp_foreachdb
