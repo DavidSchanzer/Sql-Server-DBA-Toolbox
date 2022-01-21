@@ -1,3 +1,8 @@
+-- Find all Heaps ordered by increasing size and generate CCI SQL
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all Heap tables (tables without a clustered index) and generates the CREATE CLUSTERED COLUMNSTORE INDEX statement.
+-- This is useful to reduce the disk space required for "archive"-style databases and tables that are created using the SELECT ... INTO ... pattern.
+
 IF OBJECT_ID('TempDB..#Temp', 'U') > 0
     DROP TABLE #Temp;
 

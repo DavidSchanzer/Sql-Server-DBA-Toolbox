@@ -1,4 +1,8 @@
-EXEC sp_ineachdb @user_only = 1, @command = N'
+-- Shrink all log files over 1000 MB to 1000 MB
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is a quick way to make space on a drive that holds transaction log, by truncating all "tall poppies" to be a maximum of 1000 MB.
+
+EXEC dbo.sp_ineachdb @command = N'
 DECLARE @new_size_MB int = 10000,
 		@curr_size_8K int,
 		@sql VARCHAR(1000);
@@ -11,4 +15,5 @@ BEGIN
 	PRINT @sql;
 	EXEC (@sql);
 END;
-';
+',
+                     @user_only = 1;

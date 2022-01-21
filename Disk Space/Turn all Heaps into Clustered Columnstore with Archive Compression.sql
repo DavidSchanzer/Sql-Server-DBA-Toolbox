@@ -1,8 +1,13 @@
+-- Turn all Heaps into Clustered Columnstore with Archive Compression
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script transforms each Heap table (table without a clustered index) into a clustered columnstore table with Archive compression.
+-- This is useful for reducing a database that has many Heap (eg. archiving or logging) tables to be as small as possible.
+
 DECLARE @SchemaName	SYSNAME,
 		@TableName	SYSNAME,
 		@SQL		VARCHAR(255);
 
-DECLARE heap_cur CURSOR FOR
+DECLARE heap_cur CURSOR LOCAL FAST_FORWARD FOR
 	SELECT SCH.name AS SchemaName, TBL.name AS TableName 
 	FROM sys.tables AS TBL 
 		 INNER JOIN sys.schemas AS SCH 

@@ -1,3 +1,7 @@
+-- All files ordered by descending free space
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all data and log files for all databases, listed in descending order of the amount of free space in the file
+
 IF OBJECT_ID('TempDB..#Temp', 'U') > 0
     DROP TABLE #Temp;
 
@@ -46,7 +50,7 @@ SELECT ''?'' AS DatabaseName, SUBSTRING(a.physical_name, 1, 1) Drive,
 	   a.name,
        a.physical_name
 FROM sys.database_files a;
-';
+', @user_only = 1;
 
 SELECT DatabaseName,
        Drive,
