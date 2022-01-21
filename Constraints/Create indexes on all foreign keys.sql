@@ -1,3 +1,8 @@
+-- Create indexes on all foreign keys
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script generates the CREATE NONCLUSTERED INDEX statement for every foreign key in a database.
+-- This is useful for new databases that have foreign keys defined but no indexes as yet, as a starting point for index design.
+
 WITH ForeignKeys
 AS (SELECT objconstraint.name AS ForeignKeyName,
            fkcols.name AS SchemaName,
