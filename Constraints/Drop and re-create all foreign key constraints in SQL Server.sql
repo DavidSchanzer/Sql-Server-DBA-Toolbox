@@ -1,10 +1,7 @@
+-- Drop and re-create all foreign key constraints in SQL Server
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script generates a string of DROP CONSTRAINTs and a string of ADD CONSTRAINTs
 -- From http://www.mssqltips.com/sqlservertip/3347/drop-and-recreate-all-foreign-key-constraints-in-sql-server/
-
-CREATE TABLE #x -- feel free to use a permanent table
-    (
-      drop_script NVARCHAR(MAX) ,
-      create_script NVARCHAR(MAX)
-    );
   
 DECLARE @drop NVARCHAR(MAX) = N'' ,
     @create NVARCHAR(MAX) = N'';
@@ -16,10 +13,6 @@ ALTER TABLE ' + QUOTENAME(cs.name) + '.' + QUOTENAME(ct.name)
 FROM    sys.foreign_keys AS fk
         INNER JOIN sys.tables AS ct ON fk.parent_object_id = ct.[object_id]
         INNER JOIN sys.schemas AS cs ON ct.[schema_id] = cs.[schema_id];
-
-INSERT  #x
-        ( drop_script )
-        SELECT  @drop;
 
 -- create is a little more complex. We need to generate the list of 
 -- columns on both sides of the constraint, even though in most cases
@@ -57,11 +50,8 @@ FROM    sys.foreign_keys AS fk
 WHERE   rt.is_ms_shipped = 0
         AND ct.is_ms_shipped = 0;
 
-UPDATE  #x
-SET     create_script = @create;
-
-PRINT @drop;
-PRINT @create;
+SELECT @drop;
+SELECT @create;
 
 /*
 EXEC sp_executesql @drop
