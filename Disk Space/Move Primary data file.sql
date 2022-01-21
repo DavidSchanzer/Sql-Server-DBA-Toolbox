@@ -1,3 +1,9 @@
+-- Move Primary data file
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is a worked example of moving the Primary data file to a new location, and makes the point that, while you can move it, you cannot
+-- REMOVE the primary data file in the way that you can for secondary data files.
+-- Modify the script to make it work for your environment.
+
 CREATE DATABASE [test]
 ON PRIMARY
        (
@@ -79,7 +85,8 @@ GO
 --		Msg 2555, Level 16, State 1, Line 57
 --		Cannot move all contents of file "test1" to other places to complete the emptyfile operation.
 
--- However, the following statement makes the file as small as possible.
+-- However, the following statement makes the file as small as possible, which will make the subsequent moving of the file (presumably to another drive)
+-- to be as quick as possible.
 DBCC SHRINKFILE (N'test1' , 1)
 GO
 
