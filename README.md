@@ -141,7 +141,7 @@ I hope you find them useful.
 - [Drop and re-create all foreign key constraints in SQL Server](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Drop%20and%20re-create%20all%20foreign%20key%20constraints%20in%20SQL%20Server.sql)
 - [Find all non-indexed foreign keys](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Find%20all%20non-indexed%20foreign%20keys.sql)
 - [Find foreign keys and check constraints that are not trusted](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Find%20foreign%20keys%20and%20check%20constraints%20that%20are%20not%20trusted.sql)
-- [Re-trust untrusted foreign keys and constraints](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Re-trust%20untrusted%20foreign%20keys%20and%20constraints.sql)
+- [Re-trust untrusted foreign keys](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Re-trust%20untrusted%20foreign%20keys.sql)
 - [Run DBCC CHECKCONSTRAINTS for all foreign key and check constraints](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Constraints/Run%20DBCC%20CHECKCONSTRAINTS%20for%20all%20foreign%20key%20and%20check%20constraints.sql)
 
 [*Back to top*](#header1)
