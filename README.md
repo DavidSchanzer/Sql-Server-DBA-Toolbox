@@ -158,7 +158,7 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Deadlocks
-- [List deadlocks using Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Deadlocks/List%20deadlocks%20using%20Extended%20Events.sql)
+- [List deadlocks using the system_health Extended Events session](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Deadlocks/List%20deadlocks%20using%20the%20system_health%20Extended%20Events%20session.sql)
 
 [*Back to top*](#header1)
 
