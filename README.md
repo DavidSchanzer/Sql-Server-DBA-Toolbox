@@ -209,9 +209,9 @@ I hope you find them useful.
 - [Identifying which databases have index fragmentation problems](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Identifying%20which%20databases%20have%20index%20fragmentation%20problems.sql)
 - [Modify all fillfactors from 70 to 100](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Modify%20all%20fillfactors%20from%2070%20to%20100.sql)
 - [Rebuild all fragmented heaps](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Rebuild%20all%20fragmented%20heaps.sql)
-- [SQLSkills index script 1 - 00 sp_SQLskills_exposecolsinindexlevels](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%201%20-%2000%20sp_SQLskills_exposecolsinindexlevels.sql)
-- [SQLSkills index script 2 - 01 sp_SQLskills_helpindex](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%202%20-%2001%20sp_SQLskills_helpindex.sql)
-- [SQLSkills index script 3 - 02 sp_SQLskills_finddupes (modified)](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%203%20-%2002%20sp_SQLskills_finddupes%20(modified).sql)
+- [SQLSkills index script 1 - sp_SQLskills_exposecolsinindexlevels](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%201%20-%20sp_SQLskills_exposecolsinindexlevels.sql)
+- [SQLSkills index script 2 - sp_SQLskills_helpindex](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%202%20-%20sp_SQLskills_helpindex.sql)
+- [SQLSkills index script 3 - sp_SQLskills_finddupes (modified)](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/SQLSkills%20index%20script%203%20-%20sp_SQLskills_finddupes%20(modified).sql)
 
 [*Back to top*](#header1)
 
