@@ -186,7 +186,7 @@ I hope you find them useful.
 - [Track activity on a table](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20activity%20on%20a%20table.sql)
 - [Track calls to a stored procedure using a wildcard](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20calls%20to%20a%20stored%20procedure%20using%20a%20wildcard.sql)
 - [Tracking problematic page splits in Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Tracking%20problematic%20page%20splits%20in%20Extended%20Events.sql)
-- 
+
 [*Back to top*](#header1)
 
 ### Fragmentation
