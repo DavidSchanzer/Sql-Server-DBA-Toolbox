@@ -1,3 +1,8 @@
+-- Rebuild active heaps
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script executes an ALTER TABLE ... REBUILD for all heap tables in user databases that have user scans in the last week and a non-zero
+-- forwarded fetch count. This is required because the Ola Hallengren IndexOptimize job skips Heap tables by design.
+
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
 CREATE TABLE #ActiveHeaps
@@ -7,11 +12,10 @@ CREATE TABLE #ActiveHeaps
     TableName sysname NOT NULL,
     Edition NVARCHAR(60) NOT NULL,
     RequiresOfflineRebuild TINYINT NOT NULL,
-	ForwardedFetchCount BIGINT NOT NULL
+    ForwardedFetchCount BIGINT NOT NULL
 );
 
-DECLARE @Execute BIT = 0,
-        @DBID INT,
+DECLARE @DBID INT,
         @MaxDBID INT,
         @database_id INT,
         @DBName sysname,
@@ -21,8 +25,8 @@ DECLARE @Execute BIT = 0,
         @MaxTableID INT,
         @ForwardedFetchCount BIGINT,
         @SQL VARCHAR(500),
-		@RequiresOfflineRebuildSQL NVARCHAR(500),
-		@RequiresOfflineRebuildResult TINYINT,
+        @RequiresOfflineRebuildSQL NVARCHAR(500),
+        @RequiresOfflineRebuildResult TINYINT,
         @FullyQualifiedObjectName VARCHAR(500);
 
 DECLARE @DB TABLE
@@ -72,7 +76,7 @@ BEGIN
     -- First, clean out our table list to start fresh.
     TRUNCATE TABLE #Table;
 
-    -- Get the heaps scanned in the last 7 days that have forward fetch counts > 0
+    -- Get the heaps scanned in the last 7 days that have forwarded fetch counts > 0
     INSERT #Table
     (
         SchemaName,
@@ -106,21 +110,34 @@ BEGIN
         WHERE t.TableID = @TableID;
 
         SET @FullyQualifiedObjectName = '[' + @DBName + '].[' + @SchemaName + '].[' + @TableName + ']';
-		SET @RequiresOfflineRebuildSQL = N'USE [' + CAST(@DBName AS NVARCHAR(128)) + N']; SELECT @RequiresOfflineRebuildResult = CASE WHEN EXISTS
+        SET @RequiresOfflineRebuildSQL
+            = N'USE [' + CAST(@DBName AS NVARCHAR(128))
+              + N']; SELECT @RequiresOfflineRebuildResult = CASE WHEN EXISTS
 				( SELECT * FROM sys.columns AS c
 					INNER JOIN sys.types AS t ON t.system_type_id = c.system_type_id
-					WHERE c.object_id = OBJECT_ID(''' + CAST(@FullyQualifiedObjectName AS NVARCHAR(128)) + N''') AND
+					WHERE c.object_id = OBJECT_ID(''' + CAST(@FullyQualifiedObjectName AS NVARCHAR(128))
+              + N''') AND
 					(
 						(t.name in (''VARCHAR'', ''NVARCHAR'') AND c.max_length = -1)
 						OR t.name in (''TEXT'', ''NTEXT'', ''IMAGE'', ''VARBINARY'', ''XML'', ''FILESTREAM'')
 					)
 				) THEN 1 ELSE 0 END;';
-		EXECUTE sp_executesql @RequiresOfflineRebuildSQL, N'@RequiresOfflineRebuildResult TINYINT OUTPUT', @RequiresOfflineRebuildResult = @RequiresOfflineRebuildResult OUTPUT;
+        EXECUTE sys.sp_executesql @stmt = @RequiresOfflineRebuildSQL,
+                                  @params = N'@RequiresOfflineRebuildResult TINYINT OUTPUT',
+                                  @RequiresOfflineRebuildResult = @RequiresOfflineRebuildResult OUTPUT;
 
-		INSERT INTO #ActiveHeaps
-			(DatabaseName, SchemaName, TableName, Edition, RequiresOfflineRebuild, ForwardedFetchCount)
-		VALUES
-			(@DBName, @SchemaName, @TableName, CAST(SERVERPROPERTY('Edition') AS NVARCHAR(60)), @RequiresOfflineRebuildResult, @ForwardedFetchCount);
+        INSERT INTO #ActiveHeaps
+        (
+            DatabaseName,
+            SchemaName,
+            TableName,
+            Edition,
+            RequiresOfflineRebuild,
+            ForwardedFetchCount
+        )
+        VALUES
+        (@DBName, @SchemaName, @TableName, CAST(SERVERPROPERTY('Edition') AS NVARCHAR(60)),
+         @RequiresOfflineRebuildResult, @ForwardedFetchCount);
 
         SET @TableID = @TableID + 1;
     END;
@@ -128,37 +145,39 @@ BEGIN
     SET @DBID = @DBID + 1;
 END;
 
-DECLARE heap_cur CURSOR FOR
-	SELECT 'USE [' + DatabaseName + ']; ' +
-		   'ALTER TABLE [' + SchemaName + '].[' + TableName + '] REBUILD WITH (ONLINE = '
-					 + CASE
-						   WHEN Edition LIKE '%Standard%' OR RequiresOfflineRebuild = 1 THEN
-							   'OFF'
-						   ELSE
-							   'ON (WAIT_AT_LOW_PRIORITY (MAX_DURATION = 1 MINUTES, ABORT_AFTER_WAIT = SELF))'
-					   END + ');	-- Forwarded fetch count = ' + CAST(ForwardedFetchCount AS VARCHAR(10)) AS AlterStatement
-	FROM #ActiveHeaps
-	WHERE ForwardedFetchCount > 100000
-	ORDER BY DatabaseName,
-			 SchemaName,
-			 TableName
-	FOR READ ONLY;
+DECLARE heap_cur CURSOR LOCAL FAST_FORWARD FOR
+SELECT 'USE [' + DatabaseName + ']; ' + 'ALTER TABLE [' + SchemaName + '].[' + TableName + '] REBUILD WITH (ONLINE = '
+       + CASE
+             WHEN Edition LIKE '%Standard%'
+                  OR RequiresOfflineRebuild = 1 THEN
+                 'OFF'
+             ELSE
+                 'ON (WAIT_AT_LOW_PRIORITY (MAX_DURATION = 1 MINUTES, ABORT_AFTER_WAIT = SELF))'
+         END + ');	-- Forwarded fetch count = ' + CAST(ForwardedFetchCount AS VARCHAR(10)) AS AlterStatement
+FROM #ActiveHeaps
+--WHERE ForwardedFetchCount > 100000
+ORDER BY DatabaseName,
+         SchemaName,
+         TableName
+FOR READ ONLY;
 
 OPEN heap_cur;
 
-FETCH heap_cur INTO @SQL;
+FETCH heap_cur
+INTO @SQL;
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
-	SELECT @SQL;
-	--EXEC (@SQL);
+    SELECT @SQL;
+    EXEC (@SQL);
 
-	FETCH heap_cur INTO @SQL;
-END
+    FETCH heap_cur
+    INTO @SQL;
+END;
 
 CLOSE heap_cur;
 DEALLOCATE heap_cur;
 
 DROP TABLE #Table;
-DROP TABLE #ActiveHeaps
+DROP TABLE #ActiveHeaps;
 GO

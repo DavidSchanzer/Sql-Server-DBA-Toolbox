@@ -1,6 +1,8 @@
-/*============================================================================
-  File:     sp_SQLskills_ExposeColsInIndexLevels.sql
+-- SQLSkills index script 1 - sp_SQLskills_exposecolsinindexlevels
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is the first of 3 indexing scripts from SQL Skills - this one creates stored proc sp_SQLskills_ExposeColsInIndexLevels
 
+/*============================================================================
   Summary:  This procedure is UPDATED to have a new parameter @IncludeListSorted
 
   		Consolidated the scripts and added an optional ordering for the

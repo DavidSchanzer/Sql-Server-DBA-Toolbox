@@ -1,3 +1,7 @@
+-- Modify all fillfactors from 70 to 100
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script generates SQL to rebuild all indexes that currently have FILLFACTOR set to 70 to 100 instead
+
 SELECT DISTINCT
        DB_NAME() AS db,
        SCHEMA_NAME(o.schema_id) AS schema_name,
@@ -20,8 +24,5 @@ FROM sys.objects AS o
         ON o.object_id = p.object_id
 WHERE i.index_id > 0
       AND o.is_ms_shipped = 0
-
-      --AND p.rows > 1000000
-
       AND i.fill_factor = 70
 ORDER BY p.rows DESC;
