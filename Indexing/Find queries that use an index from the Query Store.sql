@@ -1,8 +1,9 @@
-USE DATA_MART_SCREENING;
-GO
+-- Find queries that use an index from the Query Store
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script searches plans in the Query Store for a specific index
 
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
-DECLARE @IndexName AS NVARCHAR(128) = N'[XPKFACT_HISTOLOGY_REPORT]',
+DECLARE @IndexName AS NVARCHAR(128) = N'[<IndexName>]',
         @lb AS NCHAR(1) = N'[',
         @rb AS NCHAR(1) = N']';
 

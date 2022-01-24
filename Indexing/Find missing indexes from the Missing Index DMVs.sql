@@ -1,3 +1,8 @@
+-- Find missing indexes from the Missing Index DMVs
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script checks the dm_db_missing_index_... DMVs for missing indexes tracked by SQL Server, which will be cleared on instance restart.
+-- The combined calculated Impact must be 1 million or above, and user_seeks + user_scans must be 1000 or above.
+
 /* ------------------------------------------------------------------
 -- Title:	FindMissingIndices
 -- Author:	Brent Ozar
@@ -33,6 +38,21 @@ CREATE TABLE #Temp
 );
 
 INSERT INTO #Temp
+(
+    [Database],
+    Impact,
+    avg_total_user_cost,
+    avg_user_impact,
+    user_seeks,
+    user_scans,
+    [Table],
+    CreateIndexStatement,
+    equality_columns,
+    inequality_columns,
+    included_columns,
+    last_user_seek,
+    last_user_scan
+)
 EXEC dbo.sp_ineachdb @command = 'SELECT db_name(db_id()) as [Database],
 	[Impact] = (avg_total_user_cost * avg_user_impact) * (user_seeks + user_scans),  
 	avg_total_user_cost, avg_user_impact, user_seeks, user_scans,
@@ -75,7 +95,6 @@ SELECT [Database],
        included_columns,
        last_user_seek,
        last_user_scan
-FROM #Temp
-WHERE [Database] NOT IN ('WISE', 'SectraHealthcareStorage', 'SectraDeploymentStorage');
+FROM #Temp;
 
 DROP TABLE #Temp;

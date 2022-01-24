@@ -1,6 +1,8 @@
-/*============================================================================
-  File:     sp_SQLskills_helpindex.sql
+-- SQLSkills index script 2 - sp_SQLskills_helpindex
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is the second of 3 indexing scripts from SQL Skills - this one creates stored proc sp_SQLskills_helpindex
 
+/*============================================================================
   Summary:  So, what are the included columns?! Do you have a filter?
 			This is a MODIFIED sp_helpindex script that includes:
                - Index IDs

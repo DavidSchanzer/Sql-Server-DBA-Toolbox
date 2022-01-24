@@ -1,8 +1,9 @@
--- Find unused non-clustered indices by checking Query Store and sys.dm_db_index_usage_stats
--- Note that THIS IS FOR THE CURRENT DATABASE ONLY.
+-- Find unused non-clustered indexes by checking Query Store
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all non-clustered indexes, along with their DISABLE and DROP statements, that exist in the current database but aren't
+-- found in either the Query Store or sys.dm_db_index_usage_stats (which lists index usage since last instance restart).
 --
--- List all non-clustered indexes, along with their DISABLE and DROP statements, that exist in the current database but aren't found in either the Query Store or sys.dm_db_index_usage_stats
--- (which lists index usage since last instance restart).
+-- Note that THIS IS FOR THE CURRENT DATABASE ONLY.
 --
 -- If an index is not listed in either place, AND
 --		the plans in the Query Store are at least 1 month old (value calculated below), AND

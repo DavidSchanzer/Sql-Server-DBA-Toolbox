@@ -1,4 +1,6 @@
--- This query can help identify indexes that have not been used since the last restart. You can also switch the sort
+-- Find unused indexes from sys.dm_db_index_usage_stats
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script can help identify indexes that have not been used since the last instance restart. You can also switch the sort
 -- order to see your heavily used indexes.
 --
 -- The "reads_per_write" field helps to find indexes that aren't helping to improve performance. For every 1 write
@@ -12,9 +14,29 @@
 -- they're used for, or make sure alternate indexes exist. Alternate indexes would be indexes that are wider than
 -- the index you're dropping, and include enough fields to serve the query's needs.
 
-CREATE TABLE #output (DatabaseName SYSNAME, TableName SYSNAME, IndexName SYSNAME, Rows BIGINT, Reads BIGINT, Writes BIGINT, ReadsPerWrite DECIMAL(18,1), DropStatement VARCHAR(255));
-INSERT INTO #output EXEC sp_ineachdb @command = 
-'SELECT DB_NAME() AS DatabaseName,
+CREATE TABLE #output
+(
+    DatabaseName sysname NOT NULL,
+    TableName sysname NOT NULL,
+    IndexName sysname NOT NULL,
+    Rows BIGINT NOT NULL,
+    Reads BIGINT NOT NULL,
+    Writes BIGINT NOT NULL,
+    ReadsPerWrite DECIMAL(18, 1) NOT NULL,
+    DropStatement VARCHAR(255) NOT NULL
+);
+INSERT INTO #output
+(
+    DatabaseName,
+    TableName,
+    IndexName,
+    Rows,
+    Reads,
+    Writes,
+    ReadsPerWrite,
+    DropStatement
+)
+EXEC dbo.sp_ineachdb @command = 'SELECT DB_NAME() AS DatabaseName,
        o.name AS TableName,
        i.name AS IndexName,
        (
@@ -48,10 +70,25 @@ WHERE (
       AND i.type_desc = ''nonclustered''
       AND i.is_primary_key = 0
       AND i.is_unique = 0
-      AND i.is_unique_constraint = 0;'
-SELECT * FROM #output
-WHERE (ReadsPerWrite = 0 OR ReadsPerWrite IS NULL)
+      AND i.is_unique_constraint = 0;';
+
+SELECT DatabaseName,
+       TableName,
+       IndexName,
+       Rows,
+       Reads,
+       Writes,
+       ReadsPerWrite,
+       DropStatement
+FROM #output
+WHERE (
+          ReadsPerWrite = 0
+          OR ReadsPerWrite IS NULL
+      )
       AND Rows > 1000
       AND DatabaseName NOT IN ( 'msdb' )
-ORDER BY DatabaseName, TableName, IndexName;
+ORDER BY DatabaseName,
+         TableName,
+         IndexName;
+
 DROP TABLE #output;

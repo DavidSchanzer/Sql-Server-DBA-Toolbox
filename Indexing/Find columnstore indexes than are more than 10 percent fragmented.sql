@@ -1,6 +1,19 @@
-DECLARE @Output TABLE (DatabaseName sysname, SchemaName sysname, TableName sysname, IndexName sysname, IndexType sysname, AvgFragPct DECIMAL(4,1));
+-- Find columnstore indexes than are more than 10 percent fragmented
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script returns a list of columnstore indexes that have an average fragmentation percentage of 10% or higher
 
-INSERT INTO @Output EXEC sp_ineachdb '
+DECLARE @Output TABLE
+(
+    DatabaseName sysname NOT NULL,
+    SchemaName sysname NOT NULL,
+    TableName sysname NOT NULL,
+    IndexName sysname NOT NULL,
+    IndexType sysname NOT NULL,
+    AvgFragPct DECIMAL(4, 1) NOT NULL
+);
+
+INSERT INTO @Output
+EXEC dbo.sp_ineachdb @command = '
 SELECT DB_NAME(), OBJECT_SCHEMA_NAME(i.object_id) AS schema_name,
        OBJECT_NAME(i.object_id) AS object_name,
        i.name AS index_name,
@@ -15,8 +28,17 @@ WHERE rgs.state_desc = ''COMPRESSED''
 GROUP BY i.object_id, i.index_id, i.name, i.type_desc
 HAVING 100.0 * (ISNULL(SUM(rgs.deleted_rows), 0)) / NULLIF(SUM(rgs.total_rows), 0) > 10
 ORDER BY schema_name, object_name, index_name, index_type;
-', @user_only = 1;
+',
+@user_only = 1;
 
-SELECT *   
-FROM @Output 
-ORDER BY DatabaseName, SchemaName, TableName, IndexName;
+SELECT DatabaseName,
+       SchemaName,
+       TableName,
+       IndexName,
+       IndexType,
+       AvgFragPct
+FROM @Output
+ORDER BY DatabaseName,
+         SchemaName,
+         TableName,
+         IndexName;
