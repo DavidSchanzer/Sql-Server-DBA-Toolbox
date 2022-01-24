@@ -1,3 +1,6 @@
+-- MAXDOP setting algorithm for SQL Server
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script uses another method to try to calculate an appropriate value for MAXDOP
 -- From the comments at the bottom of https://dba.stackexchange.com/questions/36522/maxdop-setting-algorithm-for-sql-server:
 
 SELECT [ServerName] = @@SERVERNAME,
