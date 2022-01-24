@@ -1,3 +1,6 @@
+-- Determining a setting for Cost Threshold for Parallelism
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script uses another method to attempt to calculate an appropriate value for Cost Threshold for Parallelism
 -- From http://sqlknowitall.com/determining-a-setting-for-cost-threshold-for-parallelism/
 --
 -- "So what do I do with these numbers? In my case, I am trying to get “about” 50% of the queries below the threshold and 50% above.
@@ -6,7 +9,8 @@
 --
 -- If all of my statistics are very close, I just set the Cost Threshold for Parallelism equal to about what that number is. 
 -- An average of the 3 and round will work. In many of my cases, this was between 25 and 30.
--- IF the numbers are different, i.e. a few very large costs skew the average up but the median and mode are close, then I will use something between the median and mode."
+-- IF the numbers are different, i.e. a few very large costs skew the average up but the median and mode are close, then I will use something
+-- between the median and mode."
 
 CREATE TABLE #SubtreeCost
 (
@@ -26,18 +30,18 @@ WHERE n.query('.').exist('//RelOp[@PhysicalOp="Parallelism"]') = 1;
 
 SELECT StatementSubtreeCost
 FROM #SubtreeCost
-ORDER BY 1;
+ORDER BY StatementSubtreeCost;
 
 SELECT AVG(StatementSubtreeCost) AS AverageSubtreeCost
 FROM #SubtreeCost;
 
 SELECT (
     (
-        SELECT TOP 1
+        SELECT TOP (1)
                StatementSubtreeCost
         FROM
         (
-            SELECT TOP 50 PERCENT
+            SELECT TOP (50) PERCENT
                    StatementSubtreeCost
             FROM #SubtreeCost
             ORDER BY StatementSubtreeCost ASC
@@ -45,11 +49,11 @@ SELECT (
         ORDER BY StatementSubtreeCost DESC
     ) +
     (
-        SELECT TOP 1
+        SELECT TOP (1)
                StatementSubtreeCost
         FROM
         (
-            SELECT TOP 50 PERCENT
+            SELECT TOP (50) PERCENT
                    StatementSubtreeCost
             FROM #SubtreeCost
             ORDER BY StatementSubtreeCost DESC
@@ -58,7 +62,7 @@ SELECT (
     )
        ) / 2 AS MEDIAN;
 
-SELECT TOP 1
+SELECT TOP (1)
        StatementSubtreeCost AS MODE
 FROM #SubtreeCost
 GROUP BY StatementSubtreeCost

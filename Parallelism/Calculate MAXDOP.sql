@@ -1,3 +1,7 @@
+-- Calculate MAXDOP
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script attempts to calculate a suitable value for MAXDOP based on NUMA memory configuration, using a combination of xp_cmdshell,
+-- Powershell and WMI.
 -- From: http://dba.stackexchange.com/questions/36522/what-is-a-good-repeatable-way-to-calculate-maxdop-on-sql-server
 
 -- Turn on xp_cmdshell (temporarily)

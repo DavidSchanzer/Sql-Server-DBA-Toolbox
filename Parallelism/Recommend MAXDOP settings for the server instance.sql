@@ -1,16 +1,18 @@
+-- Recommend MAXDOP settings for the server instance
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script uses yet another method to try to calculate an appropriate value for MAXDOP
 -- From the comments at the bottom of https://dba.stackexchange.com/questions/36522/maxdop-setting-algorithm-for-sql-server
 
 /*************************************************************************
 Author          :   Dennis Winter (Thought: Adapted from a script from "Kin Shah")
 Purpose         :   Recommend MaxDop settings for the server instance
 Tested RDBMS    :   SQL Server 2008R2
-
 **************************************************************************/
+
 DECLARE @hyperthreadingRatio BIT;
 DECLARE @logicalCPUs INT;
 DECLARE @HTEnabled INT;
 DECLARE @physicalCPU INT;
-DECLARE @SOCKET INT;
 DECLARE @logicalCPUPerNuma INT;
 DECLARE @NoOfNUMA INT;
 DECLARE @MaxDOP INT;

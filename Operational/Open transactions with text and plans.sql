@@ -1,4 +1,8 @@
+-- Open transactions with text and plans
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists information on each open transaction
 -- From https://www.sqlskills.com/blogs/paul/script-open-transactions-with-text-and-plans/
+
 SELECT [s_tst].[session_id],
        [s_es].[login_name] AS [Login Name],
        DB_NAME(s_tdt.database_id) AS [Database],

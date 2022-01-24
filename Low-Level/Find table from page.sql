@@ -1,3 +1,8 @@
+-- Find table from page
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script allows you to specify a database name and a page ID and it will return the name of the relevant table and index that contains
+-- that page ID, if appropriate.
+
 DECLARE @DatabaseName VARCHAR(255) = '<DBName>';
 DECLARE @PageID VARCHAR(20) = '<PageID>';
 DECLARE @DBCCPAGE TABLE
