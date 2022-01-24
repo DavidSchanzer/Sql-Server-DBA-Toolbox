@@ -182,11 +182,11 @@ I hope you find them useful.
 - [Looking for undesirable events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Looking%20for%20undesirable%20events.sql)
 - [Monitoring blocked processes with Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Monitoring%20blocked%20processes%20with%20Extended%20Events.sql)
 - [Monitoring errors with Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Monitoring%20errors%20with%20Extended%20Events.sql)
-- [Track activity on a table using the Lock_Acquired event3](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20activity%20on%20a%20table%20using%20the%20Lock_Acquired%20event.sql)
+- [Track activity on a table using the Lock_Acquired event](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20activity%20on%20a%20table%20using%20the%20Lock_Acquired%20event.sql)
 - [Track activity on a table](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20activity%20on%20a%20table.sql)
-- [Track calls to a stored procedure](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20calls%20to%20a%20stored%20procedure.sql)
 - [Track calls to a stored procedure using a wildcard](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Track%20calls%20to%20a%20stored%20procedure%20using%20a%20wildcard.sql)
 - [Tracking problematic page splits in Extended Events](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Extended%20Events/Tracking%20problematic%20page%20splits%20in%20Extended%20Events.sql)
+- 
 [*Back to top*](#header1)
 
 ### Fragmentation
