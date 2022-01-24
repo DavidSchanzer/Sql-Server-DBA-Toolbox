@@ -1,3 +1,20 @@
+-- Looking for undesirable events
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script creates an Extended Events session called "LookingForUndesirableEvents" that includes the following events:
+--		database_file_size_change
+--		database_started
+--		lock_deadlock
+--		lock_timeout_greater_than_0
+--		long_io_detected
+--		query_store_plan_forcing_failed
+--		exchange_spill
+--		execution_warning
+--		hash_spill_details
+--		hash_warning
+--		query_memory_grant_blocking
+--		query_memory_grants
+--		window_spool_ondisk_warning
+-- It then starts the EE session, collects data for 5 mins and shreds the XML collected.
 -- From https://karaszi.com/looking-for-strange
 
 --Stop trace if started
@@ -21,38 +38,6 @@ IF EXISTS
 --Create trace
 CREATE EVENT SESSION LookingForUndesirableEvents
 ON SERVER
-    --ADD EVENT sqlserver.attention
-    --(ACTION
-    -- (
-    --     sqlserver.client_app_name,
-    --     sqlserver.client_hostname,
-    --     sqlserver.database_name,
-    --     sqlserver.server_instance_name,
-    --     sqlserver.server_principal_name,
-    --     sqlserver.sql_text
-    -- )
-    --WHERE (
-    --           package0.greater_than_uint64(database_id, (4))
-    --           AND package0.equal_boolean(sqlserver.is_system, (0))
-    --       )
-    --),
-    --ADD EVENT sqlserver.auto_stats
-    --(ACTION
-    -- (
-    --     sqlserver.client_app_name,
-    --     sqlserver.client_hostname,
-    --     sqlserver.database_name,
-    --     sqlserver.server_instance_name,
-    --     sqlserver.server_principal_name,
-    --     sqlserver.sql_text
-    -- )
-    --WHERE (
-    --           package0.greater_than_uint64(database_id, (4))
-    --           AND package0.equal_boolean(sqlserver.is_system, (0))
-    --           AND package0.greater_than_equal_int64(object_id, (1000000))
-    --           AND package0.greater_than_uint64(duration, (10))
-    --       )
-    --),
     ADD EVENT sqlserver.database_file_size_change
     (ACTION
      (
@@ -83,16 +68,6 @@ ON SERVER
          sqlserver.server_principal_name,
          sqlserver.sql_text
      )),
-    --ADD EVENT sqlserver.lock_escalation
-    --(ACTION
-    -- (
-    --     sqlserver.client_app_name,
-    --     sqlserver.client_hostname,
-    --     sqlserver.database_name,
-    --     sqlserver.server_instance_name,
-    --     sqlserver.server_principal_name,
-    --     sqlserver.sql_text
-    -- )),
     ADD EVENT sqlserver.lock_timeout_greater_than_0
     (ACTION
      (
@@ -185,16 +160,6 @@ ON SERVER
          sqlserver.server_principal_name,
          sqlserver.sql_text
      )),
-    --ADD EVENT sqlserver.sort_warning
-    --(ACTION
-    -- (
-    --     sqlserver.client_app_name,
-    --     sqlserver.client_hostname,
-    --     sqlserver.database_name,
-    --     sqlserver.server_instance_name,
-    --     sqlserver.server_principal_name,
-    --     sqlserver.sql_text
-    -- )),
     ADD EVENT sqlserver.window_spool_ondisk_warning
     (ACTION
      (
@@ -304,4 +269,3 @@ ALTER EVENT SESSION LookingForUndesirableEvents
 ON SERVER
 STATE = STOP;
 GO
-
