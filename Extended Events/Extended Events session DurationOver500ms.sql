@@ -1,13 +1,8 @@
---------------------------------------------------------------------------------------
 -- Extended Events session DurationOver500ms
--- =========================================
---
--- This sets up an EE session to record all RPC Completed and SQL Batch Completed
--- events that take over 500ms duration to execute.
---
--- Adapted from https://simplesqlserver.com/2015/10/26/extended-events-intro/
---
---------------------------------------------------------------------------------------
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script creates an Extended Events session called "DurationOver500ms" that rpc_completed and sql_batch_completed with more than 500ms duration.
+-- It then starts the EE session and shreds the XML results after collecting data for 10 mins (and only for the first 1000 rows).
+-- From https://simplesqlserver.com/2015/10/26/extended-events-intro/
 
 -- Check whether the Extended Events session already exists, and drop it if it does
 IF EXISTS (SELECT 1 FROM sys.server_event_sessions WHERE name = 'DurationOver500ms')

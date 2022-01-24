@@ -1,4 +1,9 @@
+-- Identifying large queries using Extended Events
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script creates an Extended Events session called "ExpensiveQueries" using the sql_batch_completed event where logical reads > 10000.
+-- It includes SQL to summarise the collected data.
 -- From https://dbafromthecold.wordpress.com/2014/10/01/identifying-large-queries-using-extended-events/
+
 USE [master];
 GO
  

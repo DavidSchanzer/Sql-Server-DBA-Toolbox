@@ -1,3 +1,10 @@
+-- Capture execution plan warnings using Extended Events
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script creates an Extended Events session called "InterestingPlanEvents" that includes the following events that show as warnings on query plans:
+--		missing_column_statistics
+--		missing_join_predicate
+--		plan_affecting_convert
+--		unmatched_filtered_indexes
 -- From https://sqlperformance.com/2015/10/extended-events/capture-plan-warnings
 
 -- Remove event session if it exists

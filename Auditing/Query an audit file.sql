@@ -3,7 +3,7 @@
 -- This script returns all relevant columns from a database audit for a nominated login and date/time range
 -- Values to be modified before execution:
 DECLARE @DBName VARCHAR(100) = '<DatabaseName>';
-DECLARE @AuditPath VARCHAR(100) = '<PathToAuditsFolder>' + '\' + @DBName;
+DECLARE @AuditPath VARCHAR(100) = '<PathToAuditsFolder>';
 DECLARE @LoginName NVARCHAR(128) = N'<LoginName>';
 DECLARE @StartDateTime DATETIME2(7) = '<yyyy-mm-dd hh:mm>';
 DECLARE @EndDateTime DATETIME2(7) = '<yyyy-mm-dd hh:mm>';
