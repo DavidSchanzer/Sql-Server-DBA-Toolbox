@@ -268,7 +268,6 @@ I hope you find them useful.
 
 ### Plan Cache
 - [Find your most expensive queries in the Plan Cache](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Find%20your%20most%20expensive%20queries%20in%20the%20Plan%20Cache.sql)
-- [Plan Cache queries - find queries using a specific index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20find%20queries%20using%20a%20specific%20index.sql)
 - [Plan Cache queries - find queries using any index hint](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20find%20queries%20using%20any%20index%20hint.sql)
 - [Plan Cache queries - implicit column conversions](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20implicit%20column%20conversions.sql)
 - [Plan Cache queries - index scans](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Plan%20Cache/Plan%20Cache%20queries%20-%20index%20scans.sql)
