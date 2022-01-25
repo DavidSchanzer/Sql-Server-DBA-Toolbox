@@ -1,20 +1,24 @@
+-- Find all permissions & access for all users in all databases
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script displays 3 sections of permissions for the instance: instance-level, database-level and object-level.
+-- From https://www.mssqltips.com/sqlservertip/2048/auditing-sql-server-permissions-and-roles-for-the-server/
+
 USE [master];
 GO
 
 -- Section 1: Instance-level permissions
--- From https://www.mssqltips.com/sqlservertip/2048/auditing-sql-server-permissions-and-roles-for-the-server/
-SELECT @@SERVERNAME AS 'Section 1: InstancePermissions - InstanceName',
-       'Role: ' + SP2.[name] COLLATE DATABASE_DEFAULT AS 'InstancePermission',
-       SP1.[name] AS 'Login'
+SELECT @@SERVERNAME AS [Section 1: InstancePermissions - InstanceName],
+       'Role: ' + SP2.[name] COLLATE DATABASE_DEFAULT AS InstancePermission,
+       SP1.[name] AS Login
 FROM sys.server_principals SP1
     JOIN sys.server_role_members SRM
         ON SP1.principal_id = SRM.member_principal_id
     JOIN sys.server_principals SP2
         ON SRM.role_principal_id = SP2.principal_id
 UNION ALL
-SELECT @@SERVERNAME AS 'Section 1: InstancePermissions - InstanceName',
-       SPerm.state_desc + ' ' + SPerm.permission_name COLLATE DATABASE_DEFAULT AS 'InstancePermission',
-       SP.[name] AS 'Login'
+SELECT @@SERVERNAME AS [Section 1: InstancePermissions - InstanceName],
+       SPerm.state_desc + ' ' + SPerm.permission_name COLLATE DATABASE_DEFAULT AS InstancePermission,
+       SP.[name] AS Login
 FROM sys.server_principals SP
     JOIN sys.server_permissions SPerm
         ON SP.principal_id = SPerm.grantee_principal_id
@@ -100,7 +104,7 @@ BEGIN TRY
 
     DEALLOCATE cursDBs;
 
-    DECLARE @UserName VARCHAR(4000) NULL;
+    DECLARE @UserName VARCHAR(4000);
 
     CREATE TABLE #permission
     (
@@ -244,7 +248,9 @@ BEGIN TRY
             SET @var = N'SELECT @var1 = ' + QUOTENAME(@d2) + N' FROM ##db_name WHERE [Login] = ''' + @d1 + N'''';
             SET @ParmDefinition = N'@var1 NVARCHAR(600) OUTPUT ';
 
-            EXECUTE sp_executesql @stmt = @var, @params = @ParmDefinition, @var1 = @var1 OUTPUT;
+            EXECUTE sp_executesql @stmt = @var,
+                                  @params = @ParmDefinition,
+                                  @var1 = @var1 OUTPUT;
 
             SET @var1 = ISNULL(@var1, ' ');
             SET @var
