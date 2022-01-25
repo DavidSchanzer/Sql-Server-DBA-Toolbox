@@ -1,8 +1,7 @@
-----------------------------------------------
 -- Breakdown of buffer cache usage by database
---
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script analyses which databases have been using how much of the buffer cache memory
 -- From https://www.mssqltips.com/sqlservertip/2393/determine-sql-server-memory-use-by-database-and-object/
-----------------------------------------------
 
 DECLARE @total_buffer INT;
 
@@ -16,8 +15,7 @@ AS (SELECT database_id,
            db_buffer_pages = COUNT_BIG(*)
     FROM sys.dm_os_buffer_descriptors
     --WHERE database_id BETWEEN 5 AND 32766
-    GROUP BY database_id
-   )
+    GROUP BY database_id)
 SELECT [db_name] = CASE [database_id]
                        WHEN 32767 THEN
                            'Resource DB'

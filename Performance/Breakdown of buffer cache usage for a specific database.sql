@@ -1,10 +1,9 @@
-----------------------------------------------------------
 -- Breakdown of buffer cache usage for a specific database
---
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script analyses which clustered and non-clustered indexes have been using how much of the buffer cache memory for this database.
 -- From https://www.mssqltips.com/sqlservertip/2393/determine-sql-server-memory-use-by-database-and-object/
-----------------------------------------------------------
 
-USE [eviQ.CMS];
+USE [<DatabaseName>];
 GO
 
 ;WITH src
