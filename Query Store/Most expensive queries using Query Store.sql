@@ -1,5 +1,9 @@
+-- Most expensive queries using Query Store
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists the top 20 most expensive queries in the last N days, by default ordered descending by Total CPU.
 -- From https://matthewmcgiffen.com/2017/11/01/capture-the-most-expensive-queries-across-your-sql-server-using-query-store/
---Gather and report on most resource hungry queries
+
+-- Gather and report on most resource hungry queries
 DECLARE @Reportinginterval INT;
 DECLARE @Database sysname;
 DECLARE @StartDateText VARCHAR(30);
@@ -9,39 +13,38 @@ DECLARE @TotalCPU DECIMAL(20, 3);
 DECLARE @TotalLogicalReads DECIMAL(20, 3);
 DECLARE @SQL VARCHAR(MAX);
 
---Set Reporting interval in days
+-- Set Reporting interval in days
 SET @Reportinginterval = 1;
 
 SET @StartDateText = CAST(DATEADD(DAY, -@Reportinginterval, GETUTCDATE()) AS VARCHAR(30));
 
---Cursor to step through the databases
-DECLARE curDatabases CURSOR FAST_FORWARD FOR
+-- Cursor to step through the databases
+DECLARE curDatabases CURSOR LOCAL FAST_FORWARD FOR
 SELECT [name]
 FROM sys.databases
 WHERE is_query_store_on = 1;
 
---Temp table to store the results
+-- Temp table to store the results
 DROP TABLE IF EXISTS #Stats;
 CREATE TABLE #Stats
 (
-    DatabaseName sysname,
+    DatabaseName sysname NOT NULL,
     SchemaName sysname NULL,
     ObjectName sysname NULL,
-    QueryText VARCHAR(1000),
-    TotalExecutions BIGINT,
-    TotalDuration DECIMAL(20, 3),
-    TotalCPU DECIMAL(20, 3),
-    TotalLogicalReads BIGINT
+    QueryText VARCHAR(1000) NOT NULL,
+    TotalExecutions BIGINT NOT NULL,
+    TotalDuration DECIMAL(20, 3) NOT NULL,
+    TotalCPU DECIMAL(20, 3) NOT NULL,
+    TotalLogicalReads BIGINT NOT NULL
 );
 
 OPEN curDatabases;
 FETCH NEXT FROM curDatabases
 INTO @Database;
 
---Loop through the datbases and gather the stats
+-- Loop through the datbases and gather the stats
 WHILE @@FETCH_STATUS = 0
 BEGIN
-
     SET @SQL
         = '
 	   USE [' + @Database
@@ -83,15 +86,15 @@ END;
 CLOSE curDatabases;
 DEALLOCATE curDatabases;
 
---Aggregate some totals
+-- Aggregate some totals
 SELECT @TotalExecutions = SUM(TotalExecutions),
        @TotalDuration = SUM(TotalDuration),
        @TotalCPU = SUM(TotalCPU),
        @TotalLogicalReads = SUM(TotalLogicalReads)
 FROM #Stats;
 
---Produce output
-SELECT TOP 20
+-- Produce output
+SELECT TOP (20)
        DatabaseName,
        SchemaName,
        ObjectName,
