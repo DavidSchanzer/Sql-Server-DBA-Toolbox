@@ -1,23 +1,17 @@
+-- Script DB level permissions
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script creates the SQL to create the role members for all roles on the database.
+-- This is useful for scripting permissions in a development environment before refreshing development with a copy of production.
+-- This will allow us to easily ensure development permissions are not lost during a prod to dev restoration. 
+
 /*
-This script will script the role members for all roles on the database.
-
-This is useful for scripting permissions in a development environment before refreshing
-	development with a copy of production.  This will allow us to easily ensure
-	development permissions are not lost during a prod to dev restoration. 
-	
 Author: S. Kusen
-
 Updates:
-
 05/14/2012: Incorporated a fix pointed out by aruopna for Schema-level permissions.
-
 01/20/2010:	Turned statements into a cursor and then using print statements to make it easier to 
 		copy/paste into a query window.
 		Added support for schema level permissions
-
-
 Thanks to wsoranno@winona.edu and choffman for the recommendations.
-
 */
 
 /* ***************************************************** */
@@ -26,8 +20,8 @@ Thanks to wsoranno@winona.edu and choffman for the recommendations.
 
 DECLARE @sql VARCHAR(2048),
         @sort INT;
-DECLARE tmp CURSOR FOR
 
+DECLARE tmp CURSOR LOCAL FAST_FORWARD FOR
 /*********************************************/
 /*********   DB CONTEXT STATEMENT    *********/
 /*********************************************/
@@ -40,26 +34,24 @@ UNION
 SELECT '' AS [-- SQL STATEMENTS --],
        2 AS [-- RESULT ORDER HOLDER --]
 UNION
-
 /*********************************************/
 /*********     DB USER CREATION      *********/
 /*********************************************/
 SELECT '-- [-- DB USERS --] --' AS [-- SQL STATEMENTS --],
        3 AS [-- RESULT ORDER HOLDER --]
 UNION
-SELECT 'IF NOT EXISTS (SELECT [name] FROM sys.database_principals WHERE [name] = ' + SPACE(1) + '''' + [name] + ''''
+SELECT 'IF NOT EXISTS (SELECT [name] FROM sys.database_principals WHERE [name] = ' + SPACE(1) + '''' + rm.name + ''''
        + ') 
-         BEGIN CREATE USER' + SPACE(1) + QUOTENAME([name]) + ' FOR LOGIN ' + QUOTENAME([name])
-       + ' WITH DEFAULT_SCHEMA = ' + QUOTENAME([default_schema_name]) + SPACE(1)
+         BEGIN CREATE USER' + SPACE(1) + QUOTENAME(rm.name) + ' FOR LOGIN ' + QUOTENAME(rm.name)
+       + ' WITH DEFAULT_SCHEMA = ' + QUOTENAME(rm.default_schema_name) + SPACE(1)
        + 'END
-         ELSE BEGIN IF EXISTS (SELECT * from master.dbo.syslogins WHERE loginname = ' + SPACE(1) + '''' + [name] + ''''
-       + ') ALTER USER ' + QUOTENAME([name]) + ' WITH LOGIN = ' + QUOTENAME([name]) + ' ELSE IF ' + ''''
-       + QUOTENAME([name]) + '''' + ' NOT IN (''[dbo]'',''[guest]'')  DROP USER ' + QUOTENAME([name]) + ' END;' AS [-- SQL STATEMENTS --],
+         ELSE BEGIN IF EXISTS (SELECT * from master.dbo.syslogins WHERE loginname = ' + SPACE(1) + '''' + rm.name + ''''
+       + ') ALTER USER ' + QUOTENAME(rm.name) + ' WITH LOGIN = ' + QUOTENAME(rm.name) + ' ELSE IF ' + ''''
+       + QUOTENAME(rm.name) + '''' + ' NOT IN (''[dbo]'',''[guest]'')  DROP USER ' + QUOTENAME(rm.name) + ' END;' AS [-- SQL STATEMENTS --],
        4 AS [-- RESULT ORDER HOLDER --]
 FROM sys.database_principals AS rm
-WHERE [type] IN ( 'U', 'S', 'G' ) -- windows users, sql users, windows groups
+WHERE rm.type IN ( 'U', 'S', 'G' ) -- windows users, sql users, windows groups
 UNION
-
 /*********************************************/
 /*********    DB ROLE PERMISSIONS    *********/
 /*********************************************/
@@ -83,7 +75,6 @@ UNION
 SELECT '' AS [-- SQL STATEMENTS --],
        7 AS [-- RESULT ORDER HOLDER --]
 UNION
-
 /*********************************************/
 /*********  OBJECT LEVEL PERMISSIONS *********/
 /*********************************************/
@@ -102,7 +93,7 @@ SELECT CASE
                  SPACE(0)
              ELSE
                  '(' + QUOTENAME(cl.name) + ')'
-         END + SPACE(1) + 'TO' + SPACE(1) + QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT
+         END + SPACE(1) + 'TO' + SPACE(1) + QUOTENAME(USER_NAME(usr.principal_id))COLLATE DATABASE_DEFAULT
        + CASE
              WHEN perm.state <> 'W' THEN
                  SPACE(0)
@@ -146,8 +137,8 @@ SELECT CASE
 FROM sys.database_permissions AS perm
     INNER JOIN sys.database_principals AS usr
         ON perm.grantee_principal_id = usr.principal_id
-WHERE [perm].[major_id] = 0
-      AND [usr].[principal_id] > 4 -- 0 to 4 are system users/schemas
+WHERE perm.major_id = 0
+      AND usr.principal_id > 4 -- 0 to 4 are system users/schemas
       AND [usr].[type] IN ( 'G', 'S', 'U' ) -- S = SQL user, U = Windows user, G = Windows group
 UNION
 SELECT '' AS [-- SQL STATEMENTS --],
@@ -162,33 +153,39 @@ SELECT CASE
            ELSE
                'GRANT'
        END + SPACE(1) + perm.permission_name --CONNECT, etc
-       + SPACE(1) + 'ON' + SPACE(1) + class_desc + '::' COLLATE DATABASE_DEFAULT --TO <user name>
-       + QUOTENAME(SCHEMA_NAME(major_id)) + SPACE(1) + 'TO' + SPACE(1)
-       + QUOTENAME(USER_NAME(grantee_principal_id)) COLLATE DATABASE_DEFAULT + CASE
-                                                                                   WHEN perm.state <> 'W' THEN
-                                                                                       SPACE(0)
-                                                                                   ELSE
-                                                                                       SPACE(1) + 'WITH GRANT OPTION'
-                                                                               END AS [-- SQL STATEMENTS --],
+       + SPACE(1) + 'ON' + SPACE(1) + perm.class_desc + '::' COLLATE DATABASE_DEFAULT --TO <user name>
+       + QUOTENAME(SCHEMA_NAME(perm.major_id)) + SPACE(1) + 'TO' + SPACE(1)
+       + QUOTENAME(USER_NAME(perm.grantee_principal_id))COLLATE DATABASE_DEFAULT + CASE
+                                                                                  WHEN perm.state <> 'W' THEN
+                                                                                      SPACE(0)
+                                                                                  ELSE
+                                                                                      SPACE(1) + 'WITH GRANT OPTION'
+                                                                              END AS [-- SQL STATEMENTS --],
        15 AS [-- RESULT ORDER HOLDER --]
 FROM sys.database_permissions AS perm
     INNER JOIN sys.schemas s
         ON perm.major_id = s.schema_id
     INNER JOIN sys.database_principals dbprin
         ON perm.grantee_principal_id = dbprin.principal_id
-WHERE class = 3 --class 3 = schema
+WHERE perm.class = 3 --class 3 = schema
 ORDER BY [-- RESULT ORDER HOLDER --];
+
 OPEN tmp;
+
 FETCH NEXT FROM tmp
 INTO @sql,
      @sort;
+
 WHILE @@FETCH_STATUS = 0
 BEGIN
     PRINT @sql;
+
     FETCH NEXT FROM tmp
     INTO @sql,
          @sort;
 END;
+
 CLOSE tmp;
+
 DEALLOCATE tmp;
 GO

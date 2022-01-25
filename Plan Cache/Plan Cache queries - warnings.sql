@@ -1,43 +1,63 @@
+-- Plan Cache queries - warnings
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script lists all queries in the Plan Cache that contain a warning.
 -- From https://www.simple-talk.com/sql/t-sql-programming/checking-the-plan-cache-warnings-for-a-sql-server-database/
 
 -- =============================================
--- Author:           Dennes Torres
+-- Author:      Dennes Torres
 -- Create date: 01/23/2015
--- Description:      return the query plans in cache for a specific database
+-- Description: Return the query plans in cache for a specific database
 -- =============================================
-ALTER FUNCTION [dbo].[planCachefromDatabase]
-(     
-       -- Add the parameters for the function here
-       @DatabaseName varchar(50)
+CREATE OR ALTER FUNCTION [dbo].[planCachefromDatabase]
+(
+    -- Add the parameters for the function here
+    @DatabaseName VARCHAR(50)
 )
 RETURNS TABLE
 AS
 RETURN
 (
-  with xmlnamespaces
-  (default 'http://schemas.microsoft.com/sqlserver/2004/07/showplan')
-select qp.query_plan,qt.text,
-  statement_start_offset, statement_end_offset,
-  creation_time, last_execution_time,
-  execution_count, total_worker_time,
-  last_worker_time, min_worker_time,
-  max_worker_time, total_physical_reads,
-  last_physical_reads, min_physical_reads,
-  max_physical_reads, total_logical_writes,
-  last_logical_writes, min_logical_writes,
-  max_logical_writes, total_logical_reads,
-  last_logical_reads, min_logical_reads,
-  max_logical_reads, total_elapsed_time,
-  last_elapsed_time, min_elapsed_time,
-  max_elapsed_time, total_rows,
-  last_rows, min_rows,
-  max_rows
-from sys.dm_exec_query_stats
-  CROSS APPLY sys.dm_exec_sql_text(sql_handle) qt
-  CROSS APPLY sys.dm_exec_query_plan(plan_handle) qp
-  where qp.query_plan.exist('//ColumnReference[fn:lower-case(@Database)=fn:lower-case(sql:variable("@DatabaseName"))]')=1
-)
- 
+    WITH XMLNAMESPACES
+    (
+        DEFAULT 'http://schemas.microsoft.com/sqlserver/2004/07/showplan'
+    )
+    SELECT qp.query_plan,
+           qt.text,
+           qs.statement_start_offset,
+           qs.statement_end_offset,
+           qs.creation_time,
+           qs.last_execution_time,
+           qs.execution_count,
+           qs.total_worker_time,
+           qs.last_worker_time,
+           qs.min_worker_time,
+           qs.max_worker_time,
+           qs.total_physical_reads,
+           qs.last_physical_reads,
+           qs.min_physical_reads,
+           qs.max_physical_reads,
+           qs.total_logical_writes,
+           qs.last_logical_writes,
+           qs.min_logical_writes,
+           qs.max_logical_writes,
+           qs.total_logical_reads,
+           qs.last_logical_reads,
+           qs.min_logical_reads,
+           qs.max_logical_reads,
+           qs.total_elapsed_time,
+           qs.last_elapsed_time,
+           qs.min_elapsed_time,
+           qs.max_elapsed_time,
+           qs.total_rows,
+           qs.last_rows,
+           qs.min_rows,
+           qs.max_rows
+    FROM sys.dm_exec_query_stats AS qs
+        CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) AS qt
+        CROSS APPLY sys.dm_exec_query_plan(qs.plan_handle) AS qp
+    WHERE qp.query_plan.exist('//ColumnReference[fn:lower-case(@Database)=fn:lower-case(sql:variable("@DatabaseName"))]') = 1
+);
+
 GO
 
 -- =============================================
@@ -45,29 +65,39 @@ GO
 -- Create date: 01/24/2015
 -- Description:      Return the warnings in the query plans in cache
 -- =============================================
-ALTER FUNCTION [dbo].[FindWarnings]
-(     
-       -- Add the parameters for the function here
-       @DatabaseName varchar(50)
+CREATE OR ALTER FUNCTION [dbo].[FindWarnings]
+(
+    -- Add the parameters for the function here
+    @DatabaseName VARCHAR(50)
 )
 RETURNS TABLE
 AS
 RETURN
 (
-  with xmlnamespaces
-    (default 'http://schemas.microsoft.com/sqlserver/2004/07/showplan'),
-   qry as
-    (select [text],
-            cast(nos.query('local-name(.)') as varchar) warning, total_worker_time
-       from dbo.planCachefromDatabase(@DatabaseName)
-       CROSS APPLY query_plan.nodes('//Warnings/*') (nos)
-                                  )
-select [text],warning,count(*) qtd,max(total_worker_time) total_worker_time 
-  from qry
-  group by [text],warning
-)
- 
+    WITH XMLNAMESPACES
+    (
+        DEFAULT 'http://schemas.microsoft.com/sqlserver/2004/07/showplan'
+    )
+    , qry
+    AS (SELECT PlanCache.[text],
+               CAST(nos.query('local-name(.)') AS VARCHAR) AS warning,
+               PlanCache.total_worker_time
+        FROM dbo.planCachefromDatabase(@DatabaseName) AS PlanCache
+            CROSS APPLY query_plan.nodes('//Warnings/*')(nos) )
+    SELECT [text],
+           warning,
+           COUNT(*) qtd,
+           MAX(total_worker_time) total_worker_time
+    FROM qry
+    GROUP BY [text],
+             warning
+);
+
 GO
 
-select * from dbo.FindWarnings('[papregdb]')
-  order by total_worker_time DESC
+SELECT [text],
+       warning,
+       qtd,
+       total_worker_time
+FROM dbo.FindWarnings('[' + DB_NAME() + ']')
+ORDER BY total_worker_time DESC;
