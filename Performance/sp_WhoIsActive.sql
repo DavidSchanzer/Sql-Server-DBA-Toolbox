@@ -1,3 +1,7 @@
+-- sp_WhoIsActive
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script is Adam Machanic's unmodified stored procedure sp_WhoIsActive.
+
 SET QUOTED_IDENTIFIER ON;
 SET ANSI_PADDING ON;
 SET CONCAT_NULL_YIELDS_NULL ON;
