@@ -1,6 +1,7 @@
 -- Find Windows logins that are no longer in AD
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
--- This script 
+-- This script executes xp_logininfo for each Windows domain login for your nominated domain, showing errors as logins that are potentially
+-- no longer found in Active Directory.
 
 DECLARE @user sysname;
 
