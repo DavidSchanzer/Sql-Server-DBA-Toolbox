@@ -1,4 +1,10 @@
 -- Last user access to each database
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script contains 2 SELECT statements.
+-- The first shows the last access date & time for each user database on the instance, using then last_user_% columns in
+-- dm_db_index_usage_stats.
+-- The second shows the last access date & time for a nominated table, using the same method.
+
 SELECT d.name AS DBname,
        LastUserAccess =
        (
@@ -21,7 +27,7 @@ SELECT d.name AS DBname,
 FROM master.dbo.sysdatabases d
     LEFT OUTER JOIN sys.dm_db_index_usage_stats s
         ON d.dbid = s.database_id
-WHERE dbid > 4
+WHERE d.dbid > 4
 GROUP BY d.name
 ORDER BY LastUserAccess;
 

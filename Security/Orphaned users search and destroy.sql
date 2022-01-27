@@ -1,14 +1,18 @@
+-- Orphaned users search and destroy
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script find orphans on an instance and generate a script to drop them.
+-- NB: Use with caution. SQL Server has users without logins for some databases.
+
 ---------------------------------------------------------------------------------------------------
 --Author: Patrick Slesicki
 --Date: 06/26/2018
---Purpose: To find orphans on an instance and generate a script to drop them.
---Notes: Use with caution. MS has users without logins for some databases.
 --History:
 --mm/dd/yyyy Init Description
 ------------ ---- ---------------------------------------------------------------------------
 --03/06/2020 PLS Major revision using sids as join fields rather than names.
 ---------------------------------------------------------------------------------------------------
-DECLARE @SQL AS NVARCHAR(2000) = N'
+DECLARE @SQL AS NVARCHAR(2000)
+    = N'
 INSERT INTO #Orphan
 (
 DBName
@@ -45,23 +49,31 @@ AND sp.sid IS NULL;
 --Drop the temp table if it exists and create the temp table
 ---------------------------------------------------------------------------------------------------
 IF OBJECT_ID('tempdb.dbo.#Orphan') IS NOT NULL
-	DROP TABLE #Orphan;
+    DROP TABLE #Orphan;
 
-CREATE TABLE #Orphan (DBName NVARCHAR(128) NULL,
-IsReadOnly BIT NULL,
-UserName NVARCHAR(128) NULL,
-UserType NVARCHAR(60) NULL,
-DropScript NVARCHAR(4000) NULL);
+CREATE TABLE #Orphan
+(
+    DBName NVARCHAR(128) NULL,
+    IsReadOnly BIT NULL,
+    UserName NVARCHAR(128) NULL,
+    UserType NVARCHAR(60) NULL,
+    DropScript NVARCHAR(4000) NULL
+);
 ---------------------------------------------------------------------------------------------------
 --Execute the dynamic sql statement
 ---------------------------------------------------------------------------------------------------
-EXEC sys.sp_ineachdb @command = @SQL;
+EXEC dbo.sp_ineachdb @command = @SQL;
 ---------------------------------------------------------------------------------------------------
 --Get results
 ---------------------------------------------------------------------------------------------------
-SELECT DBName, IsReadOnly, UserName, UserType, DropScript
+SELECT DBName,
+       IsReadOnly,
+       UserName,
+       UserType,
+       DropScript
 FROM #Orphan
-ORDER BY DBName, UserName;
+ORDER BY DBName,
+         UserName;
 ---------------------------------------------------------------------------------------------------
 --Cleanup
 ---------------------------------------------------------------------------------------------------

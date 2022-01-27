@@ -1,15 +1,21 @@
+-- Find all orphaned SQL Server users
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script returns information on all orphan users in all databases on this instance, and includes the DROP USER statement in the results.
+
 IF OBJECT_ID('TempDB..#Temp', 'U') > 0
     DROP TABLE #Temp;
+
 CREATE TABLE #Temp
 (
-    DatabaseName VARCHAR(255) NULL,
-    UserName VARCHAR(255) NULL,
-    TypeDesc VARCHAR(20) NULL,
-    DefaultSchemaName VARCHAR(255) NULL,
-    CreateDate DATETIME NULL,
-    ModifyDate DATETIME NULL,
-    DropCommand VARCHAR(255) NULL
+    DatabaseName VARCHAR(255) NOT NULL,
+    UserName VARCHAR(255) NOT NULL,
+    TypeDesc VARCHAR(20) NOT NULL,
+    DefaultSchemaName VARCHAR(255) NOT NULL,
+    CreateDate DATETIME NOT NULL,
+    ModifyDate DATETIME NOT NULL,
+    DropCommand VARCHAR(255) NOT NULL
 );
+
 INSERT INTO #Temp
 (
     DatabaseName,
@@ -26,6 +32,7 @@ EXEC dbo.sp_ineachdb @command = '
 		where type in (''G'',''S'',''U'') 
 		and [sid] not in ( select [sid] from sys.server_principals where type in (''G'',''S'',''U'') ) 
 		and name not in (''dbo'',''guest'',''INFORMATION_SCHEMA'',''sys'',''MS_DataCollectorInternalUser'')';
+
 SELECT DatabaseName,
        UserName,
        TypeDesc,
@@ -34,4 +41,5 @@ SELECT DatabaseName,
        ModifyDate,
        DropCommand
 FROM #Temp;
+
 DROP TABLE #Temp;
