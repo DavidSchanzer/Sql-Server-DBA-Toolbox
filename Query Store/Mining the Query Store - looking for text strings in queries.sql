@@ -27,7 +27,7 @@ SELECT
      [qsp].[plan_id],
      [qsq].[object_id],
      [qst].[query_sql_text],
-     ConvertedPlan = TRY_CONVERT(XML, [qsp].[query_plan]), *
+     ConvertedPlan = TRY_CONVERT(XML, [qsp].[query_plan])
 FROM [sys].[query_store_query] [qsq]
 JOIN [sys].[query_store_query_text] [qst]
      ON [qsq].[query_text_id] = [qst].[query_text_id]
