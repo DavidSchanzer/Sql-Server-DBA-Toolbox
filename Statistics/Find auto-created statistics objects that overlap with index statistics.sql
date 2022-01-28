@@ -1,3 +1,10 @@
+-- Find auto-created statistics objects that overlap with index statistics
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script generates DROP STATISTICS statements for all auto-generaed statistics on all databases that were not auto-generated
+-- (eg. were generated as a result of a created index).
+-- It only makes sense to drop this statistic if it's the leading column of the index since that's the only column that has statistics
+-- generated on it, and this script doesn't take that into account so it needs to be manually checked.
+
 EXEC dbo.sp_ineachdb @command = '
 WITH    autostats ( object_id, stats_id, name, column_id )
 			AS ( SELECT   sys.stats.object_id ,
