@@ -1,3 +1,10 @@
+-- Find tempdb data files with differing sizes
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script checks whether the sizes of all data files in the tempdb database, and produces an appropriate message accordingly.
+-- Note that if the script detects differing file sizes and you execute the generated ALTER DATABASE statement to make them the same,
+-- it's necessary to run the script below a second time to get it to generate another ALTER DATABASE statement with the files having the
+-- same sizes, in order for these new file sizes to still apply after the next instance restart.
+
 DECLARE @sql VARCHAR(MAX) = '', @maxsize BIGINT, @name VARCHAR(100)
 
 SELECT files.name, stats.size_on_disk_bytes

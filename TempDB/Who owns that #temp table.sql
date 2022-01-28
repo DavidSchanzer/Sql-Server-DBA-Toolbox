@@ -1,3 +1,6 @@
+-- Who owns that #temp table
+-- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
+-- This script queries the Default Trace to determine which login created # tables in TempDB.
 -- From http://sqlperformance.com/2014/05/t-sql-queries/dude-who-owns-that-temp-table
 
 DECLARE @filename VARCHAR(MAX);
@@ -22,6 +25,4 @@ FROM    sys.fn_trace_gettable(@filename, DEFAULT) AS gt
 WHERE   gt.DatabaseID = 2
         AND gt.EventClass = 46 -- (Object:Created Event from sys.trace_events)  
         AND gt.EventSubClass = 1 -- Commit
-        AND o.name LIKE N'#%'
-        AND o.create_date >= DATEADD(MILLISECOND, -100, gt.StartTime)
-        AND o.create_date <= DATEADD(MILLISECOND, 100, gt.StartTime);
+        AND o.name LIKE N'#%';
