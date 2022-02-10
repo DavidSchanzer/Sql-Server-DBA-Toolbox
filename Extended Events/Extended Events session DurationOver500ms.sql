@@ -46,7 +46,7 @@ ADD EVENT sqlserver.sql_batch_completed(
 )
 ADD TARGET package0.event_file
 (
-	SET filename = 'DurationOver500ms.xel',
+	SET filename = 'c:\temp\DurationOver500ms.xel',
 		max_file_size = 10,
 		max_rollover_files = 5
 )
@@ -68,6 +68,12 @@ GO
 
 -- Allow it to collect events for 10 minutes
 WAITFOR DELAY '00:10:00'
+GO
+
+-- Stop the EE session
+ALTER EVENT SESSION DurationOver500ms
+ON SERVER
+STATE = STOP;
 GO
 
 -- Now display the results
@@ -159,10 +165,4 @@ SELECT  q.EventType ,
         q.EventDetails
 FROM    #Queries q
 ORDER BY TimeStamp DESC; 
-GO
-
--- Stop the EE session
-ALTER EVENT SESSION DurationOver500ms
-ON SERVER
-STATE = STOP;
 GO
