@@ -173,7 +173,7 @@ ON SERVER
     --End performance section
 
     ADD TARGET package0.event_file
-    (SET filename = 'LookingForUndesirableEvents.xel', max_file_size = 10, max_rollover_files = 5)
+    (SET filename = 'c:\temp\LookingForUndesirableEvents.xel', max_file_size = 10, max_rollover_files = 5)
 WITH
 (
     MAX_MEMORY = 10MB,

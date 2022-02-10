@@ -32,10 +32,10 @@ ON SERVER
          sqlserver.sql_text,
          sqlserver.username
      )
-     WHERE (
-               [error_number] = (18452)
-               OR [error_number] = (17806)
-           )
+     --WHERE (
+     --          [error_number] = (18452)
+     --          OR [error_number] = (17806)
+     --      )
     )
     ADD TARGET package0.event_file
     (SET filename = N'c:\temp\exErrors')
