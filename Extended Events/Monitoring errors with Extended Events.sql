@@ -55,31 +55,51 @@ ALTER EVENT SESSION exErrors ON SERVER STATE = START;
 GO
 ;
 
---When errors have occurred that the event session is capturing, they can be read through a query similar to this:
+-- While the EE session is STILL RUNNING, when errors have occurred that the event session is capturing, they can be read through a query similar to this:
+DECLARE @SessionName sysname = 'exErrors',
+		@Target_File NVARCHAR(1000),
+		@Target_Dir NVARCHAR(1000),
+		@Target_File_WildCard NVARCHAR(1000);
+
+SELECT  @Target_File = CAST(t.target_data AS XML).value('EventFileTarget[1]/File[1]/@name', 'NVARCHAR(256)')
+FROM    sys.dm_xe_session_targets t
+        INNER JOIN sys.dm_xe_sessions s ON s.address = t.event_session_address
+WHERE   s.name = @SessionName
+        AND t.target_name = 'event_file';
+
+SELECT  @Target_Dir = LEFT(@Target_File, LEN(@Target_File) - CHARINDEX('\', REVERSE(@Target_File))); 
+
+SELECT  @Target_File_WildCard = @Target_Dir + '\' + @SessionName + '_*.xel';
+
+SELECT CAST(event_data AS XML) AS event_data_XML
+INTO    #Events
+FROM    sys.fn_xe_file_target_read_file(@Target_File_WildCard, NULL, NULL, NULL) AS F
+ORDER BY file_name DESC ,
+        file_offset DESC; 
+
 WITH exErrors
-AS (SELECT CAST(st.target_data AS XML) AS SessionData
-    FROM sys.dm_xe_session_targets AS st
-        INNER JOIN sys.dm_xe_sessions AS s
-            ON s.address = st.event_session_address
-    WHERE s.name = 'exErrors')
-SELECT error.value('(@timestamp)[1]', 'datetime') AS event_timestamp,
-       error.value('(data/value)[1]', 'int') AS error_number,
-       error.value('(data/value)[2]', 'int') AS severity,
-       error.value('(data/value)[3]', 'int') AS state,
-       error.value('(data/value)[4]', 'bit') AS user_defined,
-       error.value('(data/text)[5]', 'nvarchar(255)') AS category,
-       error.value('(data/text)[6]', 'nvarchar(255)') AS destination,
-       error.value('(data/value)[7]', 'bit') AS is_intercepted, -- Indicates whether the error was intercepted by a Transact-SQL TRY/CATCH block.
-       error.value('(data/value)[8]', 'nvarchar(max)') AS message,
-       error.value('(action/value)[1]', 'nvarchar(255)') AS username,
-       DB_NAME(error.value('(action/value)[2]', 'int')) AS database_name,
-       error.value('(action/value)[3]', 'nvarchar(255)') AS client_hostname,
-       error.value('(action/value)[4]', 'nvarchar(255)') AS client_app_name,
-       error.value('(action/value)[6]', 'nvarchar(max)') AS sql_text,
-       error.value('(action/value)[7]', 'int') AS session_id
+AS (SELECT CAST(event_data_XML AS XML) AS SessionData
+    FROM #Events)
+SELECT DATEADD(HOUR, DATEDIFF(HOUR, GETUTCDATE(), GETDATE()), CAST(SessionData.value('(event/@timestamp)[1]', 'varchar(50)') AS DATETIME2)) AS event_timestamp,
+       SessionData.value('(/event/data  [@name=''error_number'']/value)[1]', 'INT') AS error_number,
+       SessionData.value('(/event/data  [@name=''severity'']/value)[1]', 'INT') AS severity,
+	   SessionData.value('(/event/data  [@name=''state'']/value)[1]', 'INT') AS state,
+	   SessionData.value('(/event/data  [@name=''user_defined'']/value)[1]', 'BIT') AS user_defined,
+	   SessionData.value('(/event/data  [@name=''category'']/value)[1]', 'NVARCHAR(255)') AS category,
+	   SessionData.value('(/event/data  [@name=''destination'']/value)[1]', 'NVARCHAR(255)') AS destination,
+	   SessionData.value('(/event/data  [@name=''is_intercepted'']/value)[1]', 'BIT') AS is_intercepted,	-- Indicates whether the error was intercepted by a Transact-SQL TRY/CATCH block.
+	   SessionData.value('(/event/data  [@name=''message'']/value)[1]', 'NVARCHAR(MAX)') AS message,
+	   SessionData.value('(/event/action  [@name=''username'']/value)[1]', 'NVARCHAR(255)') AS username,
+	   DB_NAME(SessionData.value('(/event/action  [@name=''database_id'']/value)[1]', 'INT')) AS database_name,
+	   SessionData.value('(/event/action  [@name=''client_hostname'']/value)[1]', 'NVARCHAR(255)') AS client_hostname,
+	   SessionData.value('(/event/action  [@name=''client_app_name'']/value)[1]', 'NVARCHAR(255)') AS client_app_name,
+	   SessionData.value('(/event/action  [@name=''sql_text'']/value)[1]', 'NVARCHAR(MAX)') AS sql_text,
+	   SessionData.value('(/event/action  [@name=''session_id'']/value)[1]', 'INT') AS session_id
 FROM exErrors AS d
-    CROSS APPLY SessionData.nodes('//RingBufferTarget/event') AS t(error)
-WHERE error.value('@name', 'nvarchar(128)') = 'error_reported';
+WHERE SessionData.value('(/event/data  [@name=''severity'']/value)[1]', 'INT') > 10
+ORDER BY event_timestamp DESC;
+
+DROP TABLE #Events;
 
 --From here, a DBA can easily begin tracking down issues and informing developers of where errors are occurring, the frequency in which they are
 -- occurring, and what T-SQLstatements are causing them to occur. This example only includes a few error messages, but it can easily be expanded to cover
