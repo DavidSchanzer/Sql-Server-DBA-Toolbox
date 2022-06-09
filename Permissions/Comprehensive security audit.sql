@@ -1,9 +1,19 @@
 -- Comprehensive security audit
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
--- This script lists the instance-level and database-level permissions
--- From: https://www.mssqltips.com/sqlservertip/6145/sql-server-permissions-list-for-read-and-write-access-for-all-databases/
+-- This script produces 3 result sets: Instance-level, Database-level and Object-level permissions.
+--
+-- Requirement:
+-- This script requires the use of an existing table (through a Linked Server BLTZRESULTS): BLITZRESULTS.DBA_Rep.dbo.Staff
+-- whose name you can obviously modify to suit your environment. It's defined as follows:
+--		CREATE TABLE dbo.Staff (
+--			Name CHAR(8) NOT NULL,
+--			DisplayName VARCHAR(255) NOT NULL)
+-- and populated with data that maps a person's AD Name (eg. 'jsmith') with their AD DisplayName ('John Smith').
+-- This enables the result sets to include the DisplayName of individuals.
+-- 
+-- Based on: https://www.mssqltips.com/sqlservertip/6145/sql-server-permissions-list-for-read-and-write-access-for-all-databases/
 
--- Section 0: Populate the tables #xpLogininfoOutput so that we can determine AD group membership
+-- Section 0: Populate the temp table #xpLogininfoOutput so that we can determine AD group membership using xp_logininfo
 DECLARE @ErrorRecap TABLE
 (
     ID INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
