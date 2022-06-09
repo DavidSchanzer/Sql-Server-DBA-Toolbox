@@ -7,18 +7,18 @@ USE [master];
 GO
 
 -- Section 1: Instance-level permissions
-SELECT @@SERVERNAME AS [Section 1: InstancePermissions - InstanceName],
-       'Role: ' + SP2.[name] COLLATE DATABASE_DEFAULT AS InstancePermission,
-       SP1.[name] AS Login
+SELECT SP1.[name] AS [Section 1: InstancePermissions - Login],
+       'Role: ' + SP2.[name] COLLATE DATABASE_DEFAULT AS InstancePermission
 FROM sys.server_principals SP1
     JOIN sys.server_role_members SRM
         ON SP1.principal_id = SRM.member_principal_id
     JOIN sys.server_principals SP2
         ON SRM.role_principal_id = SP2.principal_id
+WHERE SP1.[name] NOT LIKE 'NT SERVICE\%'
+  AND SP1.[name] <> 'sa'
 UNION ALL
-SELECT @@SERVERNAME AS [Section 1: InstancePermissions - InstanceName],
-       SPerm.state_desc + ' ' + SPerm.permission_name COLLATE DATABASE_DEFAULT AS InstancePermission,
-       SP.[name] AS Login
+SELECT SP.[name] AS Login,
+       SPerm.state_desc + ' ' + SPerm.permission_name COLLATE DATABASE_DEFAULT AS InstancePermission
 FROM sys.server_principals SP
     JOIN sys.server_permissions SPerm
         ON SP.principal_id = SPerm.grantee_principal_id
@@ -26,10 +26,10 @@ WHERE SPerm.state_desc + ' ' + SPerm.permission_name COLLATE DATABASE_DEFAULT NO
                                                                                        'GRANT CONNECT'
                                                                                      )
       AND SP.[name] NOT LIKE '##%'
+      AND SP.[name] NOT LIKE 'NT SERVICE\%'
       AND SP.[name] NOT IN ( 'public', 'NT AUTHORITY\SYSTEM' )
-ORDER BY [Section 1: InstancePermissions - InstanceName],
-         InstancePermission,
-         [Login];
+ORDER BY SP1.[name],
+         InstancePermission;
 GO
 
 -- Section 2: Database-level permissions
@@ -64,14 +64,13 @@ BEGIN TRY
     )
         DROP TABLE ##db_name;
 
-    DECLARE @db_name VARCHAR(4000),
+    DECLARE @db_name SYSNAME,
             @sql_text VARCHAR(MAX);
 
     SET @sql_text
         = 'CREATE TABLE ##db_name
     (
-		[Section 2: DatabaseRoles - InstanceName] VARCHAR(4000) DEFAULT @@ServerName,
-		[Login] VARCHAR(4000)
+		[Section 2: DatabaseRoles - Login] SYSNAME
         ,';
 
     DECLARE cursDBs CURSOR LOCAL FAST_FORWARD FOR
@@ -87,7 +86,7 @@ BEGIN TRY
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        SET @sql_text = @sql_text + QUOTENAME(@db_name) + ' VARCHAR(4000)
+        SET @sql_text = @sql_text + QUOTENAME(@db_name) + ' SYSNAME NULL
         ,';
         FETCH NEXT FROM cursDBs
         INTO @db_name;
@@ -104,13 +103,13 @@ BEGIN TRY
 
     DEALLOCATE cursDBs;
 
-    DECLARE @UserName VARCHAR(4000);
+    DECLARE @UserName SYSNAME;
 
     CREATE TABLE #permission
     (
-        [Login] VARCHAR(4000) NULL,
-        databasename VARCHAR(4000) NULL,
-        [role] VARCHAR(4000) NULL
+        [Login] SYSNAME NULL,
+        databasename SYSNAME NULL,
+        [role] SYSNAME NULL
     );
 
     DECLARE cursSysSrvPrinName CURSOR LOCAL FAST_FORWARD FOR
@@ -130,15 +129,15 @@ BEGIN TRY
     BEGIN
         CREATE TABLE #UserRoles_kk
         (
-            databasename VARCHAR(4000) NULL,
-            [role] VARCHAR(4000) NULL
+            databasename SYSNAME NULL,
+            [role] SYSNAME NULL
         );
 
         CREATE TABLE #rolemember_kk
         (
-            dbRole VARCHAR(4000) NULL,
-            MemberName VARCHAR(4000) NULL,
-            membersid VARBINARY(2048) NULL
+			dbRole SYSNAME NULL,
+			MemberName SYSNAME NULL,
+			membersid VARBINARY(85) NULL
         );
 
         DECLARE cursDatabases CURSOR LOCAL FAST_FORWARD FOR
@@ -149,7 +148,7 @@ BEGIN TRY
 
         OPEN cursDatabases;
 
-        DECLARE @DBN VARCHAR(4000),
+        DECLARE @DBN SYSNAME,
                 @sqlText NVARCHAR(MAX);
 
         FETCH NEXT FROM cursDatabases
@@ -169,7 +168,7 @@ BEGIN TRY
     (databasename,[role])
     SELECT db_name(),dbRole
     FROM #rolemember_kk
-    WHERE MemberName = ''' + @UserName + N';''
+    WHERE MemberName = ''' + @UserName + N''';
     '       ;
 
             --PRINT @sqlText ;
@@ -211,10 +210,10 @@ BEGIN TRY
 
     TRUNCATE TABLE ##db_name;
 
-    DECLARE @d1 VARCHAR(4000),
-            @d2 VARCHAR(4000),
-            @d3 VARCHAR(4000),
-            @ss VARCHAR(4000);
+    DECLARE @d1 SYSNAME,
+            @d2 SYSNAME,
+            @d3 SYSNAME,
+            @ss VARCHAR(200);
 
     DECLARE cursPermisTable CURSOR LOCAL FAST_FORWARD FOR
     SELECT [Login],
@@ -232,11 +231,11 @@ BEGIN TRY
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM ##db_name WHERE [Login] = @d1)
+        IF NOT EXISTS (SELECT 1 FROM ##db_name WHERE [Section 2: DatabaseRoles - Login] = @d1)
         BEGIN
-            SET @ss = 'INSERT INTO ##db_name([Login]) VALUES (''' + @d1 + ''')';
+            SET @ss = 'INSERT INTO ##db_name([Section 2: DatabaseRoles - Login]) VALUES (''' + @d1 + ''')';
             EXEC (@ss);
-            SET @ss = 'UPDATE ##db_name SET ' + @d2 + ' = ''' + @d3 + ''' WHERE [Login] = ''' + @d1 + '''';
+            SET @ss = 'UPDATE ##db_name SET ' + @d2 + ' = ''' + @d3 + ''' WHERE [Section 2: DatabaseRoles - Login] = ''' + @d1 + '''';
             EXEC (@ss);
         END;
         ELSE
@@ -245,18 +244,16 @@ BEGIN TRY
                     @ParmDefinition NVARCHAR(MAX),
                     @var1 NVARCHAR(MAX);
 
-            SET @var = N'SELECT @var1 = ' + QUOTENAME(@d2) + N' FROM ##db_name WHERE [Login] = ''' + @d1 + N'''';
+            SET @var = N'SELECT @var1 = ' + QUOTENAME(@d2) + N' FROM ##db_name WHERE [Section 2: DatabaseRoles - Login] = ''' + @d1 + N'''';
             SET @ParmDefinition = N'@var1 NVARCHAR(600) OUTPUT ';
-
             EXECUTE sp_executesql @stmt = @var,
                                   @params = @ParmDefinition,
                                   @var1 = @var1 OUTPUT;
 
             SET @var1 = ISNULL(@var1, ' ');
             SET @var
-                = N'  UPDATE ##db_name SET ' + QUOTENAME(@d2) + N'=''' + @var1 + N' ' + @d3 + N''' WHERE [Login] = '''
+                = N'  UPDATE ##db_name SET ' + QUOTENAME(@d2) + N'=''' + @var1 + N' ' + @d3 + N''' WHERE [Section 2: DatabaseRoles - Login] = '''
                   + @d1 + N'''  ';
-
             EXEC (@var);
         END;
 
@@ -274,19 +271,19 @@ BEGIN TRY
     SET IsSysAdminLogin = 'Y'
     FROM ##db_name TT
         INNER JOIN dbo.syslogins SL
-            ON TT.[Login] = SL.[name]
+            ON TT.[Section 2: DatabaseRoles - Login] = SL.[name]
     WHERE SL.sysadmin = 1;
 
     DECLARE cursDNamesAsColumns CURSOR LOCAL FAST_FORWARD FOR
     SELECT [name]
     FROM tempdb.sys.columns
     WHERE object_id = OBJECT_ID('tempdb..##db_name')
-          AND [name] NOT IN ( '[Login]', 'IsEmptyRow' )
+          AND [name] NOT IN ( 'Login', 'IsEmptyRow', 'IsSysAdminLogin', 'Section 2: DatabaseRoles - InstanceName' )
     ORDER BY [name];
 
     OPEN cursDNamesAsColumns;
 
-    DECLARE @ColN VARCHAR(4000),
+    DECLARE @ColN SYSNAME,
             @tSQLText NVARCHAR(MAX);
 
     FETCH NEXT FROM cursDNamesAsColumns
@@ -320,11 +317,14 @@ AND ' + QUOTENAME(@ColN) + N' IS NOT NULL
     SET IsSysAdminLogin = 'N'
     FROM ##db_name TT
         INNER JOIN dbo.syslogins SL
-            ON TT.[Login] = SL.[name]
+            ON TT.[Section 2: DatabaseRoles - Login] = SL.[name]
     WHERE SL.sysadmin = 0;
 
     SELECT *
-    FROM ##db_name;
+    FROM ##db_name
+	WHERE IsEmptyRow = 'N'
+	AND [Section 2: DatabaseRoles - Login] NOT LIKE 'NT SERVICE\%'
+	ORDER BY [Section 2: DatabaseRoles - Login];
 
     DROP TABLE ##db_name;
     DROP TABLE #permission;
@@ -366,51 +366,76 @@ BEGIN CATCH
         DEALLOCATE cursDNamesAsColumns;
     END;
     SELECT ErrorNum = ERROR_NUMBER(),
-           ErrorMsg = ERROR_MESSAGE();
+           ErrorMsg = ERROR_MESSAGE(),
+		   LineNumber = ERROR_LINE();
 END CATCH;
 GO
 
 -- Section 3: Object-level permissions
+CREATE TABLE #rolemember_kk
+(
+	dbRole SYSNAME NULL,
+	MemberName SYSNAME NULL,
+	membersid VARBINARY(85) NULL
+);
+
+CREATE TABLE #ObjectLevelPermissions
+(
+    DatabaseName NVARCHAR(128) NULL,
+    State NVARCHAR(60) NULL,
+    PermissionName NVARCHAR(128) NULL,
+    ObjectName SYSNAME NULL,
+    ObjectType NVARCHAR(60) NULL,
+    Login NVARCHAR(256) NULL,
+	DatabasePrincipalType NVARCHAR(60) NULL
+);
+
 DECLARE @command VARCHAR(MAX);
 SELECT @command
     = '
+TRUNCATE TABLE #rolemember_kk;
+INSERT INTO #rolemember_kk 
+	EXEC sp_helprolemember;
+
+INSERT INTO #ObjectLevelPermissions
 SELECT  ''?'' AS DatabaseName,
 		perm.state_desc AS State,
 		perm.permission_name AS PermissionName,
 		QUOTENAME(SCHEMA_NAME(obj.schema_id)) + ''.'' + QUOTENAME(obj.name) 
 			+ CASE WHEN cl.column_id IS NULL THEN SPACE(0) ELSE ''('' + QUOTENAME(cl.name) + '')'' END AS ObjectName,
-		QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT AS Login
+		obj.type_desc AS ObjectType,
+		QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT AS Login,
+		usr.type_desc AS DatabasePrincipalType
 FROM    sys.database_permissions AS perm
         INNER JOIN sys.objects AS obj ON perm.major_id = obj.[object_id]
         INNER JOIN sys.database_principals AS usr ON perm.grantee_principal_id = usr.principal_id
         LEFT JOIN sys.columns AS cl ON cl.column_id = perm.minor_id
                                        AND cl.[object_id] = perm.major_id
-WHERE QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT NOT IN ( ''[public]'', ''[guest]'' );
+WHERE QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT NOT IN ( ''[public]'', ''[guest]'' )
+  AND (usr.type_desc <> ''DATABASE_ROLE''
+    OR (usr.type_desc = ''DATABASE_ROLE''
+        AND QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT IN ( SELECT DISTINCT QUOTENAME(dbRole) FROM #rolemember_kk AS RM )));	-- Only database roles that have no members
 ';
 
-DECLARE @ObjectLevelPermissions TABLE
-(
-    DatabaseName VARCHAR(50) NULL,
-    State VARCHAR(10) NULL,
-    PermissionName VARCHAR(4000) NULL,
-    ObjectName VARCHAR(4000) NULL,
-    Login VARCHAR(4000) NULL
-);
-
-INSERT INTO @ObjectLevelPermissions
 EXEC dbo.sp_ineachdb @command = @command;
 
-SELECT @@SERVERNAME AS [Section 3: ObjectLevelPermissions - InstanceName],
-       DatabaseName,
+SELECT DatabaseName AS [Section 3: ObjectLevelPermissions - DatabaseName],
        State,
        PermissionName,
        ObjectName,
-       Login
-FROM @ObjectLevelPermissions
-WHERE DatabaseName <> 'msdb'
+	   ObjectType,
+       Login,
+	   DatabasePrincipalType
+FROM #ObjectLevelPermissions
+WHERE DatabaseName NOT IN ('[msdb]', '[SSISDB]')
+AND DatabaseName NOT LIKE '\[ReportServer%' ESCAPE '\'
+AND ObjectType <> 'SYSTEM_TABLE'
 ORDER BY DatabaseName,
          State,
          PermissionName,
          ObjectName,
          Login;
+
+DROP TABLE #rolemember_kk;
+DROP TABLE #ObjectLevelPermissions;
 GO

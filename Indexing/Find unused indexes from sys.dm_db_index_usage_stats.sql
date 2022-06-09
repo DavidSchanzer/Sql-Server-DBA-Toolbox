@@ -16,14 +16,14 @@
 
 CREATE TABLE #output
 (
-    DatabaseName sysname NOT NULL,
-    TableName sysname NOT NULL,
-    IndexName sysname NOT NULL,
-    Rows BIGINT NOT NULL,
-    Reads BIGINT NOT NULL,
-    Writes BIGINT NOT NULL,
-    ReadsPerWrite DECIMAL(18, 1) NOT NULL,
-    DropStatement VARCHAR(255) NOT NULL
+    DatabaseName sysname NULL,
+    TableName sysname NULL,
+    IndexName sysname NULL,
+    Rows BIGINT NULL,
+    Reads BIGINT NULL,
+    Writes BIGINT NULL,
+    ReadsPerWrite DECIMAL(18, 1) NULL,
+    DropStatement VARCHAR(255) NULL
 );
 INSERT INTO #output
 (
