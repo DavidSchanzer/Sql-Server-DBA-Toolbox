@@ -262,7 +262,7 @@ I hope you find them useful.
 - [Find all permissions & access for all users in all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Find%20all%20permissions%20%26%20access%20for%20all%20users%20in%20all%20databases.sql)
 - [Fix all orphaned users in all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Fix%20all%20orphaned%20users%20in%20all%20databases.sql)
 - [Script DB level permissions](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Script%20DB%20level%20permissions.sql)
-- [SQL Server permissions list for read and write access for all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/SQL%20Server%20permissions%20list%20for%20read%20and%20write%20access%20for%20all%20databases.sql)
+- [Comprehensive security audit](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Permissions/Comprehensive%20security%20audit.sql)
 
 [*Back to top*](#header1)
 
