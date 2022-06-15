@@ -101,6 +101,7 @@ I hope you find them useful.
 - [Adding trace flags to a SQL instance through Registry](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Adding%20trace%20flags%20to%20a%20SQL%20instance%20through%20Registry.sql)
 - [Check for Instant File Initialization](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Check%20for%20Instant%20File%20Initialization.sql)
 - [Check for Locked Pages In Memory](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Check%20for%20Locked%20Pages%20In%20Memory.sql)
+- [Check that SQL Agent is configured to send Database Mail](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Check%20that%20SQL%20Agent%20is%20configured%20to%20send%20Database%20Mail.sql)
 - [Correct database file logical names](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Correct%20database%20file%20logical%20names.sql)
 - [Correct database file physical names](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Correct%20database%20file%20physical%20names.sql)
 - [Determine SQL Server version and edition](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Configuration/Determine%20SQL%20Server%20version%20and%20edition.sql)
