@@ -229,6 +229,8 @@ WHERE E.type_desc NOT IN ( 'SERVER_ROLE' )
       AND E.name NOT LIKE 'NT AUTHORITY%'
       AND E.name NOT LIKE 'BUILTIN%'
       AND E.permission <> 'CONNECT SQL'
+	  --AND COALESCE(C1.DisplayName, C2.DisplayName, CASE WHEN E.type_desc = 'WINDOWS_GROUP' AND T2.AccountName IS NULL AND T1.AccountName IS NULL THEN 'No members' ELSE C3.DisplayName END) IS NULL
+	  --AND (COALESCE(T2.AccountName, T1.AccountName, E.name) LIKE 'adm_%' OR COALESCE(T2.AccountName, T1.AccountName, E.name) LIKE '[0-9]%')
 UNION ALL
 SELECT DISTINCT
        F.name,
@@ -260,6 +262,8 @@ WHERE F.type_desc NOT IN ( 'SERVER_ROLE' )
       AND F.name NOT LIKE 'NT AUTHORITY%'
       AND F.name NOT LIKE 'BUILTIN%'
       AND F.permission <> 'CONNECT SQL'
+--	  AND COALESCE(C1.DisplayName, C2.DisplayName, CASE WHEN F.type_desc = 'WINDOWS_GROUP' AND T2.AccountName IS NULL AND T1.AccountName IS NULL THEN 'No members' ELSE C3.DisplayName END) IS NULL
+--	  AND (COALESCE(T2.AccountName, T1.AccountName, F.name) LIKE 'adm_%' OR COALESCE(T2.AccountName, T1.AccountName, F.name) LIKE '[0-9]%')
 ORDER BY E.name
 OPTION (MAXRECURSION 10);
 
@@ -355,6 +359,8 @@ WHERE I.username NOT IN ( 'dbo', 'guest', 'SQLDBO' )
       AND I.username NOT LIKE '##%'
       AND I.[database] NOT IN ( 'master', 'model', 'msdb', 'tempdb', 'SSISDB' )
       AND I.[database] NOT LIKE 'ReportServer%'
+--	  AND COALESCE(C1.DisplayName, C2.DisplayName, CASE WHEN I.type_desc = 'WINDOWS_GROUP' AND T2.AccountName IS NULL THEN 'No members' ELSE C3.DisplayName END) IS NULL
+--	  AND (COALESCE(T2.AccountName, T1.AccountName, I.username) LIKE 'adm_%' OR COALESCE(T2.AccountName, T1.AccountName, I.username) LIKE '[0-9]%')
 ORDER BY I.[database],
          I.username;
 
@@ -463,6 +469,8 @@ FROM #ObjectLevelPermissions AS O
 WHERE O.DatabaseName NOT IN ( 'msdb', 'SSISDB' )
       AND O.DatabaseName NOT LIKE 'ReportServer%'
       AND O.ObjectType <> 'SYSTEM_TABLE'
+--	  AND COALESCE(C1.DisplayName, C2.DisplayName, C4.DisplayName, CASE WHEN O.DatabasePrincipalType = 'WINDOWS_GROUP' AND T2.AccountName IS NULL AND T1.AccountName IS NULL THEN 'No members' ELSE C3.DisplayName END) IS NULL
+--	  AND (COALESCE(T2.AccountName, T1.AccountName, dr.DatabaseUserName) LIKE 'adm_%' OR COALESCE(T2.AccountName, T1.AccountName, dr.DatabaseUserName) LIKE '[0-9]%')
 ORDER BY O.DatabaseName,
          O.State,
          O.PermissionName,
