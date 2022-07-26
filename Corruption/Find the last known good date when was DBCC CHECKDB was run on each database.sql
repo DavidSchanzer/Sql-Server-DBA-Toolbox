@@ -16,17 +16,19 @@ CREATE TABLE #DBInfo
 CREATE TABLE #Value
 (
     DatabaseName VARCHAR(255),
-    LastDBCCCHeckDB_RunDate VARCHAR(255)
+    LastDBCCCheckDB_RunDate VARCHAR(255)
 );
 
 EXECUTE dbo.sp_foreachdb @command = 'INSERT INTO #DBInfo Execute (''DBCC DBINFO ( ''''?'''') WITH TABLERESULTS'');
 INSERT INTO #Value (DatabaseName) SELECT [Value] FROM #DBInfo WHERE Field IN (''dbi_dbname'');
 UPDATE #Value SET LastDBCCCHeckDB_RunDate = (SELECT TOP 1 [Value] FROM #DBInfo WHERE Field IN (''dbi_dbccLastKnownGood'')) where LastDBCCCHeckDB_RunDate is NULL;
-TRUNCATE TABLE #DBInfo', @suppress_quotename = 1, @user_only = 1;
+TRUNCATE TABLE #DBInfo', @suppress_quotename = 1;
 
 SELECT DatabaseName,
-       LastDBCCCHeckDB_RunDate
-FROM #Value;
+       LastDBCCCheckDB_RunDate,
+	   'DBCC CHECKDB(' + DatabaseName + ')' AS DBCCCOmmand
+FROM #Value
+ORDER BY LastDBCCCheckDB_RunDate;
 
 DROP TABLE #DBInfo;
 DROP TABLE #Value;

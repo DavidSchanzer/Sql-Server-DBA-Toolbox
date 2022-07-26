@@ -189,3 +189,6 @@ CLOSE tmp;
 
 DEALLOCATE tmp;
 GO
+
+USE master;
+GO
