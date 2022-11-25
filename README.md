@@ -282,9 +282,12 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Query Store
+- [Mining the Query Store - biggest average logical IO reads](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20biggest%20average%20logical%20IO%20reads.sql)
+- [Mining the Query Store - longest average execution time](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20longest%20average%20execution%20time.sql)
 - [Mining the Query Store - looking for index usage in queries](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20looking%20for%20index%20usage%20in%20queries.sql)
 - [Mining the Query Store - looking for Key Lookups in queries](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20looking%20for%20Key%20Lookups%20in%20queries.sql)
 - [Mining the Query Store - looking for text strings in queries](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20looking%20for%20text%20strings%20in%20queries.sql)
+- [Mining the Query Store - queries with multiple plans](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Mining%20the%20Query%20Store%20-%20queries%20with%20multiple%20plans.sql)
 - [Most expensive queries using Query Store](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/Most%20expensive%20queries%20using%20Query%20Store.sql)
 - [sp_QuickieStore - Erik Darling](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Query%20Store/sp_QuickieStore%20-%20Erik%20Darling.sql)
 
