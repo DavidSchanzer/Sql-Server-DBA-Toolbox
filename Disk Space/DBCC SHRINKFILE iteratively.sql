@@ -2,7 +2,7 @@
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script iteratively shrinks the nominated fileid (normally set to 1 for the primary data file) to 99% of its current size.
 -- This is generally a much better strategy than trying to remove all available free space in one go, and also allows for frequent incremental gains.
--- Once this is complete, the Ola Hallengren IndexOptimize job should be run.
+-- Once this is complete, the Ola Hallengren IndexOptimize job should be run in order to remove the fragmentation introduced by the process.
 
 DECLARE @LogicalFileName	SYSNAME,
 		@TargetSizeMB		INT,
