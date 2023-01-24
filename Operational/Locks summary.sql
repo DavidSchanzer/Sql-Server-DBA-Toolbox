@@ -22,7 +22,8 @@ SELECT dtl.request_session_id,
        ) AS requested_object_name,
        dtl.request_mode AS lock_type,
        dtl.request_status,
-       dtl.request_owner_id AS transaction_id
+       dtl.request_owner_id AS transaction_id,
+	   DB_NAME(des.database_id) AS database_name
 INTO #Locks
 FROM sys.dm_tran_locks AS dtl
     LEFT OUTER JOIN sys.dm_exec_sessions AS des
@@ -35,6 +36,7 @@ SELECT request_session_id,
        lock_type,
        request_status,
        transaction_id,
+	   database_name,
        COUNT(*) AS [Lock Count]
 FROM #Locks
 GROUP BY request_session_id,
@@ -43,13 +45,15 @@ GROUP BY request_session_id,
          requested_object_name,
          lock_type,
          request_status,
-         transaction_id
+         transaction_id,
+         database_name
 ORDER BY request_session_id,
          login_name,
          resource_type,
          requested_object_name,
          lock_type,
          request_status,
-         transaction_id;
+         transaction_id,
+         database_name;
 
 DROP TABLE #Locks;
