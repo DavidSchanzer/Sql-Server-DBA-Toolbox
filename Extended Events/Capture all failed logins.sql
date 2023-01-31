@@ -8,17 +8,10 @@ ON SERVER
     ADD EVENT sqlserver.error_reported
     (ACTION
      (
-         package0.callstack,
          sqlserver.client_app_name,
          sqlserver.client_hostname,
-         sqlserver.context_info,
          sqlserver.database_id,
-         sqlserver.database_name,
-         sqlserver.nt_username,
-         sqlserver.sql_text,
-         sqlserver.tsql_frame,
-         sqlserver.tsql_stack,
-         sqlserver.username
+         sqlserver.database_name
      )
      WHERE (
                [Severity] = (14)
@@ -45,7 +38,14 @@ SELECT FailedLoginData = CONVERT(XML, event_data)
 INTO #FailedLogin
 FROM sys.fn_xe_file_target_read_file(N'C:\temp\FailedLogin*.xel', NULL, NULL, NULL);
 SELECT EventDate = FailedLoginData.value(N'(event/@timestamp)[1]', N'datetime'),
-       Message = FailedLoginData.value(N'(event/data[@name="message"]/value)[1]', N'varchar(100)')
+       Message = FailedLoginData.value(N'(event/data[@name="message"]/value)[1]', N'varchar(100)'),
+       ClientAppName = FailedLoginData.value(N'(event/action[@name="client_app_name"]/value)[1]', N'varchar(100)'),
+       ClientHostName = FailedLoginData.value(N'(event/action[@name="client_hostname"]/value)[1]', N'varchar(100)'),
+       DatabaseID = FailedLoginData.value(N'(event/action[@name="database_id"]/value)[1]', N'int'),
+       DatabaseName = FailedLoginData.value(N'(event/action[@name="database_name"]/value)[1]', N'varchar(100)'),
+       ErrorNumber = FailedLoginData.value(N'(event/data[@name="error_number"]/value)[1]', N'int'),
+       Severity = FailedLoginData.value(N'(event/data[@name="severity"]/value)[1]', N'int'),
+       State = FailedLoginData.value(N'(event/data[@name="state"]/value)[1]', N'int')
 FROM #FailedLogin
 ORDER BY EventDate DESC;
 
