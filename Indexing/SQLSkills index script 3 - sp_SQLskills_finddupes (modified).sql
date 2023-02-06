@@ -118,11 +118,11 @@ CREATE TABLE #FindDupes
 );
 
 IF @ObjName IS NOT NULL
-    DECLARE TableCursor CURSOR LOCAL STATIC FAST_FORWARD FOR
+    DECLARE TableCursor CURSOR LOCAL STATIC FOR
     SELECT @SchemaName,
            PARSENAME(@ObjName, 1);
 ELSE
-    DECLARE TableCursor CURSOR LOCAL STATIC FAST_FORWARD FOR
+    DECLARE TableCursor CURSOR LOCAL STATIC FOR
     SELECT SCHEMA_NAME(uid),
            name
     FROM sys.sysobjects
