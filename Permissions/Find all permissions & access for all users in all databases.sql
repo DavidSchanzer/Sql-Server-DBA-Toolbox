@@ -8,6 +8,9 @@ GO
 
 -- Section 1: Instance-level permissions
 SELECT SP1.[name] AS [Section 1: InstancePermissions - Login],
+       SP1.type_desc AS PrincipalType,
+       SP1.create_date AS CreateDate,
+       SP1.is_disabled AS IsDisabled,
        'Role: ' + SP2.[name] COLLATE DATABASE_DEFAULT AS InstancePermission
 FROM sys.server_principals SP1
     JOIN sys.server_role_members SRM
@@ -15,9 +18,12 @@ FROM sys.server_principals SP1
     JOIN sys.server_principals SP2
         ON SRM.role_principal_id = SP2.principal_id
 WHERE SP1.[name] NOT LIKE 'NT SERVICE\%'
-  AND SP1.[name] <> 'sa'
+      AND SP1.[name] NOT IN ( 'sa', 'NT AUTHORITY\SYSTEM' )
 UNION ALL
 SELECT SP.[name] AS Login,
+       SP.type_desc,
+       SP.create_date,
+       SP.is_disabled,
        SPerm.state_desc + ' ' + SPerm.permission_name COLLATE DATABASE_DEFAULT AS InstancePermission
 FROM sys.server_principals SP
     JOIN sys.server_permissions SPerm
@@ -32,7 +38,7 @@ ORDER BY SP1.[name],
          InstancePermission;
 GO
 
--- Section 2: Database-level permissions
+-- Section 2: Database-level permissions - pivoted
 -- From http://stackoverflow.com/questions/7048839/sql-server-query-to-find-all-permissions-access-for-all-users-in-a-database
 BEGIN TRY
     IF EXISTS
@@ -64,13 +70,12 @@ BEGIN TRY
     )
         DROP TABLE ##db_name;
 
-    DECLARE @db_name SYSNAME,
+    DECLARE @db_name sysname,
             @sql_text VARCHAR(MAX);
 
-    SET @sql_text
-        = 'CREATE TABLE ##db_name
+    SET @sql_text = 'CREATE TABLE ##db_name
     (
-		[Section 2: DatabaseRoles - Login] SYSNAME
+		[Section 2: DatabasePermissions pivoted - Login] SYSNAME
         ,';
 
     DECLARE cursDBs CURSOR LOCAL FAST_FORWARD FOR
@@ -103,13 +108,13 @@ BEGIN TRY
 
     DEALLOCATE cursDBs;
 
-    DECLARE @UserName SYSNAME;
+    DECLARE @UserName sysname;
 
     CREATE TABLE #permission
     (
-        [Login] SYSNAME NULL,
-        databasename SYSNAME NULL,
-        [role] SYSNAME NULL
+        [Login] sysname NULL,
+        databasename sysname NULL,
+        [role] sysname NULL
     );
 
     DECLARE cursSysSrvPrinName CURSOR LOCAL FAST_FORWARD FOR
@@ -129,15 +134,15 @@ BEGIN TRY
     BEGIN
         CREATE TABLE #UserRoles_kk
         (
-            databasename SYSNAME NULL,
-            [role] SYSNAME NULL
+            databasename sysname NULL,
+            [role] sysname NULL
         );
 
         CREATE TABLE #rolemember_kk
         (
-			dbRole SYSNAME NULL,
-			MemberName SYSNAME NULL,
-			membersid VARBINARY(85) NULL
+            dbRole sysname NULL,
+            MemberName sysname NULL,
+            membersid VARBINARY(85) NULL
         );
 
         DECLARE cursDatabases CURSOR LOCAL FAST_FORWARD FOR
@@ -148,7 +153,7 @@ BEGIN TRY
 
         OPEN cursDatabases;
 
-        DECLARE @DBN SYSNAME,
+        DECLARE @DBN sysname,
                 @sqlText NVARCHAR(MAX);
 
         FETCH NEXT FROM cursDatabases
@@ -210,9 +215,9 @@ BEGIN TRY
 
     TRUNCATE TABLE ##db_name;
 
-    DECLARE @d1 SYSNAME,
-            @d2 SYSNAME,
-            @d3 SYSNAME,
+    DECLARE @d1 sysname,
+            @d2 sysname,
+            @d3 sysname,
             @ss VARCHAR(200);
 
     DECLARE cursPermisTable CURSOR LOCAL FAST_FORWARD FOR
@@ -231,11 +236,18 @@ BEGIN TRY
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM ##db_name WHERE [Section 2: DatabaseRoles - Login] = @d1)
+        IF NOT EXISTS
+        (
+            SELECT 1
+            FROM ##db_name
+            WHERE [Section 2: DatabasePermissions pivoted - Login] = @d1
+        )
         BEGIN
-            SET @ss = 'INSERT INTO ##db_name([Section 2: DatabaseRoles - Login]) VALUES (''' + @d1 + ''')';
+            SET @ss = 'INSERT INTO ##db_name([Section 2: DatabasePermissions pivoted - Login]) VALUES (''' + @d1 + ''')';
             EXEC (@ss);
-            SET @ss = 'UPDATE ##db_name SET ' + @d2 + ' = ''' + @d3 + ''' WHERE [Section 2: DatabaseRoles - Login] = ''' + @d1 + '''';
+            SET @ss
+                = 'UPDATE ##db_name SET ' + @d2 + ' = ''' + @d3 + ''' WHERE [Section 2: DatabasePermissions pivoted - Login] = '''
+                  + @d1 + '''';
             EXEC (@ss);
         END;
         ELSE
@@ -244,7 +256,9 @@ BEGIN TRY
                     @ParmDefinition NVARCHAR(MAX),
                     @var1 NVARCHAR(MAX);
 
-            SET @var = N'SELECT @var1 = ' + QUOTENAME(@d2) + N' FROM ##db_name WHERE [Section 2: DatabaseRoles - Login] = ''' + @d1 + N'''';
+            SET @var
+                = N'SELECT @var1 = ' + QUOTENAME(@d2)
+                  + N' FROM ##db_name WHERE [Section 2: DatabasePermissions pivoted - Login] = ''' + @d1 + N'''';
             SET @ParmDefinition = N'@var1 NVARCHAR(600) OUTPUT ';
             EXECUTE sp_executesql @stmt = @var,
                                   @params = @ParmDefinition,
@@ -252,8 +266,8 @@ BEGIN TRY
 
             SET @var1 = ISNULL(@var1, ' ');
             SET @var
-                = N'  UPDATE ##db_name SET ' + QUOTENAME(@d2) + N'=''' + @var1 + N' ' + @d3 + N''' WHERE [Section 2: DatabaseRoles - Login] = '''
-                  + @d1 + N'''  ';
+                = N'  UPDATE ##db_name SET ' + QUOTENAME(@d2) + N'=''' + @var1 + N' ' + @d3
+                  + N''' WHERE [Section 2: DatabasePermissions pivoted - Login] = ''' + @d1 + N'''  ';
             EXEC (@var);
         END;
 
@@ -271,19 +285,19 @@ BEGIN TRY
     SET IsSysAdminLogin = 'Y'
     FROM ##db_name TT
         INNER JOIN dbo.syslogins SL
-            ON TT.[Section 2: DatabaseRoles - Login] = SL.[name]
+            ON TT.[Section 2: DatabasePermissions pivoted - Login] = SL.[name]
     WHERE SL.sysadmin = 1;
 
     DECLARE cursDNamesAsColumns CURSOR LOCAL FAST_FORWARD FOR
     SELECT [name]
     FROM tempdb.sys.columns
     WHERE object_id = OBJECT_ID('tempdb..##db_name')
-          AND [name] NOT IN ( 'Login', 'IsEmptyRow', 'IsSysAdminLogin', 'Section 2: DatabaseRoles - InstanceName' )
+          AND [name] NOT IN ( 'Login', 'IsEmptyRow', 'IsSysAdminLogin', 'Section 2: DatabasePermissions - InstanceName' )
     ORDER BY [name];
 
     OPEN cursDNamesAsColumns;
 
-    DECLARE @ColN SYSNAME,
+    DECLARE @ColN sysname,
             @tSQLText NVARCHAR(MAX);
 
     FETCH NEXT FROM cursDNamesAsColumns
@@ -317,14 +331,14 @@ AND ' + QUOTENAME(@ColN) + N' IS NOT NULL
     SET IsSysAdminLogin = 'N'
     FROM ##db_name TT
         INNER JOIN dbo.syslogins SL
-            ON TT.[Section 2: DatabaseRoles - Login] = SL.[name]
+            ON TT.[Section 2: DatabasePermissions pivoted - Login] = SL.[name]
     WHERE SL.sysadmin = 0;
 
     SELECT *
     FROM ##db_name
-	WHERE IsEmptyRow = 'N'
-	AND [Section 2: DatabaseRoles - Login] NOT LIKE 'NT SERVICE\%'
-	ORDER BY [Section 2: DatabaseRoles - Login];
+    WHERE IsEmptyRow = 'N'
+          AND [Section 2: DatabasePermissions pivoted - Login] NOT LIKE 'NT SERVICE\%'
+    ORDER BY [Section 2: DatabasePermissions pivoted - Login];
 
     DROP TABLE ##db_name;
     DROP TABLE #permission;
@@ -367,16 +381,46 @@ BEGIN CATCH
     END;
     SELECT ErrorNum = ERROR_NUMBER(),
            ErrorMsg = ERROR_MESSAGE(),
-		   LineNumber = ERROR_LINE();
+           LineNumber = ERROR_LINE();
 END CATCH;
 GO
 
--- Section 3: Object-level permissions
+-- Section 3: Database-level permissions - unpivoted
+CREATE TABLE #DatabasePermissionsUnpivoted
+( DatabaseName sysname NOT NULL,
+  PrincipalName sysname NOT NULL,
+  PrincipalType VARCHAR(20) NOT NULL,
+  CreateDate DATETIME2 NOT NULL,
+  PermissionName VARCHAR(100) NOT NULL );
+
+INSERT INTO #DatabasePermissionsUnpivoted (DatabaseName, PrincipalName, PrincipalType, CreateDate, PermissionName)
+EXEC sp_ineachdb @command = '
+SELECT DB_NAME(), dp.name, dp.type_desc,
+    dp.create_date, dpe.permission_name
+FROM sys.database_principals AS dp
+INNER JOIN sys.database_permissions AS dpe  
+    ON dpe.grantee_principal_id = dp.principal_id  
+WHERE dp.name NOT IN (''public'', ''dbo'', ''guest'', ''sys'', ''INFORMATION_SCHEMA'' )
+AND NOT (dp.type_desc = ''DATABASE_ROLE'' AND dp.is_fixed_role = 1);
+', @user_only = 1, @exclude_list = 'SSISDB';
+GO
+
+SELECT DISTINCT DatabaseName AS 'Section 3: DatabasePermissions unpivoted - DatabaseName',
+       PrincipalName,
+       PrincipalType,
+       CreateDate,
+       PermissionName
+FROM #DatabasePermissionsUnpivoted
+ORDER BY DatabaseName, PrincipalName, PermissionName;
+
+DROP TABLE #DatabasePermissionsUnpivoted;
+
+-- Section 4: Object-level permissions
 CREATE TABLE #rolemember_kk
 (
-	dbRole SYSNAME NULL,
-	MemberName SYSNAME NULL,
-	membersid VARBINARY(85) NULL
+    dbRole sysname NULL,
+    MemberName sysname NULL,
+    membersid VARBINARY(85) NULL
 );
 
 CREATE TABLE #ObjectLevelPermissions
@@ -384,10 +428,10 @@ CREATE TABLE #ObjectLevelPermissions
     DatabaseName NVARCHAR(128) NULL,
     State NVARCHAR(60) NULL,
     PermissionName NVARCHAR(128) NULL,
-    ObjectName SYSNAME NULL,
+    ObjectName sysname NULL,
     ObjectType NVARCHAR(60) NULL,
     Login NVARCHAR(256) NULL,
-	DatabasePrincipalType NVARCHAR(60) NULL
+    DatabasePrincipalType NVARCHAR(60) NULL
 );
 
 DECLARE @command VARCHAR(MAX);
@@ -419,17 +463,17 @@ WHERE QUOTENAME(USER_NAME(usr.principal_id)) COLLATE DATABASE_DEFAULT NOT IN ( '
 
 EXEC dbo.sp_ineachdb @command = @command;
 
-SELECT DatabaseName AS [Section 3: ObjectLevelPermissions - DatabaseName],
+SELECT DatabaseName AS [Section 4: ObjectLevelPermissions - DatabaseName],
        State,
        PermissionName,
        ObjectName,
-	   ObjectType,
+       ObjectType,
        Login,
-	   DatabasePrincipalType
+       DatabasePrincipalType
 FROM #ObjectLevelPermissions
-WHERE DatabaseName NOT IN ('[msdb]', '[SSISDB]')
-AND DatabaseName NOT LIKE '\[ReportServer%' ESCAPE '\'
-AND ObjectType <> 'SYSTEM_TABLE'
+WHERE DatabaseName NOT IN ( '[msdb]', '[SSISDB]' )
+      AND DatabaseName NOT LIKE '\[ReportServer%' ESCAPE '\'
+      AND ObjectType <> 'SYSTEM_TABLE'
 ORDER BY DatabaseName,
          State,
          PermissionName,
