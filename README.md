@@ -198,6 +198,7 @@ I hope you find them useful.
 [*Back to top*](#header1)
 
 ### Indexing
+- [Drop All Redundant Indexes In Every Database All At Once](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Drop%20All%20Redundant%20Indexes%20In%20Every%20Database%20All%20At%20Once.sql)
 - [Find columnstore indexes than are more than 10 percent fragmented](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20columnstore%20indexes%20than%20are%20more%20than%2010%20percent%20fragmented.sql)
 - [Find duplicate indexes using sp_SQLskills_finddupes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20duplicate%20indexes%20using%20sp_SQLskills_finddupes.sql)
 - [Find large tables for potential Clustered Columnstore Indexes](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20large%20tables%20for%20potential%20Clustered%20Columnstore%20Indexes.sql)
