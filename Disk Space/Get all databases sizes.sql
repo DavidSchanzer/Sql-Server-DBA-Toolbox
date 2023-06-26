@@ -74,8 +74,7 @@ BEGIN
 
 	EXEC sys.sp_executesql @stmt = @SQL;
 
-	SELECT d.database_id,
-		   d.name,
+	SELECT d.name,
 		   d.state_desc,
 		   d.recovery_model_desc,
 		   t.total_size AS total_size_MB,
