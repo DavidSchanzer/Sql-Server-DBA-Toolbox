@@ -76,8 +76,8 @@ SELECT DatabaseName,
        ApplicationName,
        Owner
 FROM #results
-WHERE 
-ApplicationName IS NULL OR ApplicationName = ''
-OR Owner IS NULL OR Owner = ''
+--WHERE 
+--ApplicationName IS NULL OR ApplicationName = ''
+--OR Owner IS NULL OR Owner = ''
 ORDER BY DatabaseName
 ;
