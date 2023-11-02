@@ -1,4 +1,4 @@
--- Get all databases sizes
+-- Get all database sizes
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script lists all user databases in descending order of total size, with size and backup information 
 
