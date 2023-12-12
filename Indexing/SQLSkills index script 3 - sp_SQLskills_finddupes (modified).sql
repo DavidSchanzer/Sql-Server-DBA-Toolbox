@@ -111,8 +111,8 @@ CREATE TABLE #FindDupes
     index_name sysname NOT NULL,
     index_description VARCHAR(210) NOT NULL,
     index_keys NVARCHAR(2126) NOT NULL,
-    included_columns NVARCHAR(MAX) NOT NULL,
-    filter_definition NVARCHAR(MAX) NOT NULL,
+    included_columns NVARCHAR(MAX) NULL,
+    filter_definition NVARCHAR(MAX) NULL,
     columns_in_tree NVARCHAR(2126) NOT NULL,
     columns_in_leaf NVARCHAR(MAX) NOT NULL
 );

@@ -1,4 +1,4 @@
--- Mining the Query Store - looking for Key Lookups in queries
+-- Mining the Query Store - looking for text strings in queries
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script lists all queries in the Query Store that contain a specific string or stored procedure name.
 -- From https://www.sqlskills.com/blogs/erin/why-you-need-query-store-part-iii-proactively-analyze-your-workload/
@@ -80,7 +80,7 @@ JOIN [sys].[query_store_plan] [qsp]
      ON [qsq].[query_id] = [qsp].[query_id]
 JOIN [sys].[query_store_runtime_stats] [rs]
      ON [qsp].[plan_id] = [rs].[plan_id]
-WHERE [qst].[query_sql_text] LIKE '%InsertQueryTextHee%'
+WHERE [qst].[query_sql_text] LIKE '%InsertQueryTextHere%'
 AND [rs].[last_execution_time] AT TIME ZONE 'AUS Eastern Standard Time' BETWEEN 'yyyy-mm-dd hh:mm +11:00' AND 'yyyy-mm-dd hh:mm +11:00'
 ORDER BY rs.first_execution_time;
 
