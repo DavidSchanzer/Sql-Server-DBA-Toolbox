@@ -26,7 +26,7 @@ I hope you find them useful.
 - [Database Design](#database-design)
 - [Deadlocks](#deadlocks)
 - [Disk Space](#disk-space)
-- [Error Log](#derror-log)
+- [Error Log](#error-log)
 - [Extended Events](#extended-events)
 - [Fragmentation](#fragmentation)
 - [Indexing](#indexing)
