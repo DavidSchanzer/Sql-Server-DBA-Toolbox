@@ -20,9 +20,10 @@ SET @StartDateText = CAST(DATEADD(DAY, -@Reportinginterval, GETUTCDATE()) AS VAR
 
 -- Cursor to step through the databases
 DECLARE curDatabases CURSOR LOCAL FAST_FORWARD FOR
-SELECT [name]
+SELECT name
 FROM sys.databases
-WHERE is_query_store_on = 1;
+WHERE is_query_store_on = 1
+ORDER BY name;
 
 -- Temp table to store the results
 DROP TABLE IF EXISTS #Stats;
@@ -31,7 +32,7 @@ CREATE TABLE #Stats
     DatabaseName sysname NOT NULL,
     SchemaName sysname NULL,
     ObjectName sysname NULL,
-    QueryText VARCHAR(1000) NOT NULL,
+    QueryText VARCHAR(MAX) NOT NULL,
     TotalExecutions BIGINT NOT NULL,
     TotalDuration DECIMAL(20, 3) NOT NULL,
     TotalCPU DECIMAL(20, 3) NOT NULL,
@@ -54,7 +55,7 @@ BEGIN
 		  DB_NAME(),
 		  s.name AS SchemaName,
 		  o.name AS ObjectName,
-		  SUBSTRING(t.query_sql_text,1,1000) AS QueryText,
+		  t.query_sql_text AS QueryText,
 		  SUM(rs.count_executions) AS TotalExecutions,
 		  SUM(rs.avg_duration * rs.count_executions) AS TotalDuration,
 		  SUM(rs.avg_cpu_time * rs.count_executions) AS TotalCPU,
@@ -74,9 +75,10 @@ BEGIN
 		  ON o.schema_id = s.schema_id     
 	   WHERE rsi.start_time > ''' + @StartDateText
           + '''
-	   GROUP BY s.name, o.name, SUBSTRING(t.query_sql_text,1,1000)
+	   GROUP BY s.name, o.name, t.query_sql_text
 	   OPTION(RECOMPILE);';
 
+	PRINT @SQL;
     EXEC (@SQL);
 
     FETCH NEXT FROM curDatabases
@@ -109,13 +111,13 @@ SELECT TOP (20)
        CAST((TotalCPU / TotalExecutions) / 1000 AS DECIMAL(19, 2)) AS [AverageCPU(ms)],
        TotalLogicalReads,
        CAST((TotalLogicalReads / @TotalLogicalReads) * 100 AS DECIMAL(5, 2)) AS [TotalLogicalReads %],
-       CAST((TotalLogicalReads / TotalExecutions) AS DECIMAL(19, 2)) AS [AverageLogicalReads]
+       CAST((TotalLogicalReads / TotalExecutions) AS DECIMAL(19, 2)) AS AverageLogicalReads
 FROM #Stats
 --Order by the resource you're most interested in
 
 --ORDER BY TotalExecutions DESC
 --ORDER BY TotalDuration DESC
-ORDER BY TotalCPU DESC;
---ORDER BY TotalLogicalReads DESC
+--ORDER BY TotalCPU DESC;
+ORDER BY TotalLogicalReads DESC
 
 DROP TABLE #Stats;
