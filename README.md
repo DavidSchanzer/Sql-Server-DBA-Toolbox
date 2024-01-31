@@ -26,6 +26,7 @@ I hope you find them useful.
 - [Database Design](#database-design)
 - [Deadlocks](#deadlocks)
 - [Disk Space](#disk-space)
+- [Error Log](#derror-log)
 - [Extended Events](#extended-events)
 - [Fragmentation](#fragmentation)
 - [Indexing](#indexing)
@@ -175,6 +176,11 @@ I hope you find them useful.
 - [Move Primary data file](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Move%20Primary%20data%20file.sql)
 - [Shrink all log files over 1000 MB to 1000 MB](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Shrink%20all%20log%20files%20over%201000%20MB%20to%201000%20MB.sql)
 - [Turn all Heaps into Clustered Columnstore with Archive Compression](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Turn%20all%20Heaps%20into%20Clustered%20Columnstore%20with%20Archive%20Compression.sql)
+
+[*Back to top*](#header1)
+
+### Error Log
+- [Search the SQL Server error log files for a nominated string](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Error%20Log/Search%20the%20SQL%20Server%20error%20log%20files%20for%20a%20nominated%20string.sql)
 
 [*Back to top*](#header1)
 
