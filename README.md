@@ -26,6 +26,7 @@ I hope you find them useful.
 - [Database Design](#database-design)
 - [Deadlocks](#deadlocks)
 - [Disk Space](#disk-space)
+- [Encryption In-Transit](#encryption-in-transit)
 - [Error Log](#error-log)
 - [Extended Events](#extended-events)
 - [Fragmentation](#fragmentation)
@@ -176,6 +177,11 @@ I hope you find them useful.
 - [Move Primary data file](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Move%20Primary%20data%20file.sql)
 - [Shrink all log files over 1000 MB to 1000 MB](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Shrink%20all%20log%20files%20over%201000%20MB%20to%201000%20MB.sql)
 - [Turn all Heaps into Clustered Columnstore with Archive Compression](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Disk%20Space/Turn%20all%20Heaps%20into%20Clustered%20Columnstore%20with%20Archive%20Compression.sql)
+
+[*Back to top*](#header1)
+
+### Encryption In-Transit
+- [Capture all unencrypted database connections using a Logon trigger](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Encryption%20In-Transit/Capture%20all%20unencrypted%20database%20connections%20using%20a%20Logon%20trigger.sql)
 
 [*Back to top*](#header1)
 
