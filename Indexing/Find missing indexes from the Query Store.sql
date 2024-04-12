@@ -227,11 +227,11 @@ BEGIN
     SET @sql
         = N'
 		SELECT TOP (1) @QueryPlan = CAST(qsp.query_plan AS NVARCHAR(MAX)), @QuerySQLText = qsqt.query_sql_text 
-			FROM ' + @DatabaseName + N'.sys.query_store_plan AS qsp 
-			INNER JOIN ' + @DatabaseName
-          + N'.sys.query_store_query AS qsq ON qsp.query_id = qsq.query_id 
-			INNER JOIN ' + @DatabaseName
-          + N'.sys.query_store_query_text AS qsqt ON qsqt.query_text_id = qsq.query_text_id 
+			FROM [' + @DatabaseName + N'].sys.query_store_plan AS qsp 
+			INNER JOIN [' + @DatabaseName
+          + N'].sys.query_store_query AS qsq ON qsp.query_id = qsq.query_id 
+			INNER JOIN [' + @DatabaseName
+          + N'].sys.query_store_query_text AS qsqt ON qsqt.query_text_id = qsq.query_text_id 
 			WHERE query_plan_hash = ' + @QueryPlanHashStr;
 
     EXEC sp_executesql @stmt = @sql,
