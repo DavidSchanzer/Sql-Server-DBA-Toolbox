@@ -26,6 +26,7 @@ I hope you find them useful.
 - [Database Design](#database-design)
 - [Deadlocks](#deadlocks)
 - [Disk Space](#disk-space)
+- [Encryption At-Rest](#encryption-at-rest)
 - [Encryption In-Transit](#encryption-in-transit)
 - [Error Log](#error-log)
 - [Extended Events](#extended-events)
