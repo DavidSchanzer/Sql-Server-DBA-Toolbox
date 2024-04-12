@@ -180,6 +180,9 @@ I hope you find them useful.
 
 [*Back to top*](#header1)
 
+### Encryption At-Rest
+- [List the certificate that was used to encrypt each database on an instance](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Encryption%20At-Rest/List%20the%20certificate%20that%20was%20used%20to%20encrypt%20each%20database%20on%20an%20instance.sql)
+
 ### Encryption In-Transit
 - [Capture all unencrypted database connections using a Logon trigger](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Encryption%20In-Transit/Capture%20all%20unencrypted%20database%20connections%20using%20a%20Logon%20trigger.sql)
 
