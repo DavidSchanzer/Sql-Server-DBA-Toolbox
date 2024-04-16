@@ -249,6 +249,7 @@ I hope you find them useful.
 - [Locks summary](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Locks%20summary.sql)
 - [Open transactions with text and plans](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Open%20transactions%20with%20text%20and%20plans.sql)
 - [Query the Default Trace](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/Query%20the%20Default%20Trace.sql)
+- [When was my SQL Server Database Last Accessed](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Operational/When%20was%20my%20SQL%20Server%20Database%20Last%20Accessed.sql)
 
 [*Back to top*](#header1)
 
