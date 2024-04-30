@@ -1,4 +1,4 @@
--- Set notification for all jobs to email SQL Administrator
+-- Set notification for all jobs that currently have no notification to email SQL Administrator
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script sets notification for all SQL Agent jobs to email SQL Administrator
 
@@ -6,7 +6,8 @@ DECLARE @job_id UNIQUEIDENTIFIER;
 
 DECLARE job_cur CURSOR LOCAL FAST_FORWARD FOR
 SELECT job_id
-FROM msdb.dbo.sysjobs;
+FROM msdb.dbo.sysjobs
+WHERE notify_level_email = 0;
 
 OPEN job_cur;
 
