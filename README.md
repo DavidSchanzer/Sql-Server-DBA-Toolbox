@@ -186,6 +186,7 @@ I hope you find them useful.
 
 ### Encryption In-Transit
 - [Capture all unencrypted database connections using a Logon trigger](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Encryption%20In-Transit/Capture%20all%20unencrypted%20database%20connections%20using%20a%20Logon%20trigger.sql)
+- [Capture encryption status of all database connections using a Logon trigger](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Encryption%20In-Transit/Capture%20encryption%20status%20of%20all%20database%20connections%20using%20a%20Logon%20trigger.sql)
 
 [*Back to top*](#header1)
 
