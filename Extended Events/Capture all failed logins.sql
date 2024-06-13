@@ -37,6 +37,7 @@ GO
 SELECT FailedLoginData = CONVERT(XML, event_data)
 INTO #FailedLogin
 FROM sys.fn_xe_file_target_read_file(N'C:\temp\FailedLogin*.xel', NULL, NULL, NULL);
+
 SELECT EventDate = FailedLoginData.value(N'(event/@timestamp)[1]', N'datetime'),
        Message = FailedLoginData.value(N'(event/data[@name="message"]/value)[1]', N'varchar(100)'),
        ClientAppName = FailedLoginData.value(N'(event/action[@name="client_app_name"]/value)[1]', N'varchar(100)'),
