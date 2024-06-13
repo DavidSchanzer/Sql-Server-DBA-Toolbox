@@ -1,3 +1,4 @@
+-- Capture all unencrypted database connections using a Logon trigger
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script creates a Logon trigger that records into table tempdb.dbo.unencrypted_connections any unencrypted T-SQL TCP database connections except for those from SSMS.
 -- Some applications make very frequent and multiple database connections, so actively monitor the number of rows being inserted into this table to avoid filling TempDB.

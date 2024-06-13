@@ -55,6 +55,7 @@ BEGIN
             = N'ALTER DATABASE ' + QUOTENAME(@DatabaseName) + N' SET COMPATIBILITY_LEVEL = '
               + CAST(@MaximumDBCompatLevel AS NVARCHAR(10)) + N';';
 
+        PRINT @SQL;
         EXEC (@SQL);
         SET @Counter += 1;
     END;
