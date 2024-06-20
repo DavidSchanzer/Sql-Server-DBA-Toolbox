@@ -72,6 +72,7 @@ SELECT query_plan,
        equality_columns,
        inequality_columns,
        include_columns
-FROM #MissingIndexInfo;
+FROM #MissingIndexInfo
+ORDER BY impact DESC;
 
 DROP TABLE #MissingIndexInfo;
