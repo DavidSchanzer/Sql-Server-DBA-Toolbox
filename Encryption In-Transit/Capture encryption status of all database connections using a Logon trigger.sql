@@ -6,57 +6,57 @@
 ---- connection was made. This enables you to confidently force encrypted connections only, knowing that the last time each program made an unencrypted connection was some time ago,
 ---- and that the program now makes encrypted connections.
 
---USE master
---GO
+USE master
+GO
 
----- Create the zDBAEncryptionAuditing database, dropping it if it already existed
---IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'zDBAEncryptionAuditing')
---BEGIN
---	ALTER DATABASE zDBAEncryptionAuditing SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
---	DROP DATABASE IF EXISTS zDBAEncryptionAuditing;
---END
---GO
---CREATE DATABASE zDBAEncryptionAuditing;
---GO
+-- Create the zDBAEncryptionAuditing database, dropping it if it already existed
+IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'zDBAEncryptionAuditing')
+BEGIN
+	ALTER DATABASE zDBAEncryptionAuditing SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+	DROP DATABASE IF EXISTS zDBAEncryptionAuditing;
+END
+GO
+CREATE DATABASE zDBAEncryptionAuditing;
+GO
 
----- Turn on RCSI, as without this you can get the error:
----- "Snapshot isolation transaction failed accessing database 'zDBAEncryptionAuditing' because snapshot isolation is not allowed in this database. Use ALTER DATABASE to allow snapshot isolation."
---ALTER DATABASE zDBAEncryptionAuditing SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
---ALTER DATABASE zDBAEncryptionAuditing SET READ_COMMITTED_SNAPSHOT ON;
---ALTER DATABASE zDBAEncryptionAuditing SET ALLOW_SNAPSHOT_ISOLATION ON;
---ALTER DATABASE zDBAEncryptionAuditing SET MULTI_USER;
---GO
+-- Turn on RCSI, as without this you can get the error:
+-- "Snapshot isolation transaction failed accessing database 'zDBAEncryptionAuditing' because snapshot isolation is not allowed in this database. Use ALTER DATABASE to allow snapshot isolation."
+ALTER DATABASE zDBAEncryptionAuditing SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE zDBAEncryptionAuditing SET READ_COMMITTED_SNAPSHOT ON;
+ALTER DATABASE zDBAEncryptionAuditing SET ALLOW_SNAPSHOT_ISOLATION ON;
+ALTER DATABASE zDBAEncryptionAuditing SET MULTI_USER;
+GO
 
---USE zDBAEncryptionAuditing;
---GO
+USE zDBAEncryptionAuditing;
+GO
 
---CREATE TABLE dbo.EncryptionAuditing
---(
---    [LoginName] VARCHAR(128) NOT NULL,
---    [DBName] VARCHAR(128) NOT NULL,
---    [HostName] VARCHAR(128) NOT NULL,
---    [ProgramName] VARCHAR(128) NOT NULL,
---    [EncryptOption] CHAR(5) NOT NULL,
---    [MostRecentLoginTime] VARCHAR(128) NULL,
---    [MostRecentSPID] INT NULL,
---    [MostRecentHostProcessID] INT NULL
---);
+CREATE TABLE dbo.EncryptionAuditing
+(
+    [LoginName] VARCHAR(128) NOT NULL,
+    [DBName] VARCHAR(128) NOT NULL,
+    [HostName] VARCHAR(128) NOT NULL,
+    [ProgramName] VARCHAR(128) NOT NULL,
+    [EncryptOption] CHAR(5) NOT NULL,
+    [MostRecentLoginTime] VARCHAR(128) NULL,
+    [MostRecentSPID] INT NULL,
+    [MostRecentHostProcessID] INT NULL
+);
 
----- Create the PK on the combination of columns that we want to be unique, to limit the number of rows in this table
---ALTER TABLE dbo.EncryptionAuditing
---ADD CONSTRAINT PK_EncryptionAuditing
---    PRIMARY KEY CLUSTERED (
---                              LoginName,
---                              DBName,
---                              HostName,
---                              ProgramName,
---                              EncryptOption
---                          );
---GO
+-- Create the PK on the combination of columns that we want to be unique, to limit the number of rows in this table
+ALTER TABLE dbo.EncryptionAuditing
+ADD CONSTRAINT PK_EncryptionAuditing
+    PRIMARY KEY CLUSTERED (
+                              LoginName,
+                              DBName,
+                              HostName,
+                              ProgramName,
+                              EncryptOption
+                          );
+GO
 
---DROP TRIGGER IF EXISTS TR_zDBAEncryptionAuditing
---ON ALL SERVER;
---GO
+DROP TRIGGER IF EXISTS TR_zDBAEncryptionAuditing
+ON ALL SERVER;
+GO
 
 -- Create the logon trigger
 CREATE OR ALTER TRIGGER TR_zDBAEncryptionAuditing
