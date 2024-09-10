@@ -41,7 +41,7 @@ FROM sys.tables AS TBL WITH (NOLOCK)
 		( SELECT * FROM sys.columns AS COL WITH (NOLOCK)
 			WHERE COL.object_id = TBL.object_id AND
 			( COL.user_type_id IN (34, 35, 98, 99, 128, 129, 130, 189, 241)	-- image, text, sql_variant, ntext, hierarchyid, geometry, geography, timestamp, xml
-			OR COL.system_type_id IN (167, 231) AND COL.max_length = -1		-- varchar(max) and nvarchar(max)
+			--OR COL.system_type_id IN (167, 231) AND COL.max_length = -1		-- varchar(max) and nvarchar(max)
 			OR COL.is_computed = 1 ))
 GROUP BY SCH.name,
          TBL.name
