@@ -9,7 +9,8 @@ DECLARE @Output TABLE
     TableName sysname NOT NULL,
     IndexName sysname NOT NULL,
     IndexType sysname NOT NULL,
-    AvgFragPct DECIMAL(4, 1) NOT NULL
+    AvgFragPct DECIMAL(4, 1) NOT NULL,
+	RebuildStatement VARCHAR(255)
 );
 
 INSERT INTO @Output
@@ -18,7 +19,8 @@ SELECT DB_NAME(), OBJECT_SCHEMA_NAME(i.object_id) AS schema_name,
        OBJECT_NAME(i.object_id) AS object_name,
        i.name AS index_name,
        i.type_desc AS index_type,
-       100.0 * (ISNULL(SUM(rgs.deleted_rows), 0)) / NULLIF(SUM(rgs.total_rows), 0) AS avg_fragmentation_in_percent
+       100.0 * (ISNULL(SUM(rgs.deleted_rows), 0)) / NULLIF(SUM(rgs.total_rows), 0) AS avg_fragmentation_in_percent,
+	   ''USE ['' + DB_NAME() + '']; ALTER INDEX ['' + i.name + ''] ON ['' + OBJECT_SCHEMA_NAME(i.object_id) + ''].['' + OBJECT_NAME(i.object_id) + ''] REBUILD PARTITION = ALL;'' AS rebuild_statement
 FROM sys.indexes AS i
 INNER JOIN sys.dm_db_column_store_row_group_physical_stats AS rgs
 ON i.object_id = rgs.object_id
@@ -36,7 +38,8 @@ SELECT DatabaseName,
        TableName,
        IndexName,
        IndexType,
-       AvgFragPct
+       AvgFragPct,
+	   RebuildStatement
 FROM @Output
 ORDER BY DatabaseName,
          SchemaName,

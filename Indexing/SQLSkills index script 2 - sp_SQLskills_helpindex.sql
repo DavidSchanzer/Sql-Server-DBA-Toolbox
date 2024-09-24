@@ -1,45 +1,12 @@
--- SQLSkills index script 2 - sp_SQLskills_helpindex
--- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
--- This script is the second of 3 indexing scripts from SQL Skills - this one creates stored proc sp_SQLskills_helpindex
-
-/*============================================================================
-  Summary:  So, what are the included columns?! Do you have a filter?
-			This is a MODIFIED sp_helpindex script that includes:
-               - Index IDs
-               - INCLUDEd columns
-               - Filtered index columns
-               - Leaf/tree details for rowstore indexes
-               - Columns defined for columnstore indexes
-            Additional details:
-               - whether or not the index is disabled
-               - Index usage stats
-
-  Date:     November 2021
-
-  Version:  Works on versions 2008-2019 (requires: sp_SQLskills_ExposeColsInIndexLevels)
-------------------------------------------------------------------------------
-  Written by Kimberly L. Tripp, SYSolutions, Inc.
-
-  For more scripts and sample code, check out 
-    http://www.SQLskills.com
-============================================================================*/
-
-USE [master];
+USE [master]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_SQLskills_helpindex]    Script Date: 20/09/2024 2:51:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
-IF OBJECTPROPERTY(OBJECT_ID('sp_SQLskills_SQL2008_finddupes_helpindex'), 'IsProcedure') = 1
-	DROP PROCEDURE [sp_SQLskills_SQL2008_finddupes_helpindex];
-GO
-
-IF OBJECTPROPERTY(OBJECT_ID(N'sp_SQLskills_helpindex')
-		, N'IsProcedure') = 1
-	DROP PROCEDURE [dbo].[sp_SQLskills_helpindex];
-
-SET ANSI_NULLS ON;
-SET QUOTED_IDENTIFIER ON;
-GO
-
-CREATE PROCEDURE [dbo].[sp_SQLskills_helpindex]
+ALTER PROCEDURE [dbo].[sp_SQLskills_helpindex]
 (
 	@objname nvarchar(776)		-- the table to check for indexes
 	, @IncludeListOrdered BIT = 0
@@ -88,6 +55,7 @@ AS
 			@is_disabled bit,
 			@auto_created bit,
 			@no_recompute bit,
+			@memory_optimized bit,   -- For hekaton tables
 			@filter_definition nvarchar(max),
 			@ColsInTree nvarchar(2126),
 			@ColsInLeaf nvarchar(max),
@@ -147,6 +115,7 @@ AS
 		is_disabled         bit,
 		auto_created		bit,
 		no_recompute		bit,
+		memory_optimized	bit,
 		groupname			sysname collate database_default NULL,
 		index_keys			nvarchar(2126)	collate database_default NULL, -- see @keys above for length descr
 		filter_definition	nvarchar(max),
@@ -297,14 +266,18 @@ AS
 					, @ColsInLeaf = @keys + N', RID' + CASE WHEN @inc_columns IS NOT NULL THEN N', ' + @inc_columns ELSE N'' END
 		END
 
+        select @memory_optimized = is_memory_optimized
+        from sys.tables
+        where object_id = @objid;
+
 		-- INSERT ROW FOR INDEX
 		
 		insert into #spindtab values (@indname, @indid, @type, @ignore_dup_key, @is_unique, @is_hypothetical,
-			@is_primary_key, @is_unique_key, @is_disabled, @auto_created, @no_recompute, @groupname, @keys, @filter_definition, @inc_Count, @inc_columns, @ColsInTree, @ColsInLeaf)
+			@is_primary_key, @is_unique_key, @is_disabled, @auto_created, @no_recompute, @memory_optimized, @groupname, @keys, @filter_definition, @inc_Count, @inc_columns, @ColsInTree, @ColsInLeaf)
 
 		-- Next index
     	fetch ms_crs_ind into @indid, @type, @groupid, @indname, @ignore_dup_key, @is_unique, @is_hypothetical,
-			@is_primary_key, @is_unique_key, @auto_created, @no_recompute, @filter_definition, @is_disabled
+			@is_primary_key, @is_unique_key, @auto_created, @no_recompute, @filter_definition, @is_disabled;
 	end
 	deallocate ms_crs_ind
 
