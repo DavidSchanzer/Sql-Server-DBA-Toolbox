@@ -1,7 +1,7 @@
 -- How far has my update got?
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script queries the transaction log and returns the number of rows that have been modified, inserted or deleted by the nominated SPID.
--- It’s worth noting that this script will return a the count of all rows that have been affected by the running transaction and not the
+-- It’s worth noting that this script will return the count of all rows that have been affected by the running transaction and not the
 -- statement. If your transaction contains a number of statements, the count will be the total number of rows affected so far by all
 -- statements that have run and are running.
 -- From https://sqlundercover.com/2017/10/05/how-far-has-my-update-got-finding-out-how-many-rows-your-long-running-insert-update-or-delete-has-actually-modified-so-far/?utm_source=DBW&utm_medium=pubemail

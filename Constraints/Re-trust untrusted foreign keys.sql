@@ -1,6 +1,6 @@
 -- Re-trust untrusted foreign keys
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
--- This script 
+-- This script attempts to re-trust any foreign key constraints that are currently untrusted, providing counts of the number of constraints that were and were not able to be re-trusted.
 
 DECLARE @CorrectedCount INT;
 DECLARE @FailedCount INT;
@@ -24,15 +24,17 @@ SET @CorrectedCount = 0;
 SET @FailedCount = 0;
 
 OPEN UntrustedForeignKeysCursor;
+
 FETCH NEXT FROM UntrustedForeignKeysCursor
 INTO @TableName,
      @FKName;
+
 WHILE @@FETCH_STATUS = 0
 BEGIN
     BEGIN TRY
         /*
-					This try-catch will allow the process to continue when a constaint fails to get re-trusted
-				*/
+                    This try-catch will allow the process to continue when a constaint fails to get re-trusted
+                */
         EXECUTE ('ALTER TABLE ' + @TableName + ' WITH CHECK CHECK CONSTRAINT [' + @FKName + ']');
         SET @CorrectedCount = @CorrectedCount + 1;
     END TRY
@@ -49,5 +51,6 @@ END;
 
 CLOSE UntrustedForeignKeysCursor;
 DEALLOCATE UntrustedForeignKeysCursor;
+
 SELECT CAST(@CorrectedCount AS VARCHAR(10)) + ' constraints re-trusted.';
 SELECT CAST(@FailedCount AS VARCHAR(10)) + ' constraints unable to be re-trusted.';

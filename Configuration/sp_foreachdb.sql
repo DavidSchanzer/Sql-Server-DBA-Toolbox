@@ -4,7 +4,7 @@
 
 USE [master];
 GO
-CREATE PROCEDURE dbo.sp_foreachdb
+CREATE OR ALTER PROCEDURE dbo.sp_foreachdb
     @command NVARCHAR(MAX),
     @replace_character NCHAR(1) = N'?',
     @print_dbname BIT = 0,

@@ -33,4 +33,19 @@ DECLARE @sql VARCHAR(MAX)
     WHERE t.[type] = N''U''
     AND typ.[name] IN (''image'', ''text'', ''ntext'')
     ORDER BY SchemaName, TableName, c.column_id;';
-EXEC dbo.sp_ineachdb @command = @sql;
+
+CREATE TABLE #Results (
+	DatabaseName 				SYSNAME NOT NULL,
+	SchemaName 					SYSNAME NOT NULL,
+	TableName 					SYSNAME NOT NULL,
+	ColumnName					SYSNAME NOT NULL,
+	DataType					VARCHAR(20) NOT NULL,
+	SuggestedReplacementType	VARCHAR(20) NOT NULL );
+
+INSERT INTO #Results
+	EXEC dbo.sp_ineachdb @command = @sql;
+
+SELECT * FROM #Results
+	ORDER BY DatabaseName, SchemaName, TableName, ColumnName;
+
+DROP TABLE #Results;
