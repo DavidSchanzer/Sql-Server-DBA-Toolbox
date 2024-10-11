@@ -82,9 +82,9 @@ SELECT c.name AS ColumnName,
 FROM sys.columns AS c
     LEFT OUTER JOIN sys.tables AS t
         ON t.object_id = c.object_id
-WHERE OBJECT_NAME(c.object_id)NOT LIKE 'sys%'
-      AND OBJECT_NAME(c.object_id)NOT LIKE 'queue_messages_%'
-      AND OBJECT_NAME(c.object_id)NOT LIKE 'filestream_%'
+WHERE OBJECT_NAME(c.object_id) NOT LIKE 'sys%'
+      AND OBJECT_NAME(c.object_id) NOT LIKE 'queue_messages_%'
+      AND OBJECT_NAME(c.object_id) NOT LIKE 'filestream_%'
 ORDER BY c.name,
          OBJECT_NAME(c.object_id);
 

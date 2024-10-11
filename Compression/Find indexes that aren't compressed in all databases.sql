@@ -60,7 +60,7 @@ WHERE i.index_id > 0
 				)
 			)
 		)
-';
+', @user_only = 1;
 
 SELECT DatabaseName,
        SchemaName,
@@ -71,7 +71,7 @@ SELECT DatabaseName,
        CurrentCompression,
        TotalRows
 FROM #Temp
-WHERE DatabaseName NOT IN ( 'master', 'model', 'msdb', 'tempdb' )
+WHERE DatabaseName NOT IN ( '[master]', '[model]', '[msdb]', '[tempdb]' )
       AND NOT (
                   CAST(SERVERPROPERTY('Edition') AS VARCHAR(100)) LIKE 'Standard Edition%'
                   AND SERVERPROPERTY('ProductMajorVersion') = '12'
