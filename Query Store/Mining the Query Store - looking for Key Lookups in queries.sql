@@ -16,8 +16,17 @@ SELECT DB_NAME(detqp.dbid),
        TRY_CONVERT(XML, detqp.query_plan) AS QueryPlan,
        deqs.execution_count,
        deqs.total_elapsed_time,
+       deqs.last_elapsed_time,
+       deqs.min_elapsed_time,
+       deqs.max_elapsed_time,
        deqs.total_logical_reads,
-       deqs.total_logical_writes
+       deqs.last_logical_reads,
+       deqs.min_logical_reads,
+       deqs.max_logical_reads,
+       deqs.total_logical_writes,
+       deqs.last_logical_writes,
+       deqs.min_logical_writes,
+       deqs.max_logical_writes
 FROM sys.dm_exec_query_stats AS deqs
     CROSS APPLY sys.dm_exec_text_query_plan(deqs.plan_handle, deqs.statement_start_offset, deqs.statement_end_offset) AS detqp
     CROSS APPLY sys.dm_exec_sql_text(deqs.sql_handle) AS dest
