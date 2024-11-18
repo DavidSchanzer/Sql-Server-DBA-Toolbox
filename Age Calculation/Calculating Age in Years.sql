@@ -1,4 +1,4 @@
--- Calculating Age in Years
+-- Calculating Age in Years 
 -- Part of the SQL Server DBA Toolbox at https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox
 -- This script demonstrates a simple way to calculate someone’s current age, or age as at a particular date.
 -- It formats each date as YYYYMMDD and converts this to an integer, then subtracts one integer from the other, and divides the result by 10,000.
