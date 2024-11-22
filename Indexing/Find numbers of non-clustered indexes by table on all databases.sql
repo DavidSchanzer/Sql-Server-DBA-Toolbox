@@ -9,7 +9,7 @@
 CREATE TABLE #IndexCounts
 (
     NonClusteredIndexCount TINYINT NOT NULL,
-	DatabaseName sysname NOT NULL,
+    DatabaseName sysname NOT NULL,
     SchemaName sysname NOT NULL,
     TableName sysname NOT NULL
 );
