@@ -223,7 +223,7 @@ I hope you find them useful.
 - [Find missing indexes from the Missing Index DMVs](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Missing%20Index%20DMVs.sql)
 - [Find missing indexes from the Plan Cache](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Plan%20Cache.sql)
 - [Find missing indexes from the Query Store](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Query%20Store.sql)
-- [Find numbers of non-clustered indexes by table on all databases]([https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Query%20Store.sql)
+- [Find numbers of non-clustered indexes by table on all databases](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20missing%20indexes%20from%20the%20Query%20Store.sql)
 - [Find queries that use an index from the Plan Cache](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20queries%20that%20use%20an%20index%20from%20the%20Plan%20Cache.sql)
 - [Find queries that use an index from the Query Store](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20queries%20that%20use%20an%20index%20from%20the%20Query%20Store.sql)
 - [Find tables without a primary key or clustered index](https://github.com/DavidSchanzer/Sql-Server-DBA-Toolbox/blob/main/Indexing/Find%20tables%20without%20a%20primary%20key%20or%20clustered%20index.sql)
